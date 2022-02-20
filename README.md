@@ -3,7 +3,7 @@
 This repo is for our group's project for CS 3321, Introduction to Software Engineering, at Idaho State University.
 
 ## What does this Project do?
-### Our Prompt
+### Our Prompt 
 Design and/or prototype a User Interface including the ability to:
 - Construct both UI Wireframe and IFML Diagrams using a vector drawing approach
 - Be capable of viewing and editing both types of diagrams
@@ -11,6 +11,8 @@ Design and/or prototype a User Interface including the ability to:
 - Be extensible to later allow collaborative editing
 - Be able to export diagrams to either PNG or SVG formats
 - Each of these functions should be provided by both the Web and Desktop UIs
+
+As we near the end of development, this will be updated to reflect our work.
 
 
 ## Why is this useful?
