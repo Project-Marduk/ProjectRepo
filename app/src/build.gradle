@@ -15,6 +15,9 @@ plugins {
 
     //PMD console output
     id 'pmd'
+
+    //Project Lombok
+    id "io.freefair.lombok" version "6.2.0"
 }
 
 repositories {

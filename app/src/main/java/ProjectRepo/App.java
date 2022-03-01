@@ -19,9 +19,9 @@ public class App extends Application {
      **/
     @Override
     public void start(Stage stage) throws IOException {
-        //Update update = new Update();
-        //FXController mainMenu = update.UIController;
-        //mainMenu.showMainMenu();
+        Update update = new Update();
+        FXController Login = update.UIController;
+        Login.showMainMenu();
     }
 
     public static void main(String[] args) throws IOException {

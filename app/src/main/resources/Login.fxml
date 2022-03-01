@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ImageView fitHeight="630.0" fitWidth="623.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Images/Test.jpg" />
+            </image>
+        </ImageView>
+        <Button fx:id="newGameButton" layoutX="150.0" layoutY="250.0" minWidth="50.0" mnemonicParsing="false"  prefHeight="50.0" prefWidth="330.0" style="-fx-background-color: grey; -fx-border-color: black; -fx-border-width: 3;" text="New Game" textFill="WHITE" />
+        <Button fx:id="loadGameMenuButton" layoutX="150.0" layoutY="320.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: grey; -fx-border-color: black; -fx-border-width: 3;" text="Load Game" textFill="WHITE" />
+        <Button fx:id="exitGameButton" layoutX="330.0" layoutY="320.0" mnemonicParsing="false"  prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: grey; -fx-border-color: black; -fx-border-width: 3;" text="Exit Game" textFill="WHITE" />
+        <Pane fx:id="playerChoicePane" layoutX="150.0" layoutY="380.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <children>
+                <Label fx:id="numberOfPlayersLabel" style="-fx-background-color: grey;" text="Number Of Players" textFill="WHITE" />
+                <Label fx:id="playerCountErrorLabel" layoutY="55.0" style="-fx-background-color: black;" textFill="RED" wrapText="true" />
+                <TextField fx:id="NumberOfPlayersTextField" layoutY="20.0" prefWidth="70.0" />
+                <Button fx:id="startGameButton" layoutY="80.0" mnemonicParsing="false" style="-fx-background-color: grey; -fx-border-color: black; -fx-border-width: 3;" text="Start Game" textFill="WHITE" />
+            </children>
+        </Pane>
+    </children>
+</Pane>
