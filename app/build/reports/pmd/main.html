@@ -25,7 +25,7 @@
 	at groovy.util.AntBuilder.performTask(AntBuilder.java:335)
 	at groovy.util.AntBuilder.nodeCompleted(AntBuilder.java:280)
 	at org.gradle.api.internal.project.ant.BasicAntBuilder.nodeCompleted(BasicAntBuilder.java:90)
-	at jdk.internal.reflect.GeneratedMethodAccessor15.invoke(Unknown Source)
+	at jdk.internal.reflect.GeneratedMethodAccessor86.invoke(Unknown Source)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
 	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
@@ -37,8 +37,6 @@
 	at groovy.util.BuilderSupport.doInvokeMethod(BuilderSupport.java:160)
 	at groovy.util.BuilderSupport.invokeMethod(BuilderSupport.java:74)
 	at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.call(PogoMetaClassSite.java:44)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
 	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:148)
 	at org.gradle.api.plugins.quality.internal.PmdInvoker$_runPmd_closure1.doCall(PmdInvoker.groovy:119)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -58,9 +56,6 @@
 	at org.gradle.api.internal.project.antbuilder.ClassPathToClassLoaderCache.withCachedClassLoader(ClassPathToClassLoaderCache.java:135)
 	at org.gradle.api.internal.project.antbuilder.DefaultIsolatedAntBuilder.execute(DefaultIsolatedAntBuilder.java:136)
 	at org.gradle.api.internal.project.IsolatedAntBuilder$execute$0.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:139)
 	at org.gradle.api.plugins.quality.internal.PmdInvoker.runPmd(PmdInvoker.groovy:69)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
@@ -81,15 +76,10 @@
 	at groovy.lang.MetaClassImpl.invokePropertyOrMissing(MetaClassImpl.java:1347)
 	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1270)
 	at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.callCurrent(PogoMetaClassSite.java:61)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
 	at org.gradle.api.plugins.quality.internal.PmdInvoker$1.create(PmdInvoker.groovy:59)
 	at org.gradle.api.plugins.quality.internal.PmdInvoker$1.create(PmdInvoker.groovy)
 	at org.gradle.internal.SystemProperties.withSystemProperty(SystemProperties.java:123)
 	at org.gradle.internal.SystemProperties$withSystemProperty.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:157)
 	at org.gradle.api.plugins.quality.internal.PmdInvoker.invoke(PmdInvoker.groovy:56)
 	at org.gradle.api.plugins.quality.Pmd.run(Pmd.java:97)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -234,7 +224,7 @@ Caused by: java.lang.IllegalArgumentException: Unsupported class file major vers
 	at net.sourceforge.pmd.SourceCodeProcessor.usesTypeResolution(SourceCodeProcessor.java:163)
 	at net.sourceforge.pmd.SourceCodeProcessor.processSource(SourceCodeProcessor.java:190)
 	at net.sourceforge.pmd.SourceCodeProcessor.processSourceCodeWithoutCache(SourceCodeProcessor.java:107)
-	... 213 more
+	... 203 more
 </pre></td>
 </tr>
 </table></body></html>
