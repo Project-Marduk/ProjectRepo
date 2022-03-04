@@ -26,7 +26,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'Diagram.Composer.Javalin.Server.App'
+    mainClass = 'File.Exporter.Javalin.Server.App'
 }
 
 tasks.named('test') {
