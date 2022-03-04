@@ -13,7 +13,7 @@ public class App {
     public static void main(String[] args) {
 
         String message = "This is the File Exporter Server";
-        Javalin app = Javalin.create().start(7000);
+        Javalin app = Javalin.create().start(7002giot);
         app.get("/get", ctx -> ctx.result(message));
 
     }

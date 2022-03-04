@@ -13,7 +13,7 @@ public class App {
     public static void main(String[] args) {
 
         String message = "This is the Info Manager Server";
-        Javalin app = Javalin.create().start(7000);
+        Javalin app = Javalin.create().start(7001);
         app.get("/get", ctx -> ctx.result(message));
 
     }
