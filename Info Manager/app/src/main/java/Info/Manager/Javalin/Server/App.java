@@ -3,12 +3,18 @@
  */
 package Info.Manager.Javalin.Server;
 
+import io.javalin.Javalin;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+
+        String message = "This is the Info Manager Server";
+        Javalin app = Javalin.create().start(7000);
+        app.get("/get", ctx -> ctx.result(message));
+
     }
 }
