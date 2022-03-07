@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'ProjectRepo'
-include('app')
+include('Desktop Client', 'Diagram Composer', 'File Exporter', 'Info Manager', 'Libraries', 'Web Client')
