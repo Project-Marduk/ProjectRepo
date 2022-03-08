@@ -1,0 +1,23 @@
+plugins {
+    id 'war'
+    id 'groovy'
+    id 'java'
+}
+
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.11'
+    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
