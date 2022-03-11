@@ -1,6 +1,8 @@
 package IFML;
 
-public abstract class IFMLObject {
+import FactoryElements.ComplexShape;
+
+public abstract class IFMLObject implements ComplexShape {
     public String id;
     public String svgData;
 
@@ -11,5 +13,9 @@ public abstract class IFMLObject {
 
     public String getSVGData(){
         return svgData;
-    };
+    }
+
+//    public String generateShape(){
+//        return "";
+//    }
 }
