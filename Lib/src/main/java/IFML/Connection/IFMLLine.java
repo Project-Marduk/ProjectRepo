@@ -1,20 +1,20 @@
-package UML;
+package IFML.Connection;
 
 import FactoryElements.Lines.AbstractLine;
 import FactoryElements.Lines.HeadType;
+import IFML.IFMLObject;
 
 /**
  * @author David Lindeman
  * Line for UML diagrams
  */
 
-public class UMLLine extends AbstractLine {
+public class IFMLLine extends AbstractLine {
     HeadType lHeadType;
     HeadType rHeadType;
 
-    public UMLLine(int lX, int lY, int rX, int rY) {
-        super(lX, lY, rX, rY);
-
+    public IFMLLine(int lX, int lY, int rX, int rY, String lineType) {
+        super(lX, lY, rX, rY, lineType);
     }
 
     public void drawLine(){

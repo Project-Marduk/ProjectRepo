@@ -6,5 +6,5 @@ package FactoryElements;
  */
 
 public interface Shape {
-    public void drawShape();
+    public String getSVGData();
 }

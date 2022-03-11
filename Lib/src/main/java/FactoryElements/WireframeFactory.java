@@ -1,6 +1,5 @@
 package FactoryElements;
 
-import UML.UMLObject;
 import Wireframe.WireframeObject;
 
 public class WireframeFactory implements AbstractElementFactory<WireframeObject>{
