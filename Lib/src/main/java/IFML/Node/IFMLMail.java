@@ -6,12 +6,14 @@ package IFML.Node;
  */
 public class IFMLMail extends IFMLNode{
 
+
     public IFMLMail(String id){
         super(id);
     }
 
     //The actual generation of each shape will need to be handled in the concrete implementation of the class
     public void generateShape(){
+
 
     }
 
