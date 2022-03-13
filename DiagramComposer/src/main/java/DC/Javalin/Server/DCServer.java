@@ -4,18 +4,70 @@
 package DC.Javalin.Server;
 
 import io.javalin.Javalin;
+import io.javalin.core.JavalinConfig;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
+
+/**
+ * The Diagram Composer Microservice
+ *
+ * @author Traae
+ * @version 0.1.0
+ */
+public class DCServer {
+    private static final int MAX_THREADS = 20;
+    private static final int MIN_THREADS = 2;
+    private static final int TIMEOUT = 60000;
+    private static final int DEFAULT_PORT = 7000;
+
+    private static final String GET = "/api/get";
+    private static final String POST = "/api/post";
+    private static final String PUT = "/api/put";
+    private static final String DELETE = "/api/delete";
+    private static final String PATCH = "/api/patch";
 
 
-public class App {
-    public String getGreeting() {
-        return "This is the Diagram Composer Server";
-    }
-
+    /**
+     * Main for the server.
+     *
+     * @param args Command line will accpet 1 argument, changes the serverMessage from default.
+     */
     public static void main(String[] args) {
+        String defaultMessage = "This is the Diagram Composer Server";
+        if (args[0] != null) { defaultMessage = args[0]; }
+        String serverMessage = defaultMessage;
+        String apiInfo = "Butts, lol.";
 
-        String message = "This is the Diagram Composer Server";
-        Javalin app = Javalin.create().start(7000);
-        app.get("/get", ctx -> ctx.result(message));
+        QueuedThreadPool queuedThreadPool = new QueuedThreadPool(MAX_THREADS, MIN_THREADS,TIMEOUT);
+
+
+        Javalin app = Javalin.create(config ->
+                config.server(() ->
+                        new Server(queuedThreadPool))).start(DEFAULT_PORT);
+
+        app.routes(() -> {
+            app.get( "/", ctx -> ctx.result(serverMessage));
+            app.get("/api", ctx -> ctx.result(apiInfo));
+
+
+            app.get(GET + "/commandName", ctx -> {});
+            // requests the target resource to transfer a representation of its current state.
+            // Only retrieves data and should have no other effect.
+            app.post(POST + "/commandName", ctx -> {});
+            // requests that the target process the representation enclosed in the request
+            app.put(PUT + "/commanderName", ctx -> {});
+            // - requests that the target resource create or update its state
+            // with the state defined by the representation enclosed in the request
+            app.delete(DELETE + "/commandName", ctx -> {});
+            // request that the target resource delete its state
+            app.patch(PATCH + "/commandName", ctx -> {});
+            // requests that the target resource modify its state according to
+            // the partial updated defined in the representation enclosed in the request.
+
+
+        });
+
 
     }
 }

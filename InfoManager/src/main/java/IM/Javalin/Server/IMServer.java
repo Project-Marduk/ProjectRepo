@@ -7,6 +7,12 @@ import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
+/**
+ * The Info Manager Server
+ *
+ * @author Traae
+ * @version 0.1.0
+ */
 public class IMServer {
     private static final int MAX_THREADS = 20;
     private static final int MIN_THREADS = 2;
@@ -16,9 +22,9 @@ public class IMServer {
 
 
     public static void main(String[] args) {
-        String defaultMessage ="This is the File Exporter Server";
-        String apiInfo = "This api is for the File Exporter Microservice. \n" +
-                "We can return to you a png of svg file, made from a  Diagram Json file.\n" +
+        String defaultMessage ="This is the Info Manager Server";
+        String apiInfo = "This api is for the Info Manager Microservice. \n" +
+                "We register and login users, & save and load Diagrams\n" +
                 "COMMAND LIST:";
 
         InfoManager infoManager = InfoManager.getInstance();
@@ -39,44 +45,41 @@ public class IMServer {
             app.get("/api/get/error", ctx -> ctx.result("All good"/* CALL FileExporter . get error message ()*/));
 
 
-            // Receive a diagram for rendering.
-            app.post("/api/post/render/png", ctx -> {
+
+
+            app.post("/api/post/register/user", ctx -> {
+                // [Database User Register and Save Function](ctx.body());
+                // ctx.result("Register Successful");
+            });
+            app.get("/api/get/login/user", ctx -> {
+                // toLogin = [Database User Load](ctx.body());
+                // InfoManager UserLogin( toLogin );
+                // ctx.result("Login Succefull");
+            });
+            app.get("/api/get/diagram", ctx -> {
+                //String diagramName = ctx.body();
+                // Diagram toLoad = [Database load Diagram](diagramName);
+                // ctx.json(toLoad);
+            });
+            app.get("/api/get/diagram/list", ctx -> {
+                // do we want to json a list of lists?
+            });
+            // Receive a diagram for save.
+            app.post("/api/post/save/Diagram", ctx -> {
                 /*
                 NOTE: I still do not full understand this conditional,
                 specificly "application/json"
 
                 if (Objects.equals(ctx.contentType(), "application/json")) {
                     // we make a diagram out of the diagram json that was sent to us.
-                    Diagram d = ctx.bodyAsClass(Diagram.class);
+                    // Diagram diagram = ctx.bodyAsClass(Diagram.class);
 
-                    // then we return the result
-                    // we can do this one for 3 ways
-                    // 1. Return a byte array holding the png's data, and the client can write that to a file
-                    // 2. we can use a stream
-                    // see: https://javalin.io/archive/docs/v2.8.0.html#context
+                    // [Database Save Diagram Function](diagram);
 
-                    // Using a stream to pass a file seems the most professional.
-
-                    // what ever we choose, we put the FileExporter function into ctx.result( HERE );
-
-                    ctx.result();
+                    ctx.result("Save Successful");
                 }*/
             });
-            app.post("/api/post/render/svg", ctx -> {
-                /*
-                if (Objects.equals(ctx.contentType(), "application/json")) {
-                    Diagram diagram = ctx.bodyAsClass(Diagram.class);
 
-                    // Same as the above function, but we could also pass the whole body of the SVG
-                    // as a string and have the client write that to a file.
-
-                    // Once again, using a stream to
-
-                    ctx.result( );
-
-                }
-                */
-            });
 
         });
 

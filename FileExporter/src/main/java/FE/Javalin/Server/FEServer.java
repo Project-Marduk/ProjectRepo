@@ -7,8 +7,18 @@ import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
-import java.io.InputStream;
-
+/**
+ * @author Traae
+ *
+ * This is the server for the File exporter Microservice.
+ *
+ * Some drafts of the commands have been made, but they can function
+ * Until the back end is actually developed.
+ *
+ * This commands and how they handle context may/probably need revision.
+ *
+ * @version 0.1.0
+ */
 public class FEServer {
     private static final int MAX_THREADS = 20;
     private static final int MIN_THREADS = 2;

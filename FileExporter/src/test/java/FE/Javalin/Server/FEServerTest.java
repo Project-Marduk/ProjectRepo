@@ -5,10 +5,17 @@ package FE.Javalin.Server;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-class FESeverTest {
-    @Test void testAFunction() {
-        //FESever classUnderTest = new FESever();
-
-    }
+/**
+ * @author Traae
+ *
+ * This is the Test class for FEServer.
+ *
+ * Testing the api isn't possible at the unit level at this time.
+ * This class will be developed as we're able to integrate some basics.
+ *
+ * @version 0.1.0
+ */
+public class FEServerTest {
+    // I have no clue how to unit test a class that only has a main()
+    // we'll come back to this.
 }

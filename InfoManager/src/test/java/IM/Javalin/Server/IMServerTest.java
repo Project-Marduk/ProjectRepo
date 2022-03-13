@@ -6,9 +6,13 @@ package IM.Javalin.Server;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class IMSeverTest {
-    @Test void testAFunction() {
-        //FESever classUnderTest = new FESever();
-
-    }
+/**
+ * Test for the IMServer
+ *
+ * @author Traae
+ * @version 0.1.0
+ */
+public class IMServerTest {
+    // I have no clue how to unit test a class that only has a main()
+    // we'll come back to this.
 }
