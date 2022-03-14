@@ -48,7 +48,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'ProjectRepo.App'
+    mainClass = 'App'
 }
 
 javafx {
@@ -61,4 +61,12 @@ pmd {
     toolVersion = "6.21.0"
     rulesMinimumPriority = 5
     ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml"]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java"]
+        }
+    }
 }
