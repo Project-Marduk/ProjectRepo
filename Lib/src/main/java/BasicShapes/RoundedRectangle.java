@@ -2,16 +2,17 @@ package BasicShapes;
 
 import FactoryElements.Interfaces.Shape;
 
-public class Rectangle implements Shape {
+public class RoundedRectangle implements Shape {
     double height;
     double width;
 
-    public Rectangle(double h, double w){
+    public RoundedRectangle(double h, double w){
         height = h;
         width = w;
     }
 
     public String getSVGData(){
+        //TODO: Requires code for rounding edges
         return "getSVGData";
     }
 }

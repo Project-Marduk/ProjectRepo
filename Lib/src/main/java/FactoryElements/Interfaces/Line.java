@@ -1,4 +1,4 @@
-package FactoryElements.Lines;
+package FactoryElements.Interfaces;
 
 /**
  * @author David Lindeman

@@ -1,6 +1,6 @@
 package BasicShapes;
 
-import FactoryElements.Shape;
+import FactoryElements.Interfaces.Shape;
 
 public class Octagon implements Shape {
     double sideLength;

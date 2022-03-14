@@ -1,5 +1,8 @@
 plugins {
     id 'java'
+
+    //Project Lombok
+    id "io.freefair.lombok" version "6.2.0"
 }
 
 version 'unspecified'

@@ -1,7 +1,5 @@
 package FactoryElements;//This is our java class which will hold and handel all of our diagram elements
 
-import FactoryElements.Lines.LineFactory;
-
 /**
  * @author David Lindeman
  */

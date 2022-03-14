@@ -1,6 +1,6 @@
 package BasicShapes;
 
-import FactoryElements.Shape;
+import FactoryElements.Interfaces.Shape;
 
 /**
  * @author David Lindeman

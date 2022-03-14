@@ -1,14 +1,16 @@
-package IFML.Connection;
+package IFML;
 
 import FactoryElements.Lines.AbstractLine;
 import FactoryElements.Lines.HeadType;
 import IFML.IFMLObject;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author David Lindeman
  * Line for UML diagrams
  */
-
+@Getter @Setter
 public class IFMLLine extends AbstractLine {
     HeadType lHeadType;
     HeadType rHeadType;

@@ -1,6 +1,6 @@
 package BasicShapes;
 
-import FactoryElements.Shape;
+import FactoryElements.Interfaces.Shape;
 
 public class Hexagon implements Shape {
     double sideLength;
