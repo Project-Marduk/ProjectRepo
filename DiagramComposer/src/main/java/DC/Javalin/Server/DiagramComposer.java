@@ -10,6 +10,7 @@ package DC.Javalin.Server;
  */
 public class DiagramComposer {
     private static DiagramComposer instance = null;
+    //private Diagram active, initial;
 
     private DiagramComposer(){}
     public static DiagramComposer getInstance() {

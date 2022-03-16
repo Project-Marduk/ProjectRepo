@@ -51,7 +51,7 @@ public class DCServer {
 
 
             // Receive a diagram for rendering.
-            app.post("/api/post/render/png", ctx -> {
+            app.post("/api/post/diagram", ctx -> {
                 /*
                 NOTE: I still do not full understand this conditional,
                 specificly "application/json"
@@ -60,21 +60,11 @@ public class DCServer {
                     // we make a diagram out of the diagram json that was sent to us.
                     Diagram d = ctx.bodyAsClass(Diagram.class);
 
-                    // then we return the result
-                    // we can do this one for 3 ways
-                    // 1. Return a byte array holding the png's data, and the client can write that to a file
-                    // 2. we can use a stream
-                    // see: https://javalin.io/archive/docs/v2.8.0.html#context
-
-                    // Using a stream to pass a file seems the most professional.
-
-                    // what ever we choose, we put the FileExporter function into ctx.result( HERE );
-
                     ctx.result();
                 }*/
             });
-            app.post("/api/post/render/svg", ctx -> {
-
+            app.get("/api/get/diagram", ctx -> {
+                //ctx.json();
             });
 
         });
