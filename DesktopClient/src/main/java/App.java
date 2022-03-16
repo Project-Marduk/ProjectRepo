@@ -12,15 +12,13 @@ import java.io.IOException;
 
 public class App extends Application{
 
-    @Getter public static final String Login_FXML = "/Login.fxml";
-    @Getter public static final String CreateUser_FXML = "/CreateUser.fxml";
-
-    @Getter Stage mainStage;
-
-    static URL fxmlLocation;
-
+    /**
+     * Launch the application when the app is open
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
-        launch(args);
+        launch();
 
     }
 
@@ -30,29 +28,11 @@ public class App extends Application{
     @Override
     public void start(Stage stage) throws Exception{
 
-        this.mainStage = stage;
+        Update update = new Update();
+        FXController Login = update.UIController;
+        Login.showLogin();
+
         stage.setTitle("Desktop UI Client");
-
-        showLogin();
-
-
-        stage.show();
-    }
-    /**
-     * Show the Login page
-     */
-    public void showLogin() throws IOException{
-        FXMLLoader loader = new FXMLLoader();
-        loader.setController(new FXController(this));
-        loader.setLocation(getClass().getResource(Login_FXML));
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 1000, 800);
-        mainStage.setScene(scene);
-        mainStage.setMaximized(true);
     }
 
-    public void exit(){
-        mainStage.close();
-        System.exit(0);
-    }
 }

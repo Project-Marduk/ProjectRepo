@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.Getter;
 import javafx.application.Platform;
+import javafx.scene.Parent;
 
 import javafx.event.ActionEvent;
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class FXController {
 
     private App app;
     /**
-     * Elements for MainMenu
+     * Elements for application
      */
     @FXML
     private Button exitButton;
@@ -36,18 +37,53 @@ public class FXController {
         this.app = application;
     }
 
+    /**
+     * Handles the exit button that will force a close of the app
+     */
     @FXML
-    protected void handleExitButton(ActionEvent event){
-        app.exit();
+    public void handleExitButton(){
+        System.exit(0);
     }
 
-    public void handleCreateUserButton(FXMLLoader loader){
-        Platform.setImplicitExit(false);
-    }
-
+    @FXML
+    /**
+     * Once the app is loaded up, the login page is immediately shown to the user
+     */
     public void showLogin() throws IOException {
         FXMLLoader loginLoader = new FXMLLoader(getClass().getResource(Login_FXML));
         loginLoader.setController(this);
+
         mainStage.setScene(new Scene(loginLoader.load()));
+        mainStage.setMaximized(true);
+        mainStage.show();
+    }
+
+    /**
+     * When the user wants to create a new username, the create a new user page will be shown to the user
+     * @throws IOException
+     */
+    @FXML
+    public void showCreateUser() throws IOException{
+        FXMLLoader userLoader = new FXMLLoader(getClass().getResource(CreateUser_FXML));
+        userLoader.setController(this);
+        mainStage.hide();
+        mainStage.setScene(new Scene(userLoader.load()));
+        mainStage.setMaximized(true);
+        mainStage.show();
+
+    }
+
+    /**
+     * Returns to the main login page either when a user has just created a username, or logs out
+     * @throws IOException
+     */
+    @FXML
+    public void returnToLogin() throws IOException{
+        FXMLLoader loginLoader = new FXMLLoader(getClass().getResource(Login_FXML));
+        loginLoader.setController(this);
+        mainStage.hide();
+        mainStage.setScene(new Scene(loginLoader.load()));
+        mainStage.setMaximized(true);
+        mainStage.show();
     }
 }
