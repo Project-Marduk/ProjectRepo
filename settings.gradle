@@ -13,7 +13,6 @@ include 'DiagramComposer'
 include 'FileExporter'
 include 'InfoManager'
 include 'WebClient'
-include 'DesktopClient'
 include 'Lib'
-include 'Lib'
+include 'DesktopClient:src'
 

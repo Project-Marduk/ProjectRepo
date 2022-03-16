@@ -1,29 +1,58 @@
+
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.Getter;
+
+import java.net.URL;
 
 import java.io.IOException;
 
-public class App extends Application {
+public class App extends Application{
 
-    public String getGreeting() {
-        return "Hello World!";
+    @Getter public static final String Login_FXML = "/Login.fxml";
+    @Getter public static final String CreateUser_FXML = "/CreateUser.fxml";
+
+    @Getter Stage mainStage;
+
+    static URL fxmlLocation;
+
+    public static void main(String[] args) throws IOException {
+        launch(args);
+
     }
 
     /**
-     * Starts the JavaFX UI. Visuals are found in MainMenu.fxml in the resources' folder. Logic is in FXController.java.
-     *
-     * @param stage default stage for application
-     * @throws IOException
-     **/
+     * Start the main stage
+     */
     @Override
-    public void start(Stage stage) throws IOException {
-        Update update = new Update();
-        FXController Login = update.UIController;
-        Login.showMainMenu();
+    public void start(Stage stage) throws Exception{
+
+        this.mainStage = stage;
+        stage.setTitle("Desktop UI Client");
+
+        showLogin();
+
+
+        stage.show();
+    }
+    /**
+     * Show the Login page
+     */
+    public void showLogin() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setController(new FXController(this));
+        loader.setLocation(getClass().getResource(Login_FXML));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1000, 800);
+        mainStage.setScene(scene);
+        mainStage.setMaximized(true);
     }
 
-    public static void main(String[] args) throws IOException {
-        launch();
-        System.out.println(new App().getGreeting());
+    public void exit(){
+        mainStage.close();
+        System.exit(0);
     }
 }
