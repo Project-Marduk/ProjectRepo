@@ -3,6 +3,9 @@
  */
 package IM.Javalin.Server;
 
+import Servers.Resources.ServerPorts;
+import Servers.apiCommands.GeneralApi;
+import Servers.apiCommands.IMapi;
 import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -33,39 +36,39 @@ public class IMServer {
         QueuedThreadPool queuedThreadPool = new QueuedThreadPool(MAX_THREADS, MIN_THREADS,TIMEOUT);
         Javalin app = Javalin.create(config ->
                 config.server(() ->
-                        new Server(queuedThreadPool))).start(DEFAULT_PORT);
+                        new Server(queuedThreadPool))).start(ServerPorts.InfoManager.port());
 
         app.routes(() -> {
             // Basic info calls
-            app.get( "/", ctx -> ctx.result(defaultMessage));
-            app.get("/api", ctx -> ctx.result(apiInfo));
+            app.get(GeneralApi.root.path(), ctx -> ctx.result(defaultMessage));
+            app.get(GeneralApi.getInfo.path(), ctx -> ctx.result(apiInfo));
 
             // Check status and Error message
-            app.get("/api/get/status", ctx -> ctx.result("0"/* CALL FileExporter . get current status code ()*/));
-            app.get("/api/get/error", ctx -> ctx.result("All good"/* CALL FileExporter . get error message ()*/));
+            app.get(GeneralApi.getStatus.path(), ctx -> ctx.result("0"/* CALL FileExporter . get current status code ()*/));
+            app.get(GeneralApi.getError.path(), ctx -> ctx.result("All good"/* CALL FileExporter . get error message ()*/));
 
 
 
 
-            app.post("/api/post/register/user", ctx -> {
+            app.post(IMapi.registerUser.path(), ctx -> {
                 // [Database User Register and Save Function](ctx.body());
                 // ctx.result("Register Successful");
             });
-            app.get("/api/get/login/user", ctx -> {
+            app.get(IMapi.loginUser.path(), ctx -> {
                 // toLogin = [Database User Load](ctx.body());
                 // InfoManager UserLogin( toLogin );
                 // ctx.result("Login Succefull");
             });
-            app.get("/api/get/diagram", ctx -> {
+            app.get(IMapi.getDiagram.path(), ctx -> {
                 //String diagramName = ctx.body();
                 // Diagram toLoad = [Database load Diagram](diagramName);
                 // ctx.json(toLoad);
             });
-            app.get("/api/get/diagram/list", ctx -> {
+            app.get(IMapi.getDiagramList.path(), ctx -> {
                 // do we want to json a list of lists?
             });
             // Receive a diagram for save.
-            app.post("/api/post/save/Diagram", ctx -> {
+            app.post(IMapi.saveDiagram.path(), ctx -> {
                 /*
                 NOTE: I still do not full understand this conditional,
                 specificly "application/json"

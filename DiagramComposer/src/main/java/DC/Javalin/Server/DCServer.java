@@ -3,7 +3,9 @@
  */
 package DC.Javalin.Server;
 
-import DC.Javalin.Server.DiagramComposer;
+
+import Servers.Resources.ServerPorts;
+import Servers.apiCommands.GeneralApi;
 import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -18,8 +20,6 @@ public class DCServer {
     private static final int MAX_THREADS = 20;
     private static final int MIN_THREADS = 2;
     private static final int TIMEOUT = 60000;
-    private static final int DEFAULT_PORT = 7000;
-
 
 
     public static void main(String[] args) {
@@ -34,7 +34,7 @@ public class DCServer {
         QueuedThreadPool queuedThreadPool = new QueuedThreadPool(MAX_THREADS, MIN_THREADS,TIMEOUT);
         Javalin app = Javalin.create(config ->
                 config.server(() ->
-                        new Server(queuedThreadPool))).start(DEFAULT_PORT);
+                        new Server(queuedThreadPool))).start(ServerPorts.DiagramComposer.port());
 
         app.routes(() -> {
             // DUE TO MERGE ISSUES my work was deleted AGAIN.
@@ -42,12 +42,12 @@ public class DCServer {
 
 
             // Basic info calls
-            app.get( "/", ctx -> ctx.result(defaultMessage));
-            app.get("/api", ctx -> ctx.result(apiInfo));
+            app.get(GeneralApi.root.path(), ctx -> ctx.result(defaultMessage));
+            app.get(GeneralApi.getInfo.path(), ctx -> ctx.result(apiInfo));
 
             // Check status and Error message
-            app.get("/api/get/status", ctx -> ctx.result("0"/* CALL FileExporter . get current status code ()*/));
-            app.get("/api/get/error", ctx -> ctx.result("All good"/* CALL FileExporter . get error message ()*/));
+            app.get(GeneralApi.getStatus.path(), ctx -> ctx.result("0"/* CALL FileExporter . get current status code ()*/));
+            app.get(GeneralApi.getError.path(), ctx -> ctx.result("All good"/* CALL FileExporter . get error message ()*/));
 
 
             // Receive a diagram for rendering.
