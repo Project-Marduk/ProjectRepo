@@ -22,11 +22,22 @@ dependencies {
     implementation 'io.javalin:javalin:4.0.1'
     implementation 'org.slf4j:slf4j-simple:1.7.31'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+
+    // from the library
+    implementation project(":Lib")
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java"]
+        }
+    }
 }
 
 application {
     // Define the main class for the application.
     mainClass = 'IM.Javalin.Server.IMServer'
+    applicationName = "IM-Server"
 }
 
 test {

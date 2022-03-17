@@ -8,11 +8,5 @@
  */
 
 rootProject.name = 'ProjectRepo'
-include('Desktop Client', 'Diagram Composer', 'File Exporter', 'Info Manager', 'Libraries', 'Web Client')
-include 'DiagramComposer'
-include 'FileExporter'
-include 'InfoManager'
-include 'WebClient'
-include 'Lib'
-include 'DesktopClient:src'
+include 'DiagramComposer', 'FileExporter', 'InfoManager', 'WebClient', 'Lib', 'DesktopClient:src'
 

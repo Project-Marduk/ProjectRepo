@@ -20,11 +20,7 @@ dependencies {
     implementation 'io.javalin:javalin:4.0.1'
     implementation 'org.slf4j:slf4j-simple:1.7.31'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
-}
 
-application {
-    // Define the main class for the application.
-    mainClass = 'DC.Javalin.Server.DCServer'
 }
 
 test {
