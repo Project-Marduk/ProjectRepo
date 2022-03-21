@@ -24,7 +24,7 @@
             <children>
                 <Label fx:id="loginLabel" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0"  text="Sign In" textFill="black" style="-fx-font-size: 46; -fx-font-weight: 9"/>
                 <TextField fx:id="usersUsername" prefHeight="50.0" prefWidth="150.0" promptText="Username" focusTraversable="false"/>
-                <Button fx:id="loginButton" mnemonicParsing="false"  prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="LOGIN" textFill="WHITE"  />
+                <Button fx:id="loginButton" mnemonicParsing="false"  onAction="#goToDesign" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="LOGIN" textFill="WHITE"  />
                 <Label fx:id="createAccount" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="                  or create an account" textFill="black" style="-fx-font-size: 16;"/>
                 <Button fx:id="createAccountButton" mnemonicParsing="false" onAction="#showCreateUser" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="Create Account" textFill="WHITE"  />
 
