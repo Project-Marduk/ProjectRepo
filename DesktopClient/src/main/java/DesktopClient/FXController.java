@@ -3,6 +3,7 @@ package DesktopClient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -191,6 +192,10 @@ public class FXController {
                     orgSceneY = t.getSceneY();
                     orgTranslateX = ((Shape)(t.getSource())).getTranslateX();
                     orgTranslateY = ((Shape)(t.getSource())).getTranslateY();
+
+                    if(t.getButton() == MouseButton.SECONDARY){
+                        Design.getChildren().remove(t.getSource());
+                    }
                 }
             };
 
