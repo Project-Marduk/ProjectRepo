@@ -1,9 +1,11 @@
 package IFML;
 
 import FactoryElements.InputObject;
-import FactoryElements.ShapeFactory;
 import lombok.Getter;
 import lombok.Setter;
+
+import static FactoryElements.ShapeSVGFunctions.getLineElement;
+import static FactoryElements.ShapeSVGFunctions.rectToSVG;
 
 /**
  * @author David Lindeman
@@ -13,7 +15,7 @@ import lombok.Setter;
  * Takes in a rectangle for input object type
  */
 @Getter @Setter
-public class IFMLContainer extends IFMLObject {
+public class IFMLContainer extends DrawingObject {
     String containerHeader;
     String text;
 
@@ -25,20 +27,20 @@ public class IFMLContainer extends IFMLObject {
     }
 
     public void generateShape(){
-        super.txtToSVG(containerHeader + " " + text);
+        String headerTxtSvg = super.txtToSVG(containerHeader,
+                super.getX() - inObject.getParams()[0]*.1,
+                super.getY() - inObject.getParams()[1]*.1);
 
-        ShapeFactory sF = new ShapeFactory();
-
-        //The text box's size is a subset of the larger box
-        String txtBox = sF.create(new InputObject("Rectangle",
-                new double[]{super.inObject.getParams()[0]*.15, super.inObject.getParams()[1]},
-                super.inObject.getColor(),
-                super.inObject.getStyle())).getSVGData();
-        String containerBox = sF.create(super.inObject).getSVGData();
-        String svgText = txtToSVG(text);
+        String containerBox = rectToSVG(super.inObject);
+        String headerLine = getLineElement(
+                Double.toString(super.inObject.getXCord()),
+                Double.toString(super.inObject.getXCord() + super.inObject.getParams()[0]),
+                Double.toString(super.inObject.getYCord()*.25),
+                Double.toString(super.inObject.getYCord()*.25)
+                );
 
         //this could be refactored for the second text box to just be a line 15% down the top of the input rectangle however this doesnt work because our lines have set x,y cords
-        super.setSvgData(containerBox + txtBox + svgText); //the shape SVG should be the combination of the two boxes, this may need to be changed depending on how we have to format the text
+        super.setSvgData(headerTxtSvg + "\n" + headerLine + "\n" + containerBox); //the shape SVG should be the combination of the two boxes, this may need to be changed depending on how we have to format the text
         //add text to the shapeSVG
 
         System.out.println("IFMLContainer generateShape");

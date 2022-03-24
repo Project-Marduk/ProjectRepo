@@ -16,13 +16,20 @@ import lombok.Setter;
 @Getter @Setter
 public class InputObject {
     String shapeType;
+    double xCord;
+    double yCord;
     double[] params;
     String color;
     String style;
-    public InputObject(String sType, double[] p, String c, String s){
+    String fill;
+
+    public InputObject(String sType, double[] p, String c, String s, double x, double y){ //TODO: Look up default values in Java
         shapeType = sType;
         params = p;
         color = c;
         style = s;
+        xCord = x;
+        yCord = y;
+        fill = "#FFFFFF"; //set default value as white fill
     }
 }

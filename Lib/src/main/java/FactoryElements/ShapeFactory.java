@@ -38,7 +38,7 @@ public class ShapeFactory extends AbstractElementFactory<Shape> {
             if (input.params.length != 2) { //prevents blow up for incorrect value entry
                 return null;
             }
-            return new Rectangle(input.params[0], input.params[1]);
+            return new Rectangle(input);
         }
         //no matching entry
         return null;

@@ -5,5 +5,5 @@ package FactoryElements.Interfaces;
  * Line interface
  */
 public interface Line {
-    public void drawLine();
+    public void getLineSVG();
 }

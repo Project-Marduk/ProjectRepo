@@ -1,7 +1,7 @@
 package IFML;
 
 import FactoryElements.InputObject;
-import FactoryElements.ShapeFactory;
+import static FactoryElements.ShapeSVGFunctions.circleToSVG;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +11,7 @@ import lombok.Setter;
  * Like all classes with text boxes these are generated via setter calls from the front end
  */
 @Getter @Setter
-public class IFMLEvent extends IFMLObject {
+public class IFMLEvent extends DrawingObject {
     String text;
 //    String fillColor = "#000000"; //hex for black
     boolean isFilled; //default value is false
@@ -26,9 +26,10 @@ public class IFMLEvent extends IFMLObject {
         if(isFilled){
             super.inObject.setColor("#000000"); //sets the fill color to the hex code for black
         }
-        ShapeFactory sF = new ShapeFactory();
-        super.shapeSVG = sF.create(super.inObject).getSVGData();
-        super.setSvgData(super.shapeSVG + super.txtToSVG(text));
+        super.shapeSVG = circleToSVG(super.inObject);
+        super.setSvgData(super.shapeSVG + super.txtToSVG(text,
+                super.inObject.getXCord() + 2*super.inObject.getParams()[0],
+                super.inObject.getYCord()- 2*super.inObject.getParams()[0]));
     }
 
 }
