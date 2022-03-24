@@ -2,14 +2,10 @@ package BasicShapes;
 
 import FactoryElements.Interfaces.Shape;
 
-/**
- * @author David Lindeman
- * Square class
- */
-
-public class Square implements Shape {
+public class Octagon implements Shape {
     double sideLength;
-    public Square(double sLen){
+
+    public Octagon(double sLen){
         sideLength = sLen;
     }
 

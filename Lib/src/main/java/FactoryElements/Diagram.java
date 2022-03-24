@@ -1,7 +1,5 @@
 package FactoryElements;//This is our java class which will hold and handel all of our diagram elements
 
-import FactoryElements.Lines.LineFactory;
-
 /**
  * @author David Lindeman
  */
@@ -24,8 +22,8 @@ public class Diagram{
         if("Line".equalsIgnoreCase(choice)){
             return new LineFactory();
         }
-        else if("UML".equalsIgnoreCase(choice)){
-            return new UMLFactory();
+        else if("IFML".equalsIgnoreCase(choice)){
+            return new IFMLFactory();
         }
         else if("Wireframe".equalsIgnoreCase(choice)){
             return new WireframeFactory();

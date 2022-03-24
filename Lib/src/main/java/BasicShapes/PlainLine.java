@@ -8,8 +8,8 @@ import FactoryElements.Lines.AbstractLine;
  * Can be used to compose complex objects
  */
 public class PlainLine extends AbstractLine {
-    public PlainLine(int lX, int lY, int rX, int rY) {
-        super(lX, lY, rX, rY);
+    public PlainLine(double lX, double lY, double rX, double rY, String lStyle) {
+        super(lX, lY, rX, rY, lStyle);
     }
 
     public void drawLine(){

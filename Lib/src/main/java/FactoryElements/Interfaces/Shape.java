@@ -1,4 +1,4 @@
-package FactoryElements;
+package FactoryElements.Interfaces;
 
 /**
  * @author David Lindeman
@@ -6,5 +6,5 @@ package FactoryElements;
  */
 
 public interface Shape {
-    public void drawShape();
+    public String getSVGData();
 }

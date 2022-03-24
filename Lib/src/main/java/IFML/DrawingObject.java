@@ -1,8 +1,18 @@
-package Wireframe;
+package IFML;
 
 import FactoryElements.InputObject;
+import FactoryElements.Interfaces.ComplexShape;
+import lombok.Getter;
+import lombok.Setter;
 
-public abstract class WireframeObject {
+/**
+ * @author David Lindeman
+ * All IFML Objects will extend this
+ * Though all have at least one text box the text variable will not be stored in the abstract class
+ * This is because all have 1+ text boxes each will be required to be their own text box
+ */
+@Getter @Setter
+public abstract class DrawingObject implements ComplexShape {
     String svgData;
     String id;
     double x;
@@ -10,7 +20,7 @@ public abstract class WireframeObject {
     InputObject inObject;
     String shapeSVG;
 
-    public WireframeObject(String newId, InputObject inObj){
+    public DrawingObject(String newId, InputObject inObj){
         id = newId;
         svgData = "";
         inObject = inObj;
@@ -32,5 +42,4 @@ public abstract class WireframeObject {
                 "fill="+ '"' + "black" + '"' + ">" +
                 text + "</text>";
     }
-
 }

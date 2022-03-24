@@ -1,9 +1,9 @@
-package FactoryElements.Lines;
+package FactoryElements.Interfaces;
 
 /**
  * @author David Lindeman
  * Line interface
  */
 public interface Line {
-    public void drawLine();
+    public void getLineSVG();
 }

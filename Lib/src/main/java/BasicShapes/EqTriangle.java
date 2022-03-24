@@ -4,12 +4,11 @@ import FactoryElements.Interfaces.Shape;
 
 /**
  * @author David Lindeman
- * Square class
+ * Generates an equilateral triangle
  */
-
-public class Square implements Shape {
+public class EqTriangle implements Shape {
     double sideLength;
-    public Square(double sLen){
+    public EqTriangle(double sLen){
         sideLength = sLen;
     }
 
