@@ -14,11 +14,15 @@ public class IFMLParameter extends DrawingObject {
     String bindingTxt;
     boolean hasHeader;
 
-    public IFMLParameter(String id, InputObject inObj, boolean hasHead){
+    public IFMLParameter(String id, InputObject inObj){
         super(id, inObj);
-        hasHeader = hasHead;
+        hasHeader = false;
         headerTxt = "";
         bindingTxt = "";
+    }
+
+    public void changeHeaderStatus(){
+        hasHeader = !hasHeader;
     }
 
     public void generateShape(){

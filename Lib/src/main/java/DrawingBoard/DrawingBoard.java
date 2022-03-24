@@ -20,7 +20,7 @@ public class DrawingBoard {
     }
 
     public void addObject(InputObject inObj){
-        objects.put(Integer.toString(idIndex), drawingObjectFactory.create(inObj));
+        objects.put(Integer.toString(idIndex), drawingObjectFactory.create(inObj, Integer.toString(idIndex)));
         idIndex++;
     }
 

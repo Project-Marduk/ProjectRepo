@@ -16,10 +16,30 @@ public class DrawingObjectFactory {
     }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
 
-    public DrawingObject create(InputObject input){
-//        if(input.shapeType.equalsIgnoreCase("Node")){
-//            return new IFMLMail("1");
+    public DrawingObject create(InputObject input, String id){
+//        if(input.getShapeType().equals("IFMLAction")){
+//            return new IFMLAction(id, input);
 //        }
-        return new IFMLAction("1", input);
+        switch (input.getShapeType()) {
+            case "IFMLAction":
+                return new IFMLAction(id, input);
+            case "IFMLActivationExpression":
+                return new IFMLActivationExpression(id, input);
+            case "IFMLContainer":
+                return new IFMLContainer(id, input);
+            case "IFMLEvent":
+                return new IFMLEvent(id, input);
+            case "IFMLModule":
+                return new IFMLModule(id, input);
+            case "IFMLParameter":
+                return new IFMLParameter(id, input);
+            case "IFMLViewComponent":
+                return new IFMLViewComponent(id, input);
+            case "IFMLViewComponentPart":
+                return new IFMLViewComponentPart(id, input);
+            default:
+                return null;
+
+        }
     }
 }

@@ -20,10 +20,10 @@ public class IFMLContainer extends DrawingObject {
     String text;
 
 
-    public IFMLContainer(String cHeader, String defaultText, String id, InputObject inObj){
+    public IFMLContainer(String id, InputObject inObj){ //String cHeader, String defaultText,
         super(id, inObj);
-        containerHeader = cHeader;
-        text = defaultText; //text starts out as the value to the key of the map in IMFLFactory's variable "containerHeaders"
+        containerHeader = "";//cHeader;
+        text = "";//defaultText; //text starts out as the value to the key of the map in IMFLFactory's variable "containerHeaders"
     }
 
     public void generateShape(){
