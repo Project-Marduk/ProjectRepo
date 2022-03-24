@@ -22,12 +22,11 @@
                 <Insets left="50.0" right="50.0" top="50.0" />
             </padding>
             <children>
-                <Label fx:id="loginLabel" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0"  text="Sign In" textFill="black" style="-fx-font-size: 46; -fx-font-weight: 9"/>
-                <TextField fx:id="usersUsername" prefHeight="50.0" prefWidth="150.0" promptText="Username" focusTraversable="false"/>
-                <Button fx:id="loginButton" mnemonicParsing="false"  onAction="#goToDesign" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="LOGIN" textFill="WHITE"  />
-                <Label fx:id="createAccount" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="                  or create an account" textFill="black" style="-fx-font-size: 16;"/>
-                <Button fx:id="createAccountButton" mnemonicParsing="false" onAction="#showCreateUser" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="Create Account" textFill="WHITE"  />
-
+                <Label fx:id="loginLabel" mnemonicParsing="false" prefHeight="50.0" prefWidth="450.0"  text="CREATE A NEW ACCOUNT" textFill="black" style="-fx-font-size: 26; -fx-font-weight: 9"/>
+                <TextField fx:id="usersUsername" prefHeight="50.0" prefWidth="150.0" promptText="New Accounts Username" focusTraversable="false"/>
+                <Button fx:id="createUsername" mnemonicParsing="false"  prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="Create Account" textFill="WHITE"  />
+                <Label fx:id="spacingLabel" mnemonicParsing="false" prefHeight="50.0" prefWidth="450.0"  text=" " textFill="black" />
+                <Button fx:id="returnToLoginButton" mnemonicParsing="false" onAction="#returnToLogin" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="Go Sign In" textFill="WHITE"  />
 
                 <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExitButton" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20" text="Exit" textFill="WHITE" />
             </children>

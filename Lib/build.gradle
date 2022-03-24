@@ -1,8 +1,8 @@
 plugins {
     id 'java'
-
     //Project Lombok
     id "io.freefair.lombok" version "6.2.0"
+    id 'application'
 }
 
 version 'unspecified'
@@ -12,8 +12,17 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
+    // This dependency is used by the application.
+    implementation 'com.google.guava:guava:30.1.1-jre'
+
+
+    // Javalin
+    implementation 'io.javalin:javalin:4.0.1'
+    implementation 'org.slf4j:slf4j-simple:1.7.31'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+
 }
 
 test {

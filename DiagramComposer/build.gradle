@@ -26,6 +26,7 @@ dependencies {
     // from the library
     implementation project(":Lib")
 }
+
 sourceSets {
     main {
         java {
@@ -36,8 +37,9 @@ sourceSets {
 
 application {
     // Define the main class for the application.
-    mainClass = 'IM.Javalin.Server.IMServer'
-    applicationName = "IM-Server"
+    mainClass = 'DC.Javalin.Server.DCServer'
+    applicationName = "DC-Server"
+
 }
 
 test {

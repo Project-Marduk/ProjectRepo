@@ -18,6 +18,9 @@ plugins {
 
     //Project Lombok
     id "io.freefair.lombok" version "6.2.0"
+
+    //Jacoco testing
+    id 'jacoco'
 }
 
 repositories {
@@ -27,15 +30,16 @@ repositories {
 
 dependencies {
     // Use JUnit test framework.
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
 
-    //Gson dependency used for saving and loading a game
+    //Gson dependency
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    //Json dependency used for saving and loading a game
+    //Json dependency
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
     //Flogger for logging
@@ -48,7 +52,15 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'ProjectRepo.App'
+    mainClass = 'DesktopClient.App'
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+
+    //Use Jacoco
+    finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
 javafx {
@@ -61,4 +73,54 @@ pmd {
     toolVersion = "6.21.0"
     rulesMinimumPriority = 5
     ruleSets = ["category/java/errorprone.xml", "category/java/bestpractices.xml"]
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('JacocoTestCoverage')
+}
+test{
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport;
+
+}
+jacocoTestReport {
+    dependsOn test
+    reports{
+        xml.enabled false
+        csv.enabled false
+        html.enabled true
+    }
+    afterEvaluate{
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+
+            ])
+        }))
+    }
+}
+
+test.finalizedBy(project.tasks.jacocoTestReport);
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.90
+            }
+
+        }
+
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java"]
+        }
+    }
 }

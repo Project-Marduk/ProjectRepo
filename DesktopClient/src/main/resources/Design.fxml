@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane fx:id="Design" style="-fx-background-color: white" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" >
+
+    <top>
+        <HBox>
+        <children>
+        <MenuBar HBox.hgrow="ALWAYS" style="-fx-spacing: 30; -fx-background-color: lightgrey">
+            <Menu text="File">
+                <MenuItem text="Open"/>
+                <MenuItem text="Save"/>
+            </Menu>
+            <Menu text="Export As" >
+                <MenuItem text="SVG"/>
+                <MenuItem text="PNG"/>
+            </Menu>
+            <Menu text="Exit">
+                <MenuItem text="Close Window" onAction="#handleExitButton"/>
+            </Menu>
+        </MenuBar>
+        </children>
+        </HBox>
+    </top>
+
+    <left>
+
+        <ScrollPane style="-fx-border-color: black" minWidth="141">
+            <VBox minWidth="125" spacing="20" style="-fx-background-color: #f3f3f3">
+                <padding>
+                    <Insets top="35" left="25.5" right="25"/>
+                </padding>
+                <children>
+                    <Button VBox.vgrow="ALWAYS" fx:id="circle" mnemonicParsing="false" onAction="#createCircle" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Circle.png); -fx-border-color: #f3f3f3" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="rectangle" mnemonicParsing="false" onAction="#createRectangle" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Rectangle.png); -fx-border-color: #f3f3f3" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="line" mnemonicParsing="false" onAction="#createLine" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Line.png); -fx-border-color: #f3f3f3" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="exitButton" mnemonicParsing="false" prefHeight="60000.0" prefWidth="75.0" style="-fx-background-color: #f3f3f3; -fx-font-size: 10" />
+                </children>
+            </VBox>
+        </ScrollPane>
+
+    </left>
+
+
+</BorderPane>
