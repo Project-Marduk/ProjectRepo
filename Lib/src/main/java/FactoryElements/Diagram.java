@@ -25,9 +25,6 @@ public class Diagram{
         else if("IFML".equalsIgnoreCase(choice)){
             return new IFMLFactory();
         }
-        else if("Wireframe".equalsIgnoreCase(choice)){
-            return new WireframeFactory();
-        }
         return null;
     }
 
