@@ -17,9 +17,6 @@ public class DrawingObjectFactory {
 
 
     public DrawingObject create(InputObject input, String id){
-//        if(input.getShapeType().equals("IFMLAction")){
-//            return new IFMLAction(id, input);
-//        }
         switch (input.getShapeType()) {
             case "IFMLAction":
                 return new IFMLAction(id, input);
