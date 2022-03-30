@@ -2,6 +2,8 @@ package FactoryElements;
 
 import FactoryElements.InputObject;
 import IFML.*;
+import Wireframe.Line;
+import Wireframe.WireframeObject;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,24 +21,28 @@ public class DrawingObjectFactory {
 
     public DrawingObject create(InputObject input, String id){
         switch (input.getShapeType()) {
-            case "IFMLAction":
+            case "IFML Action":
                 return new IFMLAction(id, input);
-            case "IFMLActivationExpression":
+            case "IFML Activation Expression":
                 return new IFMLActivationExpression(id, input);
-            case "IFMLContainer":
+            case "IFML Container":
                 return new IFMLContainer(id, input);
-            case "IFMLEvent":
+            case "IFML Event":
                 return new IFMLEvent(id, input);
-            case "IFMLModule":
+            case "IFML Module":
                 return new IFMLModule(id, input);
-            case "IFMLParameter":
+            case "IFML Parameter":
                 return new IFMLParameter(id, input);
-            case "IFMLViewComponent":
+            case "IFML View Component":
                 return new IFMLViewComponent(id, input);
-            case "IFMLViewComponentPart":
+            case "IFML View Component Part":
                 return new IFMLViewComponentPart(id, input);
-            case "IFMLLine":
+            case "IFML Line":
                 return new IFMLLine(id, input);
+            case "Wireframe Object":
+                return new WireframeObject(id, input);
+            case "Line":
+                return new Line(id, input);
             default:
                 return null;
 

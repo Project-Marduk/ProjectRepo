@@ -9,6 +9,19 @@ import java.util.Map;
 
 public class DrawingBoard {
     Map<String, DrawingObject> objects = new HashMap<String, DrawingObject>();
+    String[] objectTypes = new String[]{
+        "IFML Action",
+        "IFML ActivationExpression",
+        "IFML Container",
+        "IFML Event",
+        "IFML Module",
+        "IFML Parameter",
+        "IFML View Component",
+        "IFML View Component Part",
+        "IFML Line",
+        "Line",
+        "Wireframe Object"
+    };
     double xMax;
     double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
@@ -45,6 +58,4 @@ public class DrawingBoard {
                 + "\n"
                 + "</svg>";
     }
-
-
 }
