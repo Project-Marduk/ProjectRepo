@@ -3,12 +3,14 @@ package DrawingBoard;
 import FactoryElements.InputObject;
 import IFML.DrawingObject;
 import FactoryElements.DrawingObjectFactory;
+import lombok.Getter;
 import org.javalite.activejdbc.annotations.Table;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Table("IFML_Drawing_Board")
+@Getter
 public class DrawingBoard {
     Map<String, DrawingObject> objects = new HashMap<>();
     String[] objectTypes = new String[]{
@@ -41,6 +43,10 @@ public class DrawingBoard {
 
     public void removeObject(String id){
         objects.remove(id);
+    }
+
+    public void updateObject(String id, InputObject inObj){
+        objects.put(id, drawingObjectFactory.create(inObj, id));
     }
 
     public String returnSVGData(){

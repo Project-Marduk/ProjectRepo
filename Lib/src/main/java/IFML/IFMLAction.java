@@ -14,6 +14,7 @@ public class IFMLAction extends DrawingObject {
     public IFMLAction(String id, InputObject inObj){
         super(id, inObj);
         componentName = "";
+        generateShape();
     }
 
     public void generateShape(){

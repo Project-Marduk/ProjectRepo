@@ -24,6 +24,7 @@ public class WireframeObject extends DrawingObject {
         txtX = inObj.getXCord();
         txtY = inObj.getYCord();
         setTxtSVGData(""); //default value of an empty string
+        generateShape();
     }
 
     public void setTxtX(double x){

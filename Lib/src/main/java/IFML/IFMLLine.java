@@ -26,6 +26,7 @@ public class IFMLLine extends LineObject {
         headIsLeft = true;
         headIsVert = true;
         headSVG = "";
+        generateShape();
     }
 
     /**

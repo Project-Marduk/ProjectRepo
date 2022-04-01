@@ -17,6 +17,7 @@ public class IFMLModule extends DrawingObject {
     public IFMLModule(String id, InputObject inObj){
         super(id, inObj);
         text = "";
+        generateShape();
     }
 
     public void generateShape(){

@@ -22,6 +22,7 @@ public class IFMLEvent extends DrawingObject {
         super(id, inObj);
         text = "";
         isFilled = false;
+        generateShape();
     }
 
     public void generateShape(){

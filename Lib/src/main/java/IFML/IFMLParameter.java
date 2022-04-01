@@ -21,6 +21,7 @@ public class IFMLParameter extends DrawingObject {
         hasHeader = false;
         headerTxt = "";
         bindingTxt = "";
+        generateShape();
     }
 
     public void changeHeaderStatus(){

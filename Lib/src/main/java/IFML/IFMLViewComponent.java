@@ -21,6 +21,7 @@ public class IFMLViewComponent extends DrawingObject {
     public IFMLViewComponent(String id, InputObject inObj){
         super(id, inObj);
         componentName = "";
+        generateShape();
     }
 
     public void generateShape(){

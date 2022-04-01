@@ -20,6 +20,7 @@ public class IFMLActivationExpression extends DrawingObject {
         super(id, inObj);
         text = "";
         super.inObject.setColor("#B7BDBB"); //light blue/grey, there are two colors to this shape the other is white
+        generateShape();
     }
 
     public void generateShape(){

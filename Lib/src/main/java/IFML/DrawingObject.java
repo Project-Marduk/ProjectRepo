@@ -29,11 +29,14 @@ public abstract class DrawingObject extends Model implements ComplexShape {
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
-
     }
 
     public String getSVGData(){
         return svgData;
+    }
+
+    public void updateSVGData(){
+        generateShape();
     }
 
     //This will be the translation of text to SVG data

@@ -26,6 +26,7 @@ public class IFMLViewComponentPart extends DrawingObject {
         //default values for text boxes
         text1 = ""; text2 = ""; text3 ="";
         floatUp = true;
+        generateShape();
     }
 
     public void generateShape(){
