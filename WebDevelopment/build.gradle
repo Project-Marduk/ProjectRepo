@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+}
+
+group 'io.javalin'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+
+    // Javalin
+
+
+
+    implementation group: 'io.javalin', name: 'javalin', version: '4.4.0'
+
+    implementation 'org.slf4j:slf4j-simple:1.7.36'
+    implementation 'org.webjars.npm:vue:2.6.10'
+
+
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.9'
+
+//        bootstrap
+    // https://jarcasting.com/artifacts/org.webjars/bootstrap/
+    implementation group: 'org.webjars', name: 'bootstrap', version: '4.5.3'
+
+    // https://jarcasting.com/artifacts/org.webjars/bootstrap-vue/
+    implementation 'org.webjars:bootstrap-vue:1.3.0'
+
+    // https://jarcasting.com/artifacts/org.webjars/jquery/
+    implementation 'org.webjars:jquery:3.6.0'
+    // https://jarcasting.com/artifacts/org.webjars.npm/popper.js/
+    implementation 'org.webjars.npm:popper.js:1.16.1-lts'
+
+    // https://jarcasting.com/artifacts/org.webjars.bowergithub.jifalops/app-toasts/
+    implementation 'org.webjars.bowergithub.jifalops:app-toasts:0.4.0'
+
+//        implementation group: 'org.webjars', name: 'Popper.js', version: '1.16.1'
+//        implementation group: 'org.webjars', name: 'Toasts', version: '2.1.7'
+
+//        implementation 'org.webjars.npm:Bootstrap:4.5.3'
+//        implementation 'org.webjars.npm:Popper.js:1.16.1'
+//        implementation 'org.webjars.npm:Toasts:2.1.7'
+
+
+
+
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}

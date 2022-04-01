@@ -9,4 +9,5 @@
 
 rootProject.name = 'ProjectRepo'
 include 'DiagramComposer', 'FileExporter', 'InfoManager', 'WebClient', 'Lib', 'DesktopClient:src'
+include 'WebDevelopment'
 
