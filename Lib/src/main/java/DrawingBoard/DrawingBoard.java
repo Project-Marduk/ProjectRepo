@@ -2,7 +2,7 @@ package DrawingBoard;
 
 import FactoryElements.InputObject;
 import IFML.DrawingObject;
-import IFML.DrawingObjectFactory;
+import FactoryElements.DrawingObjectFactory;
 
 import java.util.HashMap;
 import java.util.Map;

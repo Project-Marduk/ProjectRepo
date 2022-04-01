@@ -1,6 +1,7 @@
-package IFML;
+package FactoryElements;
 
 import FactoryElements.InputObject;
+import IFML.*;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,6 +35,8 @@ public class DrawingObjectFactory {
                 return new IFMLViewComponent(id, input);
             case "IFMLViewComponentPart":
                 return new IFMLViewComponentPart(id, input);
+            case "IFMLLine":
+                return new IFMLLine(id, input);
             default:
                 return null;
 

@@ -1,26 +1,26 @@
 package IFML;
 
-import FactoryElements.Lines.AbstractLine;
-import FactoryElements.Lines.HeadType;
+import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
 
+import static FactoryElements.ShapeSVGFunctions.getLineElement;
 import static FactoryElements.ShapeSVGFunctions.headTriangleToSVG;
 
 /**
  * @author David Lindeman
  * Line for UML diagrams
  * TODO: LINES NEED OUT OF BOUNDS CHECK CODE RAN WHEN HEAD LOCATIONS ARE DECIDED OR FRAMEWORK FOR OUT OF BOUNDS SVG ELEMENTS NEED TO NOT BE DISPLAYED
- * TODO: A way to determine
+ *
  */
 @Getter @Setter
-public class IFMLLine extends AbstractLine {
+public class IFMLLine extends LineObject {
     boolean headIsLeft;
     boolean headIsVert;
     String headSVG;
 
-    public IFMLLine(double lX, double lY, double rX, double rY, String lineType) {
-        super(lX, lY, rX, rY, lineType);
+    public IFMLLine(String id, InputObject inObj) {
+        super(id, inObj);
         headIsLeft = true;
         headIsVert = true;
         headSVG = "";
@@ -35,17 +35,23 @@ public class IFMLLine extends AbstractLine {
     }
 
     public void makeHeadSVG(){
-        headSVG = headTriangleToSVG(super.getLeftXCord(), super.getLeftYCord(), headIsLeft, headIsVert);
+        headSVG = headTriangleToSVG(super.getX(), super.getY(), headIsLeft, headIsVert);
     }
 
-    public void drawLine(){
-        if(super.getLeftYCord() <= super.getRightYCord()){
+    public void generateShape(){
+        //check the bearing of the second x cord to determine
+        if(super.getSecondXCord() >= super.getX()){
             headIsVert = true;
         }
         else{
             headIsVert = false;
         }
-         super.getLineSVG();
+         super.setShapeSVG(getLineElement(
+                 Double.toString(super.getX()),
+                 Double.toString(super.getY()),
+                 Double.toString(super.getSecondXCord()),
+                 Double.toString(super.getSecondYCord())
+         ));
          makeHeadSVG();
     }
 }
