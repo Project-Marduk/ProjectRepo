@@ -3,12 +3,10 @@ package IFML;
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
-
-import static FactoryElements.ShapeSVGFunctions.getLineElement;
-import static FactoryElements.ShapeSVGFunctions.headTriangleToSVG;
+import org.javalite.activejdbc.annotations.Table;
 
 @Getter @Setter
-public class LineObject extends DrawingObject{
+public abstract class LineObject extends DrawingObject{
     double secondXCord;
     double secondYCord;
     boolean headIsLeft;

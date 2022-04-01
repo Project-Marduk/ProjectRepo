@@ -3,6 +3,7 @@ package Wireframe;
 import FactoryElements.InputObject;
 import IFML.DrawingObject;
 import lombok.Getter;
+import org.javalite.activejdbc.annotations.Table;
 
 import static FactoryElements.ShapeSVGFunctions.*;
 
@@ -12,7 +13,8 @@ import static FactoryElements.ShapeSVGFunctions.*;
  * Wireframe objects are represented as a single shape with a text box,
  * The user will be able to treat this as a simplistic paint feature to design the UI they want to show
  */
-public abstract class WireframeObject extends DrawingObject {
+@Table("Wireframe_Object")
+public class WireframeObject extends DrawingObject {
     String txtSVGData;
     double txtX;
     double txtY;
@@ -21,9 +23,7 @@ public abstract class WireframeObject extends DrawingObject {
         super(newId, inObj);
         txtX = inObj.getXCord();
         txtY = inObj.getYCord();
-        setShapeData();
         setTxtSVGData(""); //default value of an empty string
-        setSVGData();
     }
 
     public void setTxtX(double x){
@@ -43,7 +43,7 @@ public abstract class WireframeObject extends DrawingObject {
      * Sets the shape SVG data to the type of shape given to it through the input object,
      * defaults to an empty string on invalid inputs
      */
-    public void setShapeData(){
+    public void generateShape(){
         switch (super.getInObject().getShapeType()) {
             case "Rectangle":
                 super.setShapeSVG(rectToSVG(super.getInObject()));
@@ -58,6 +58,7 @@ public abstract class WireframeObject extends DrawingObject {
             default:
                 super.setShapeSVG("");
         }
+        setSVGData();
     }
 
     /**

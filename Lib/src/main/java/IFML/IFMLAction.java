@@ -1,8 +1,11 @@
 package IFML;
 
 import FactoryElements.InputObject;
+import org.javalite.activejdbc.annotations.Table;
+
 import static FactoryElements.ShapeSVGFunctions.hexagonToSvg;
 
+@Table("IFML_Action")
 public class IFMLAction extends DrawingObject {
     String componentName;
     String text;

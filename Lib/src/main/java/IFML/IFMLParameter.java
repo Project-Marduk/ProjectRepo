@@ -1,6 +1,7 @@
 package IFML;
 
 import FactoryElements.InputObject;
+import org.javalite.activejdbc.annotations.Table;
 
 import static FactoryElements.ShapeSVGFunctions.activationExpressionSVG;
 import static FactoryElements.ShapeSVGFunctions.parallelogramToSVG;
@@ -9,6 +10,7 @@ import static FactoryElements.ShapeSVGFunctions.parallelogramToSVG;
  * @author David Lindeman
  * IFML Parameters can be either DogEaredRectangles OR Parallelograms
  */
+@Table("IFML_Parameter")
 public class IFMLParameter extends DrawingObject {
     String headerTxt;
     String bindingTxt;

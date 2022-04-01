@@ -3,6 +3,7 @@ package IFML;
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
+import org.javalite.activejdbc.annotations.Table;
 
 import static FactoryElements.ShapeSVGFunctions.getLineElement;
 import static FactoryElements.ShapeSVGFunctions.rectToSVG;
@@ -15,6 +16,7 @@ import static FactoryElements.ShapeSVGFunctions.rectToSVG;
  * Takes in a rectangle for input object type
  */
 @Getter @Setter
+@Table("IFML_Container")
 public class IFMLContainer extends DrawingObject {
     String containerHeader;
     String text;

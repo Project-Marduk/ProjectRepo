@@ -4,6 +4,7 @@ import FactoryElements.InputObject;
 import static FactoryElements.ShapeSVGFunctions.circleToSVG;
 import lombok.Getter;
 import lombok.Setter;
+import org.javalite.activejdbc.annotations.Table;
 
 /**
  * @author David Lindeman
@@ -11,6 +12,7 @@ import lombok.Setter;
  * Like all classes with text boxes these are generated via setter calls from the front end
  */
 @Getter @Setter
+@Table("IFML_Event")
 public class IFMLEvent extends DrawingObject {
     String text;
 //    String fillColor = "#000000"; //hex for black

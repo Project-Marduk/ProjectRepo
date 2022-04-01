@@ -1,6 +1,8 @@
 package IFML;
 
 import FactoryElements.InputObject;
+import org.javalite.activejdbc.annotations.Table;
+
 import static FactoryElements.ShapeSVGFunctions.squareToSVG;
 
 /**
@@ -8,6 +10,7 @@ import static FactoryElements.ShapeSVGFunctions.squareToSVG;
  * Contains 1 large box and 2 smaller boxes on its left and right edges
  * the smaller box on the left edge will be
  */
+@Table("IFML_Module")
 public class IFMLModule extends DrawingObject {
     String text;
 

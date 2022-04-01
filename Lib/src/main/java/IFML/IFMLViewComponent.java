@@ -5,12 +5,14 @@ import static FactoryElements.ShapeSVGFunctions.rectToSVG;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.javalite.activejdbc.annotations.Table;
 
 /**
  * @author David Lindeman
  * IFML component, will be initialized as an empty rectangle
  */
 @Getter @Setter
+@Table("IFML_View_Component")
 public class IFMLViewComponent extends DrawingObject {
     String componentName;
     String text;
