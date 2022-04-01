@@ -3,6 +3,7 @@ package IFML;
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
+import org.javalite.activejdbc.annotations.Table;
 
 import static FactoryElements.ShapeSVGFunctions.activationExpressionSVG;
 
@@ -11,6 +12,7 @@ import static FactoryElements.ShapeSVGFunctions.activationExpressionSVG;
  * This object will require a special SVG shape construction as it has 5 sides and is not a traditional shape
  */
 @Getter @Setter
+@Table("IFML_Activation_Expression")
 public class IFMLActivationExpression extends DrawingObject {
     String text;
 

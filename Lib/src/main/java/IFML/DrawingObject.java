@@ -5,6 +5,9 @@ import FactoryElements.Interfaces.ComplexShape;
 import lombok.Getter;
 import lombok.Setter;
 
+import lombok.Builder;
+import org.javalite.activejdbc.Model;
+
 /**
  * @author David Lindeman
  * All IFML Objects will extend this
@@ -12,7 +15,7 @@ import lombok.Setter;
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
 @Getter @Setter
-public abstract class DrawingObject implements ComplexShape {
+public abstract class DrawingObject extends Model implements ComplexShape {
     String svgData;
     String id;
     double x;
@@ -26,6 +29,7 @@ public abstract class DrawingObject implements ComplexShape {
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
+
     }
 
     public String getSVGData(){

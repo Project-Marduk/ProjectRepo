@@ -3,33 +3,31 @@ package DrawingBoard;
 import FactoryElements.InputObject;
 import IFML.DrawingObject;
 import FactoryElements.DrawingObjectFactory;
+import org.javalite.activejdbc.annotations.Table;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Table("IFML_Drawing_Board")
 public class DrawingBoard {
-    Map<String, DrawingObject> objects = new HashMap<String, DrawingObject>();
+    Map<String, DrawingObject> objects = new HashMap<>();
     String[] objectTypes = new String[]{
-        "IFML Action",
-        "IFML ActivationExpression",
-        "IFML Container",
-        "IFML Event",
-        "IFML Module",
-        "IFML Parameter",
-        "IFML View Component",
-        "IFML View Component Part",
-        "IFML Line",
+        "IFML_Action",
+        "IFML_Activation_Expression",
+        "IFML_Container",
+        "IFML_Event",
+        "IFML_Module",
+        "IFML_Parameter",
+        "IFML_View_Component",
+        "IFML_View_Component_Part",
+        "IFML_Line",
         "Line",
-        "Wireframe Object"
+        "Wireframe_Object"
     };
     double xMax;
     double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 0;
-    String svgHead = "<svg contentScriptType=\"text/ecmascript\" width=\"600.0px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full\"\n" +
-            "    zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"300.0px\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\"\n" +
-            "    version=\"1.0\">";
-    String svgTail;
 
     public DrawingBoard(double xSize, double ySize){
         xMax = xSize;

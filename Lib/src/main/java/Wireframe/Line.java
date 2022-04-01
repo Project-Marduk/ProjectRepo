@@ -2,9 +2,11 @@ package Wireframe;
 
 import FactoryElements.InputObject;
 import IFML.LineObject;
+import org.javalite.activejdbc.annotations.Table;
 
 import static FactoryElements.ShapeSVGFunctions.getLineElement;
 
+@Table("Line")
 public class Line extends LineObject {
     public Line(String id, InputObject inObj) {
         super(id, inObj);

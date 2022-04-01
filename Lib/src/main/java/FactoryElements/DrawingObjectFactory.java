@@ -21,25 +21,25 @@ public class DrawingObjectFactory {
 
     public DrawingObject create(InputObject input, String id){
         switch (input.getShapeType()) {
-            case "IFML Action":
+            case "IFML_Action":
                 return new IFMLAction(id, input);
-            case "IFML Activation Expression":
+            case "IFML_Activation Expression":
                 return new IFMLActivationExpression(id, input);
-            case "IFML Container":
+            case "IFML_Container":
                 return new IFMLContainer(id, input);
-            case "IFML Event":
+            case "IFML_Event":
                 return new IFMLEvent(id, input);
-            case "IFML Module":
+            case "IFML_Module":
                 return new IFMLModule(id, input);
-            case "IFML Parameter":
+            case "IFML_Parameter":
                 return new IFMLParameter(id, input);
-            case "IFML View Component":
+            case "IFML_View_Component":
                 return new IFMLViewComponent(id, input);
-            case "IFML View Component Part":
+            case "IFML_View_Component_Part":
                 return new IFMLViewComponentPart(id, input);
-            case "IFML Line":
+            case "IFML_Line":
                 return new IFMLLine(id, input);
-            case "Wireframe Object":
+            case "Wireframe_Object":
                 return new WireframeObject(id, input);
             case "Line":
                 return new Line(id, input);

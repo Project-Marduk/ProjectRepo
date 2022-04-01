@@ -3,6 +3,7 @@ package IFML;
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
+import org.javalite.activejdbc.annotations.Table;
 
 import static FactoryElements.ShapeSVGFunctions.rectToSVG;
 
@@ -13,6 +14,7 @@ import static FactoryElements.ShapeSVGFunctions.rectToSVG;
  * All text boxes will need to be set with the setter method called from the front end (ex. type into a box then the method is called)
  */
 @Setter @Getter
+@Table("IFML_View_Component_Part")
 public class IFMLViewComponentPart extends DrawingObject {
     String text1;
     String text2;

@@ -3,6 +3,7 @@ package Wireframe;
 import FactoryElements.InputObject;
 import IFML.DrawingObject;
 import lombok.Getter;
+import org.javalite.activejdbc.annotations.Table;
 
 import static FactoryElements.ShapeSVGFunctions.*;
 
@@ -12,6 +13,7 @@ import static FactoryElements.ShapeSVGFunctions.*;
  * Wireframe objects are represented as a single shape with a text box,
  * The user will be able to treat this as a simplistic paint feature to design the UI they want to show
  */
+@Table("Wireframe_Object")
 public class WireframeObject extends DrawingObject {
     String txtSVGData;
     double txtX;
