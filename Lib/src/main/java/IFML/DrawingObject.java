@@ -10,7 +10,7 @@ import org.javalite.activejdbc.Model;
 
 /**
  * @author David Lindeman
- * All IFML Objects will extend this
+ * All Objects that will be displayed in the pane will extend this
  * Though all have at least one text box the text variable will not be stored in the abstract class
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
@@ -46,4 +46,8 @@ public abstract class DrawingObject extends Model implements ComplexShape {
                 "fill="+ '"' + "black" + '"' + ">" +
                 text + "</text>";
     }
+
+//    public String toJSON(){
+//
+//    }
 }

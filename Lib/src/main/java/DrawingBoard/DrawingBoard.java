@@ -28,6 +28,13 @@ public class DrawingBoard {
     double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 0;
+<<<<<<< HEAD
+=======
+//    String svgHead = "<svg contentScriptType=\"text/ecmascript\" width=\"600.0px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full\"\n" +
+//            "    zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"300.0px\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\"\n" +
+//            "    version=\"1.0\">";
+//    String svgTail;
+>>>>>>> feature/batikIntegration
 
     public DrawingBoard(double xSize, double ySize){
         xMax = xSize;
