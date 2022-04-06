@@ -1,12 +1,14 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.javalite.activejdbc.annotations.Table;
+//import
+//import DrawingObjects.ShapeSVGFunctions.rectToSVG;
 
-import static FactoryElements.ShapeSVGFunctions.getLineElement;
-import static FactoryElements.ShapeSVGFunctions.rectToSVG;
+import static DrawingObjects.ShapeSVGFunctions.getLineElement;
+import static DrawingObjects.ShapeSVGFunctions.rectToSVG;
 
 /**
  * @author David Lindeman
@@ -20,6 +22,7 @@ import static FactoryElements.ShapeSVGFunctions.rectToSVG;
 public class IFMLContainer extends DrawingObject {
     String containerHeader;
     String text;
+    ShapeSVGFunctions shapeSVGFunctions = new ShapeSVGFunctions();
 
 
     public IFMLContainer(String id, InputObject inObj){ //String cHeader, String defaultText,
@@ -44,7 +47,5 @@ public class IFMLContainer extends DrawingObject {
         //this could be refactored for the second text box to just be a line 15% down the top of the input rectangle however this doesnt work because our lines have set x,y cords
         super.setSvgData(headerTxtSvg + "\n" + headerLine + "\n" + containerBox); //the shape SVG should be the combination of the two boxes, this may need to be changed depending on how we have to format the text
         //add text to the shapeSVG
-
-        System.out.println("IFMLContainer generateShape");
     }
 }

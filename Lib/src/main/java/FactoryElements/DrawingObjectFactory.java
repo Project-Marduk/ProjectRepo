@@ -1,9 +1,8 @@
 package FactoryElements;
 
-import FactoryElements.InputObject;
-import IFML.*;
-import Wireframe.Line;
-import Wireframe.WireframeObject;
+import DrawingObjects.*;
+import DrawingObjects.Line;
+import DrawingObjects.WireframeObject;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,7 +19,19 @@ public class DrawingObjectFactory {
 
 
     public DrawingObject create(InputObject input, String id){
-        switch (input.getShapeType()) {
+        String shapeIdHandel = "";
+        if(input.getShapeType().equals("Rectangle") ||
+                input.getShapeType().equals("Square") ||
+                input.getShapeType().equals("Circle") ||
+                input.getShapeType().equals("Hexagon") ||
+                input.getShapeType().equals("Parallelogram")){
+            shapeIdHandel = "Wireframe_Object";
+        }
+        else{
+            shapeIdHandel = input.getShapeType();
+        }
+
+        switch (shapeIdHandel) {
             case "IFML_Action":
                 return new IFMLAction(id, input);
             case "IFML_Activation Expression":

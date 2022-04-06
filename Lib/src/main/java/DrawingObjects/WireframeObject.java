@@ -1,11 +1,9 @@
-package Wireframe;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
-import IFML.DrawingObject;
 import lombok.Getter;
-import org.javalite.activejdbc.annotations.Table;
 
-import static FactoryElements.ShapeSVGFunctions.*;
+import static DrawingObjects.ShapeSVGFunctions.*;
 
 @Getter
 /**
@@ -13,7 +11,7 @@ import static FactoryElements.ShapeSVGFunctions.*;
  * Wireframe objects are represented as a single shape with a text box,
  * The user will be able to treat this as a simplistic paint feature to design the UI they want to show
  */
-@Table("Wireframe_Object")
+//@Table("Wireframe_Object")
 public class WireframeObject extends DrawingObject {
     String txtSVGData;
     double txtX;
@@ -24,6 +22,7 @@ public class WireframeObject extends DrawingObject {
         txtX = inObj.getXCord();
         txtY = inObj.getYCord();
         setTxtSVGData(""); //default value of an empty string
+        generateShape();
     }
 
     public void setTxtX(double x){
@@ -34,7 +33,7 @@ public class WireframeObject extends DrawingObject {
         txtY = y;
     }
 
-    public void setSVGData(){
+    public void combineSVGData(){
         super.setSvgData(super.getShapeSVG() + "\n" + txtSVGData);
     }
 
@@ -47,36 +46,24 @@ public class WireframeObject extends DrawingObject {
         switch (super.getInObject().getShapeType()) {
             case "Rectangle":
                 super.setShapeSVG(rectToSVG(super.getInObject()));
+                break;
             case "Square":
                 super.setShapeSVG(squareToSVG(super.getInObject()));
+                break;
             case "Circle":
                 super.setShapeSVG(circleToSVG(super.getInObject()));
+                break;
             case "Hexagon":
                 super.setShapeSVG(hexagonToSvg(super.getInObject()));
+                break;
             case "Parallelogram":
                 super.setShapeSVG(parallelogramToSVG(super.getInObject()));
+                break;
             default:
                 super.setShapeSVG("");
+                break;
         }
-        setSVGData();
-    }
-
-    /**
-     * @author David Lindeman
-     * @param text
-     * @param xPos
-     * @param yPos
-     * @return
-     * This will be the translation of text to SVG data
-     * This may be unnecessary depending on how we convert text to SVG
-     */
-    public String txtToSVG(String text, double xPos, double yPos){
-        return "<text x=" + '"' + Double.toString(xPos) + '"' +
-                "y=" + '"' + Double.toString(yPos) +
-                " font-family=" + '"' + "Verdana" + '"' +
-                " font-size="+'"' + "18" + '"' +
-                "fill="+ '"' + "black" + '"' + ">" +
-                text + "</text>";
+        combineSVGData();
     }
 
     /**

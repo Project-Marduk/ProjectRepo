@@ -1,4 +1,6 @@
-package FactoryElements;
+package DrawingObjects;
+
+import FactoryElements.InputObject;
 
 /**
  * @author David Lindeman

@@ -1,12 +1,9 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
 import FactoryElements.Interfaces.ComplexShape;
 import lombok.Getter;
 import lombok.Setter;
-
-import lombok.Builder;
-import org.javalite.activejdbc.Model;
 
 /**
  * @author David Lindeman
@@ -15,7 +12,7 @@ import org.javalite.activejdbc.Model;
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
 @Getter @Setter
-public abstract class DrawingObject extends Model implements ComplexShape {
+public abstract class DrawingObject implements ComplexShape { // extends Model
     String svgData;
     String id;
     double x;
@@ -29,7 +26,6 @@ public abstract class DrawingObject extends Model implements ComplexShape {
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
-
     }
 
     public String getSVGData(){
@@ -40,14 +36,10 @@ public abstract class DrawingObject extends Model implements ComplexShape {
     //This may be unnecessary depending on how we convert text to SVG
     public String txtToSVG(String text, double xPos, double yPos){
         return "<text x=" + '"' + Double.toString(xPos) + '"' +
-                "y=" + '"' + Double.toString(yPos) +
+                " y=" + '"' + Double.toString(yPos) + '"' +
                 " font-family=" + '"' + "Verdana" + '"' +
                 " font-size="+'"' + "18" + '"' +
-                "fill="+ '"' + "black" + '"' + ">" +
+                " fill="+ '"' + "black" + '"' + ">" +
                 text + "</text>";
     }
-
-//    public String toJSON(){
-//
-//    }
 }

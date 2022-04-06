@@ -5,7 +5,7 @@ This repo is for our group's project for CS 3321, Introduction to Software Engin
 ## What does this Project do?
 ### Our Prompt 
 Design and/or prototype a User Interface including the ability to:
-- Construct both UI Wireframe and IFML Diagrams using a vector drawing approach
+- Construct both UI Wireframe and DrawingObjects Diagrams using a vector drawing approach
 - Be capable of viewing and editing both types of diagrams
 - Associate diagrams to a specific user and be able to save these into "folders" associated with the user
 - Be extensible to later allow collaborative editing

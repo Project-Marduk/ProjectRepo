@@ -1,14 +1,20 @@
 package DrawingBoard;
 
 import FactoryElements.InputObject;
-import IFML.DrawingObject;
+import DrawingObjects.DrawingObject;
 import FactoryElements.DrawingObjectFactory;
-import org.javalite.activejdbc.annotations.Table;
+import com.google.gson.Gson;
+import lombok.Getter;
+import lombok.Setter;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-@Table("IFML_Drawing_Board")
+//@Table("Drawing_Board")
+@Getter @Setter
 public class DrawingBoard {
     Map<String, DrawingObject> objects = new HashMap<>();
     String[] objectTypes = new String[]{
@@ -28,13 +34,6 @@ public class DrawingBoard {
     double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 0;
-<<<<<<< HEAD
-=======
-//    String svgHead = "<svg contentScriptType=\"text/ecmascript\" width=\"600.0px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full\"\n" +
-//            "    zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"300.0px\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\"\n" +
-//            "    version=\"1.0\">";
-//    String svgTail;
->>>>>>> feature/batikIntegration
 
     public DrawingBoard(double xSize, double ySize){
         xMax = xSize;
@@ -50,17 +49,72 @@ public class DrawingBoard {
         objects.remove(id);
     }
 
+    public DrawingObject getObject(String id){
+        return objects.get(id);
+    }
+
+    public Set<String> getIds(){
+        return objects.keySet();
+    }
+
     public String returnSVGData(){
         String svgData = "";
         for(String key : objects.keySet()){
             svgData += "\n" + objects.get(key).getSVGData();
         }
 
-        return "<svg contentScriptType=\"text/ecmascript\" width=\"" + Double.toString(xMax) + "px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full\"\n" +
+        return "<svg contentScriptType=\"text/ecmascript\" width=\"" + Double.toString(xMax) + "px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full \"\n" +
                 "    zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"" + Double.toString(yMax) + "px\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\"\n" +
                 "    version=\"1.0\">"
                 + svgData
                 + "\n"
                 + "</svg>";
+    }
+
+    /**
+     * @author
+     * @return
+     * Serializes all the objects in the map to JSON
+     */
+    public String serializeDrawingBoardToJSON(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    /**
+     * @author David Lindeman
+     * Converts a drawing object to a JSON string using GSON
+     */
+    //reference for reading JSON files to java: https://attacomsian.com/blog/gson-read-json-file
+    public String toJSON(DrawingObject dwObj) {
+        //create Gson instance
+        Gson gson = new Gson();
+        //create json string to hold data
+        String jsonString = gson.toJson(dwObj);
+        return null;
+    }
+
+    /**
+     * @author David Lindeman
+     * @param jsonStr
+     * @return
+     * Takes a JSON string and converts it into a drawing board object
+     */
+    public DrawingObject fromJSON(String jsonStr){
+        try {
+            //create Gson instance
+            Gson gson = new Gson();
+
+            //set type for scoreboard
+            Type drawingObjType = new TypeToken<DrawingObject>(){}.getType();
+
+            //convert JSON string to scoreboard obj
+            DrawingObject drawingObj = gson.fromJson(jsonStr, drawingObjType);
+
+            return drawingObj;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

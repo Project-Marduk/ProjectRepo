@@ -1,10 +1,10 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
 import org.javalite.activejdbc.annotations.Table;
 
-import static FactoryElements.ShapeSVGFunctions.activationExpressionSVG;
-import static FactoryElements.ShapeSVGFunctions.parallelogramToSVG;
+import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
+import static DrawingObjects.ShapeSVGFunctions.parallelogramToSVG;
 
 /**
  * @author David Lindeman

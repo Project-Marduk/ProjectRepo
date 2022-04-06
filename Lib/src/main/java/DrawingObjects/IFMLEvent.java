@@ -1,7 +1,7 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
-import static FactoryElements.ShapeSVGFunctions.circleToSVG;
+import static DrawingObjects.ShapeSVGFunctions.circleToSVG;
 import lombok.Getter;
 import lombok.Setter;
 import org.javalite.activejdbc.annotations.Table;

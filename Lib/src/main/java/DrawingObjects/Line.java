@@ -1,10 +1,9 @@
-package Wireframe;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
-import IFML.LineObject;
 import org.javalite.activejdbc.annotations.Table;
 
-import static FactoryElements.ShapeSVGFunctions.getLineElement;
+import static DrawingObjects.ShapeSVGFunctions.getLineElement;
 
 @Table("Line")
 public class Line extends LineObject {

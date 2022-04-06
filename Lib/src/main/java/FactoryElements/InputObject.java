@@ -15,7 +15,7 @@ import org.javalite.activejdbc.annotations.Table;
  * All type checking will need to be done on the front end(s)
  */
 @Getter @Setter
-@Table("IFML_Input_Object")
+//@Table("Input_Object")
 public class InputObject {
     String shapeType;
     double xCord;

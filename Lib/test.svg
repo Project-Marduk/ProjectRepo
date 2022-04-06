@@ -1,0 +1,6 @@
+<svg contentScriptType="text/ecmascript" width="50.0px" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full "
+    zoomAndPan="magnify" contentStyleType="text/css" height="50.0px" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+    version="1.0">
+<ellipse rx="2.0" ry="4.0" cx="20.0" cy="20.0" fill="#FFFFFF" stroke-linejoin="round" stroke="#000000"/>
+<text x="2.0" y="4.0" font-family="Verdana" font-size="18" fill="black"></text>
+</svg>

@@ -1,9 +1,8 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
 @Getter @Setter
 public abstract class LineObject extends DrawingObject{

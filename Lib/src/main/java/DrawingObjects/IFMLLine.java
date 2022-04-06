@@ -1,12 +1,12 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.javalite.activejdbc.annotations.Table;
 
-import static FactoryElements.ShapeSVGFunctions.getLineElement;
-import static FactoryElements.ShapeSVGFunctions.headTriangleToSVG;
+import static DrawingObjects.ShapeSVGFunctions.getLineElement;
+import static DrawingObjects.ShapeSVGFunctions.headTriangleToSVG;
 
 /**
  * @author David Lindeman

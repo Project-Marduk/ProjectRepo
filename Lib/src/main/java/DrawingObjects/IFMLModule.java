@@ -1,9 +1,9 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
 import org.javalite.activejdbc.annotations.Table;
 
-import static FactoryElements.ShapeSVGFunctions.squareToSVG;
+import static DrawingObjects.ShapeSVGFunctions.squareToSVG;
 
 /**
  * @author David Lindeman
