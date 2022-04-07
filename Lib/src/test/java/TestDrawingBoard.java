@@ -70,9 +70,16 @@ public class TestDrawingBoard {
     }
 
     @Test
+    void canAddHexagon(){
+        double[] inParams = new double[]{8};
+        InputObject hexInObj = new InputObject("Hexagon",
+                inParams, "000000", "bold", 25, 25);
+        canMakeShape("Hexagon", hexInObj);
+    }
+
+    @Test
     void canAddParallelogram(){
         double[] inParams = new double[]{5,10};
-        //TODO: looks wrong fix method in ShapeSVGFunction
         InputObject rectInObj = new InputObject("Parallelogram",
                 inParams,"000000", "bold", 2, 10);
         canMakeShape("Parallelogram", rectInObj);

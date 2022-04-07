@@ -5,7 +5,7 @@ import org.javalite.activejdbc.annotations.Table;
 
 import static DrawingObjects.ShapeSVGFunctions.hexagonToSvg;
 
-@Table("IFML_Action")
+//@Table("IFML_Action")
 public class IFMLAction extends DrawingObject {
     String componentName;
     String text;

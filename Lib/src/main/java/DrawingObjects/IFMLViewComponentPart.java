@@ -54,17 +54,17 @@ public class IFMLViewComponentPart extends DrawingObject {
                         new double[]{super.inObject.getParams()[0]-fontSize*1.25, super.inObject.getParams()[1]}, //first param is arbitrarily set to 18, this should be set to the font size of the text
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
-                        super.inObject.getXCord() + super.inObject.getParams()[0]*.05,
+                        super.inObject.getXCord() + super.inObject.getParams()[0]*.5,
                         super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYscalar
                 ));
         String text2svg = super.txtToSVG(text2,
                 super.inObject.getXCord() + super.inObject.getParams()[0]*.1,
-                super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYscalar + .05);
+                super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYscalar + .5);
 
         //text box above of below larger text box
         String text1svg = super.txtToSVG(text1,
                 super.inObject.getXCord() + super.inObject.getParams()[0]*.1,
-                super.inObject.getYCord() + super.inObject.getParams()[1]* smallBoxYscalar + .05);
+                super.inObject.getYCord() + super.inObject.getParams()[1]* smallBoxYscalar + .5);
         String shape1 = rectToSVG(
                 new InputObject(
                         "Rectangle",
@@ -72,12 +72,12 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
                         super.inObject.getXCord() + super.inObject.getParams()[0]*.1,
-                        super.inObject.getYCord() + super.inObject.getParams()[1]* smallBoxYscalar + .05
+                        super.inObject.getYCord() + super.inObject.getParams()[1]* smallBoxYscalar + .5
                 ));
         //text box inside larger text box
         String text3svg = super.txtToSVG(text3,
                 super.inObject.getXCord() + super.inObject.getParams()[0]*.1,
-                super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYscalar - .25);
+                super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYscalar - 2);
         String shape3 = rectToSVG(
                 new InputObject(
                         "Rectangle",
@@ -85,10 +85,9 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
                         super.inObject.getXCord() + super.inObject.getParams()[0]*.1,
-                        super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYscalar - .25
+                        super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYscalar - 2
 
                 ));
-        super.setSvgData(shape1 + text1svg + shape2 + text2svg + shape3 + text3svg);
-        System.out.println("IFML View Component Part generateShape");
+        super.setSvgData(shape1 + "\n" + text1svg + "\n" + shape2 + "\n" + text2svg + "\n" + shape3 + "\n" + text3svg);
     }
 }

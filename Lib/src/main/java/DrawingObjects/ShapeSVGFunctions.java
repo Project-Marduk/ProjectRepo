@@ -112,18 +112,23 @@ public class ShapeSVGFunctions {
                 getLineElement(triLeftX, leftX, upY, upY);
     }
 
+    /**
+     * @author David Lindeman
+     * @param inObj
+     * @return
+     */
     public static String parallelogramToSVG(InputObject inObj){
-        String upLeftX = Double.toString(inObj.getXCord() + .15*inObj.getParams()[0]);
+        String upLeftX = Double.toString(inObj.getXCord() + .15*inObj.getParams()[1]);
         String upLeftRightY = Double.toString(inObj.getYCord());
-        String upRightX = Double.toString(inObj.getXCord() + 1.15*inObj.getParams()[0]);
+        String upRightX = Double.toString(1.15*inObj.getXCord() + inObj.getParams()[1]);
         String downLeftX = Double.toString(inObj.getXCord());
-        String downLeftRightY = Double.toString(inObj.getYCord() - inObj.getParams()[1]);
-        String downRightX = Double.toString(inObj.getXCord() + inObj.getParams()[0]);
+        String downLeftRightY = Double.toString(inObj.getYCord() - inObj.getParams()[0]);
+        String downRightX = Double.toString(inObj.getXCord() + .85*inObj.getParams()[1]);
 
-        return getLineElement(upLeftX, upLeftRightY, upRightX, upLeftRightY) +
-                getLineElement(upRightX, upLeftRightY, downRightX, downLeftRightY) +
-                getLineElement(downRightX, downLeftRightY, downLeftX, downLeftRightY) +
-                getLineElement(downLeftX, downLeftRightY, upLeftX, upLeftRightY);
+        return getLineElement(upLeftX, upRightX, upLeftRightY, upLeftRightY) +
+                getLineElement(upRightX, downRightX, upLeftRightY, downLeftRightY) +
+                getLineElement(downRightX, downLeftX, downLeftRightY, downLeftRightY) +
+                getLineElement(downLeftX, upLeftX, downLeftRightY, upLeftRightY);
     }
 
     //TODO: SVG for creating a triangle

@@ -13,16 +13,17 @@ import static DrawingObjects.ShapeSVGFunctions.*;
  */
 //@Table("Wireframe_Object")
 public class WireframeObject extends DrawingObject {
-    String txtSVGData;
+//    String txtSVGData;
     double txtX;
     double txtY;
+    String text;
 
     public WireframeObject(String newId, InputObject inObj){
         super(newId, inObj);
         txtX = inObj.getXCord();
         txtY = inObj.getYCord();
-        setTxtSVGData(""); //default value of an empty string
-        generateShape();
+//        setTxtSVGData(""); //default value of an empty string
+//        generateShape();
     }
 
     public void setTxtX(double x){
@@ -31,10 +32,6 @@ public class WireframeObject extends DrawingObject {
 
     public void setTxtY(double y){
         txtY = y;
-    }
-
-    public void combineSVGData(){
-        super.setSvgData(super.getShapeSVG() + "\n" + txtSVGData);
     }
 
     /**
@@ -63,7 +60,8 @@ public class WireframeObject extends DrawingObject {
                 super.setShapeSVG("");
                 break;
         }
-        combineSVGData();
+        //combine SVG Data
+        super.setSvgData(super.getShapeSVG() + "\n" + getTxtSVGData(text));
     }
 
     /**
@@ -72,8 +70,8 @@ public class WireframeObject extends DrawingObject {
      * Sets text in the upper left hand corner of the object
      * This can be changed with the setter function
      */
-    public void setTxtSVGData(String text){
-        txtSVGData = txtToSVG(text, super.getX(), super.getY());
+    public String getTxtSVGData(String text){
+        return txtToSVG(text, super.getX(), super.getY());
     }
 
 }

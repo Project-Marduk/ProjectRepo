@@ -11,7 +11,6 @@ import static DrawingObjects.ShapeSVGFunctions.headTriangleToSVG;
 /**
  * @author David Lindeman
  * Line for UML diagrams
- * TODO: LINES NEED OUT OF BOUNDS CHECK CODE RAN WHEN HEAD LOCATIONS ARE DECIDED OR FRAMEWORK FOR OUT OF BOUNDS SVG ELEMENTS NEED TO NOT BE DISPLAYED
  *
  */
 @Getter @Setter
