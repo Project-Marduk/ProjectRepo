@@ -34,10 +34,10 @@ public class ShapeSVGFunctions {
 
     public static String circleToSVG(InputObject inObj){
         return "<ellipse " +
-                "rx=\"" + Double.toString(inObj.getXCord()) + "\" " +
-                "ry=\"" + Double.toString(inObj.getYCord()) + "\" " +
-                "cx=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
-                "cy=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
+                "cy=\"" + Double.toString(inObj.getXCord()) + "\" " +
+                "cx=\"" + Double.toString(inObj.getYCord()) + "\" " +
+                "ry=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
+                "rx=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
                 "fill=\""  + inObj.getFill() + "\" " +
                 "stroke-linejoin=\"round\" " +
                 "stroke=\"#000000\"/>";

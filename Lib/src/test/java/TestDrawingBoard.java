@@ -63,17 +63,27 @@ public class TestDrawingBoard {
 
     @Test
     void canAddCircle(){
-        double[] inParams = new double[]{20};
+        double[] inParams = new double[]{5};
         InputObject circleInObj = new InputObject("Circle",
-                inParams, "000000", "bold", 2, 4);
+                inParams, "000000", "bold", 10, 10);
         canMakeShape("Circle", circleInObj);
     }
 
     @Test
     void canAddParallelogram(){
         double[] inParams = new double[]{5,10};
+        //TODO: looks wrong fix method in ShapeSVGFunction
         InputObject rectInObj = new InputObject("Parallelogram",
-                inParams,"000000", "bold", 2, 4.0);
+                inParams,"000000", "bold", 2, 10);
         canMakeShape("Parallelogram", rectInObj);
+    }
+
+    @Test
+    void canAddIFMLAction(){
+        double[] inParams = new double[]{5,10};
+        //TODO: Doesnt write object to file
+        InputObject ifmlActionObj = new InputObject("IFML_Action",
+                inParams, "000000", "bold", 2, 10);
+        canMakeShape("IFML_Action", ifmlActionObj);
     }
 }
