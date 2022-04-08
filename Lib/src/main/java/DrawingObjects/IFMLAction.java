@@ -16,10 +16,9 @@ public class IFMLAction extends DrawingObject {
         componentName = "";
     }
 
-    public void generateShape(){
-        super.shapeSVG = hexagonToSvg(super.inObject);
-        super.setSvgData(super.shapeSVG + super.txtToSVG(text,
+    public String generateShape(){
+        return hexagonToSvg(super.inObject) + "\n" + super.txtToSVG(text,
                 super.inObject.getXCord() + inObject.getParams()[0]*.5,
-                super.inObject.getYCord() - super.inObject.getParams()[1]*.5));
+                super.inObject.getYCord() - super.inObject.getParams()[0]*.5);
     }
 }

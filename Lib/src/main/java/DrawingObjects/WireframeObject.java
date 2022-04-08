@@ -39,39 +39,30 @@ public class WireframeObject extends DrawingObject {
      * Sets the shape SVG data to the type of shape given to it through the input object,
      * defaults to an empty string on invalid inputs
      */
-    public void generateShape(){
+    public String generateShape(){
+        String shapeSVG;
         switch (super.getInObject().getShapeType()) {
             case "Rectangle":
-                super.setShapeSVG(rectToSVG(super.getInObject()));
+                shapeSVG = rectToSVG(super.getInObject());
                 break;
             case "Square":
-                super.setShapeSVG(squareToSVG(super.getInObject()));
+                shapeSVG = squareToSVG(super.getInObject());
                 break;
             case "Circle":
-                super.setShapeSVG(circleToSVG(super.getInObject()));
+                shapeSVG = circleToSVG(super.getInObject());
                 break;
             case "Hexagon":
-                super.setShapeSVG(hexagonToSvg(super.getInObject()));
+                shapeSVG = hexagonToSvg(super.getInObject());
                 break;
             case "Parallelogram":
-                super.setShapeSVG(parallelogramToSVG(super.getInObject()));
+                shapeSVG = parallelogramToSVG(super.getInObject());
                 break;
             default:
-                super.setShapeSVG("");
+                shapeSVG = "";
                 break;
         }
         //combine SVG Data
-        super.setSvgData(super.getShapeSVG() + "\n" + getTxtSVGData(text));
-    }
-
-    /**
-     * @author David Lindeman
-     * @param text
-     * Sets text in the upper left hand corner of the object
-     * This can be changed with the setter function
-     */
-    public String getTxtSVGData(String text){
-        return txtToSVG(text, super.getX(), super.getY());
+        return shapeSVG + "\n" + txtToSVG(text, super.getX(), super.getY());
     }
 
 }

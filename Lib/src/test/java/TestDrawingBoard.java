@@ -16,10 +16,41 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestDrawingBoard {
     DrawingBoard testDrawBoard;
 
+    /**
+     * @author David Lindeman
+     * @param objName
+     * @param dim
+     * @param x
+     * @param y
+     * @return
+     * Boiler plate code to reduce the amount of repeated code written in each test
+     */
+    InputObject makeOneDInputObject(String objName, double dim, double x, double y){
+        double[] inParams = new double[]{dim};
+        InputObject inObj = new InputObject(objName,
+                inParams, "000000", "bold", x, y);
+        return inObj;
+    }
+
+    InputObject makeTwoDInputObject(String objName, double dim1, double dim2, double x, double y){
+        double[] inParams = new double[]{dim1, dim2};
+        InputObject inObj = new InputObject(objName,
+                inParams, "000000", "bold", x, y);
+        return inObj;
+    }
+
+    void canMakeShape(String shapeName, InputObject shapeInObj){
+        testDrawBoard.addObject(shapeInObj);
+        String[] keys = testDrawBoard.getIds().toArray(new String[testDrawBoard.getIds().size()]);
+        DrawingObject objDW = testDrawBoard.getObject(keys[0]);
+//        System.out.println(objDW.getInObject().getShapeType());
+//        System.out.println(objDW.getSVGData());
+        assertTrue(objDW.getInObject().getShapeType().equals(shapeName));
+    }
 
     @BeforeEach
     void setUp(){
-        testDrawBoard = new DrawingBoard(50,50);
+        testDrawBoard = new DrawingBoard(1000,1000);
     }
 
     @AfterEach
@@ -36,61 +67,103 @@ public class TestDrawingBoard {
     }
 
     @Test
-    void canMakeShape(String shapeName, InputObject shapeInObj){
-        testDrawBoard.addObject(shapeInObj);
-        String[] keys = testDrawBoard.getIds().toArray(new String[testDrawBoard.getIds().size()]);
-        DrawingObject objDW = testDrawBoard.getObject(keys[0]);
-        System.out.println(objDW.getInObject().getShapeType());
-        System.out.println(objDW.getSVGData());
-        assertTrue(objDW.getInObject().getShapeType().equals(shapeName));
-    }
-
-    @Test
     void canAddRect(){
-        double[] inParams = new double[]{18,20};
-        InputObject rectInObj = new InputObject("Rectangle",
-                inParams,"000000", "bold", 2, 4.0);
+        InputObject rectInObj = makeTwoDInputObject("Rectangle", 100, 50, 100, 100);
         canMakeShape("Rectangle", rectInObj);
     }
 
     @Test
     void canAddSquare(){
-        double[] inParams = new double[]{16};
-        InputObject sqInObj = new InputObject("Square",
-                inParams, "000000", "bold", 2, 4);
+        InputObject sqInObj = makeOneDInputObject("Square", 100, 100, 100);
         canMakeShape("Square", sqInObj);
     }
 
     @Test
     void canAddCircle(){
-        double[] inParams = new double[]{5};
-        InputObject circleInObj = new InputObject("Circle",
-                inParams, "000000", "bold", 10, 10);
+        InputObject circleInObj = makeOneDInputObject("Circle", 100, 100, 100);
         canMakeShape("Circle", circleInObj);
     }
 
     @Test
     void canAddHexagon(){
-        double[] inParams = new double[]{8};
-        InputObject hexInObj = new InputObject("Hexagon",
-                inParams, "000000", "bold", 25, 25);
+        InputObject hexInObj = makeOneDInputObject("Hexagon", 40, 100, 100);
         canMakeShape("Hexagon", hexInObj);
     }
 
     @Test
     void canAddParallelogram(){
-        double[] inParams = new double[]{5,10};
-        InputObject rectInObj = new InputObject("Parallelogram",
-                inParams,"000000", "bold", 2, 10);
+        InputObject rectInObj = makeTwoDInputObject("Parallelogram", 100, 50, 100, 100);
         canMakeShape("Parallelogram", rectInObj);
     }
 
     @Test
     void canAddIFMLAction(){
-        double[] inParams = new double[]{5,10};
-        //TODO: Doesnt write object to file
-        InputObject ifmlActionObj = new InputObject("IFML_Action",
-                inParams, "000000", "bold", 2, 10);
+        InputObject ifmlActionObj = makeOneDInputObject("IFML_Action", 40, 100, 100);
         canMakeShape("IFML_Action", ifmlActionObj);
+    }
+
+    @Test
+    void canAddIFMLActivationExpression(){
+        InputObject ifmlActExpObj = makeTwoDInputObject("IFML_Activation_Expression", 100, 50, 100, 100);
+        canMakeShape("IFML_Activation_Expression", ifmlActExpObj);
+    }
+
+    @Test
+    void canAddIFMLContainer(){
+        InputObject ifmlCont = makeTwoDInputObject("IFML_Container", 100, 50, 100, 100);
+        canMakeShape("IFML_Container", ifmlCont);
+    }
+
+    @Test
+    void canAddIFMLEvent(){
+        InputObject ifmlEvent = makeOneDInputObject("IFML_Event", 40, 100, 100);
+        canMakeShape("IFML_Event", ifmlEvent);
+    }
+
+    @Test
+    void canAddIFMLLine(){
+        //TODO: Doesnt correctly align triangle with line
+        InputObject ifmlLine = makeTwoDInputObject("IFML_Line", 40, 40, 100, 100);
+        canMakeShape("IFML_Line", ifmlLine);
+    }
+
+    @Test
+    void canAddModule(){
+        InputObject ifmlModule = makeTwoDInputObject("IFML_Module", 40, 40, 100, 100);
+        canMakeShape("IFML_Module", ifmlModule);
+    }
+
+    @Test
+    void canAddIFMLParameter(){
+        InputObject ifmlParameter = makeTwoDInputObject("IFML_Parameter", 40, 40, 100, 100);
+        canMakeShape("IFML_Parameter", ifmlParameter);
+    }
+
+    @Test
+    void canAddIFMLViewComponent(){
+        InputObject ifmlViewComponent = makeTwoDInputObject("IFML_View_Component", 60, 40, 100, 100);
+        canMakeShape("IFML_View_Component", ifmlViewComponent);
+    }
+
+    @Test
+    void canAddIFMLViewComponentPart(){
+        InputObject ifmlViewComponent = makeTwoDInputObject("IFML_View_Component_Part", 100, 50, 100, 100);
+        canMakeShape("IFML_View_Component_Part", ifmlViewComponent);
+    }
+
+//    @Test
+//    void canUpdateIFMLViewComponentPart(){
+//        InputObject ifmlViewComponent = makeTwoDInputObject("IFML_View_Component_Part", 100, 50, 100, 100);
+//        testDrawBoard.addObject(ifmlViewComponent);
+//        String[] keys = testDrawBoard.getIds().toArray(new String[testDrawBoard.getIds().size()]);
+//        DrawingObject objDW = testDrawBoard.getObject(keys[0]);
+////        System.out.println(objDW.getInObject().getShapeType());
+////        System.out.println(objDW.getSVGData());
+//        assertTrue(objDW.getInObject().getShapeType().equals(shapeName));
+//    }
+
+    @Test
+    void canAddLine(){
+
     }
 }

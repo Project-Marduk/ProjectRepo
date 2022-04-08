@@ -14,7 +14,7 @@ import static DrawingObjects.ShapeSVGFunctions.headTriangleToSVG;
  *
  */
 @Getter @Setter
-@Table("IFML_Line")
+//@Table("IFML_Line")
 public class IFMLLine extends LineObject {
     boolean headIsLeft;
     boolean headIsVert;
@@ -49,8 +49,8 @@ public class IFMLLine extends LineObject {
         }
          return getLineElement(
                  Double.toString(super.getX()),
-                 Double.toString(super.getY()),
                  Double.toString(super.getSecondXCord()),
+                 Double.toString(super.getY()),
                  Double.toString(super.getSecondYCord())
          ) + makeHeadSVG();
     }

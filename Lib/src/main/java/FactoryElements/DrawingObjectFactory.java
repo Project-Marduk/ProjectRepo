@@ -19,22 +19,22 @@ public class DrawingObjectFactory {
 
 
     public DrawingObject create(InputObject input, String id){
-        String shapeIdHandel = "";
+        String shapeIdHandle = "";
         if(input.getShapeType().equals("Rectangle") ||
                 input.getShapeType().equals("Square") ||
                 input.getShapeType().equals("Circle") ||
                 input.getShapeType().equals("Hexagon") ||
                 input.getShapeType().equals("Parallelogram")){
-            shapeIdHandel = "Wireframe_Object";
+            shapeIdHandle = "Wireframe_Object";
         }
         else{
-            shapeIdHandel = input.getShapeType();
+            shapeIdHandle = input.getShapeType();
         }
 
-        switch (shapeIdHandel) {
+        switch (shapeIdHandle) {
             case "IFML_Action":
                 return new IFMLAction(id, input);
-            case "IFML_Activation Expression":
+            case "IFML_Activation_Expression":
                 return new IFMLActivationExpression(id, input);
             case "IFML_Container":
                 return new IFMLContainer(id, input);

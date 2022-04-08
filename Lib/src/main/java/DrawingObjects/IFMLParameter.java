@@ -10,7 +10,7 @@ import static DrawingObjects.ShapeSVGFunctions.parallelogramToSVG;
  * @author David Lindeman
  * IFML Parameters can be either DogEaredRectangles OR Parallelograms
  */
-@Table("IFML_Parameter")
+//@Table("IFML_Parameter")
 public class IFMLParameter extends DrawingObject {
     String headerTxt;
     String bindingTxt;
@@ -30,7 +30,7 @@ public class IFMLParameter extends DrawingObject {
     public String generateShape(){
         int fontSize = 18; //this should be a passed in variable that will be padded
         String partShapeSVG;
-        if(super.inObject.getShapeType().equals("parallelogram")){
+        if(super.inObject.getShapeType().equals("Parallelogram")){
             partShapeSVG = parallelogramToSVG(super.inObject);
         }
         else{

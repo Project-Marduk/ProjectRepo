@@ -7,6 +7,8 @@ import FactoryElements.InputObject;
  * Methods that translate an input object into the string representation of their corresponding svg element
  * These methods will need to feed into a "generateSVG" method which adds the header and tail svg components
  * TODO: Bring up that bounds checking will need to be done with shapes that are generated from the origin of the xy (hexagons, circles) as the uppermost and leftmost positions do not share the same cordinate
+ * TODO: Figure out how to fill a line generated polygon
+ * NOTE: ALL 2D INPUT OBJECTS ARE EXPECTED TO HAVE THEIR INFORMATION AS [WIDTH, HEIGHT]
  */
 public class ShapeSVGFunctions {
 
@@ -15,6 +17,7 @@ public class ShapeSVGFunctions {
                 "x=\"" + Double.toString(inObj.getXCord()) + "\" " +
                 "y=\"" + Double.toString(inObj.getYCord()) + "\" " +
                 "fill=\"" + inObj.getFill() + "\" " +
+                "fill-opacity=\".25\" " +
                 "width=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
                 "stroke-linejoin=\"round\" " +
                 "height=\"" + Double.toString(inObj.getParams()[1]) + "\" " +
@@ -26,6 +29,7 @@ public class ShapeSVGFunctions {
                 "x=\"" + Double.toString(inObj.getXCord()) + "\" " +
                 "y=\"" + Double.toString(inObj.getYCord()) + "\" " +
                 "fill=\"" + inObj.getFill() + "\" " +
+                "fill-opacity=\".25\" " +
                 "width=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
                 "stroke-linejoin=\"round\" " +
                 "height=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
@@ -39,6 +43,7 @@ public class ShapeSVGFunctions {
                 "ry=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
                 "rx=\"" + Double.toString(inObj.getParams()[0]) + "\" " +
                 "fill=\""  + inObj.getFill() + "\" " +
+                "fill-opacity=\".25\" " +
                 "stroke-linejoin=\"round\" " +
                 "stroke=\"#000000\"/>";
     }
@@ -84,16 +89,17 @@ public class ShapeSVGFunctions {
      * @return
      * Draws a rectangle that appears to have its upper right corner folded in
      * Comprised of 7 line objects
+     * param[0] is height, param[1] is width
      */
     public static String activationExpressionSVG(InputObject inObj){
         String leftX = Double.toString(inObj.getXCord());
-        String rightX = Double.toString(inObj.getXCord() + inObj.getParams()[1]);
+        String rightX = Double.toString(inObj.getXCord() + inObj.getParams()[0]);
 
-        String downY = Double.toString(inObj.getYCord() - inObj.getParams()[1]);
+        String downY = Double.toString(inObj.getYCord() + inObj.getParams()[1]);
         String upY = Double.toString((inObj.getYCord()));
 
-        String triDownY = Double.toString(inObj.getYCord() - inObj.getParams()[1]*.15);
-        String triLeftX = Double.toString(inObj.getXCord() + inObj.getParams()[1]*.85);
+        String triDownY = Double.toString(inObj.getYCord() + inObj.getParams()[1]*.15);
+        String triLeftX = Double.toString(inObj.getXCord() + inObj.getParams()[0]*.85);
 
         return
                 //line1 rightmost line
@@ -118,20 +124,18 @@ public class ShapeSVGFunctions {
      * @return
      */
     public static String parallelogramToSVG(InputObject inObj){
-        String upLeftX = Double.toString(inObj.getXCord() + .15*inObj.getParams()[1]);
+        String upLeftX = Double.toString(inObj.getXCord() + .15*inObj.getParams()[0]);
         String upLeftRightY = Double.toString(inObj.getYCord());
-        String upRightX = Double.toString(1.15*inObj.getXCord() + inObj.getParams()[1]);
+        String upRightX = Double.toString(1.15*inObj.getXCord() + inObj.getParams()[0]);
         String downLeftX = Double.toString(inObj.getXCord());
-        String downLeftRightY = Double.toString(inObj.getYCord() - inObj.getParams()[0]);
-        String downRightX = Double.toString(inObj.getXCord() + .85*inObj.getParams()[1]);
+        String downLeftRightY = Double.toString(inObj.getYCord() - inObj.getParams()[1]);
+        String downRightX = Double.toString(inObj.getXCord() + .85*inObj.getParams()[0]);
 
         return getLineElement(upLeftX, upRightX, upLeftRightY, upLeftRightY) +
                 getLineElement(upRightX, downRightX, upLeftRightY, downLeftRightY) +
                 getLineElement(downRightX, downLeftX, downLeftRightY, downLeftRightY) +
                 getLineElement(downLeftX, upLeftX, downLeftRightY, upLeftRightY);
     }
-
-    //TODO: SVG for creating a triangle
 
     /**
      * @author David Lindeman
@@ -148,7 +152,7 @@ public class ShapeSVGFunctions {
         String x3;
         String y3;
 
-        double triSideLen = 4; //aribitrary length
+        double triSideLen = 8; //arbitrary length
 
         //is up
         if(pointIsVert && isUpOrRight){
@@ -187,7 +191,6 @@ public class ShapeSVGFunctions {
                 getLineElement(Double.toString(lineX), x2, Double.toString(lineY), y2) +
                 getLineElement(x2, x3, y2, y3) +
                 getLineElement(x3, Double.toString(lineX), y3, Double.toString(lineY));
-        //TODO: Figure out how to fill a line generated polygon
     }
 
     public static String getLineElement(String x1, String x2, String y1, String y2){

@@ -33,15 +33,15 @@ public class IFMLContainer extends DrawingObject {
 
     public String generateShape(){
         String headerTxtSvg = super.txtToSVG(containerHeader,
-                super.getX() - inObject.getParams()[0]*.1,
-                super.getY() - inObject.getParams()[1]*.1);
+                super.getX() + inObject.getParams()[0]*1.1,
+                super.getY() + inObject.getParams()[1]*1.1);
 
         String containerBox = rectToSVG(super.inObject);
         String headerLine = getLineElement(
                 Double.toString(super.inObject.getXCord()),
                 Double.toString(super.inObject.getXCord() + super.inObject.getParams()[0]),
-                Double.toString(super.inObject.getYCord()*.25),
-                Double.toString(super.inObject.getYCord()*.25)
+                Double.toString(super.inObject.getYCord() + super.inObject.getParams()[1]*.25),
+                Double.toString(super.inObject.getYCord() + super.inObject.getParams()[1]*.25)
                 );
 
         //this could be refactored for the second text box to just be a line 15% down the top of the input rectangle however this doesnt work because our lines have set x,y cords

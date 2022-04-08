@@ -57,6 +57,10 @@ public class DrawingBoard {
         return objects.keySet();
     }
 
+    public String getSVGDataFromId(String id){
+        return objects.get(id).getSVGData();
+    }
+
     public String returnSVGData(){
         String svgData = "";
         for(String key : objects.keySet()){

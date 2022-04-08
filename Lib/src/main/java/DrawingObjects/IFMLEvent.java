@@ -12,7 +12,7 @@ import org.javalite.activejdbc.annotations.Table;
  * Like all classes with text boxes these are generated via setter calls from the front end
  */
 @Getter @Setter
-@Table("IFML_Event")
+//@Table("IFML_Event")
 public class IFMLEvent extends DrawingObject {
     String text;
 //    String fillColor = "#000000"; //hex for black
@@ -24,14 +24,13 @@ public class IFMLEvent extends DrawingObject {
         isFilled = false;
     }
 
-    public void generateShape(){
+    public String generateShape(){
         if(isFilled){
             super.inObject.setColor("#000000"); //sets the fill color to the hex code for black
         }
-        super.shapeSVG = circleToSVG(super.inObject);
-        super.setSvgData(super.shapeSVG + super.txtToSVG(text,
+        return circleToSVG(super.inObject) + super.txtToSVG(text,
                 super.inObject.getXCord() + 2*super.inObject.getParams()[0],
-                super.inObject.getYCord()- 2*super.inObject.getParams()[0]));
+                super.inObject.getYCord()- 2*super.inObject.getParams()[0]);
     }
 
 }

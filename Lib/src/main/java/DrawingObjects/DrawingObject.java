@@ -13,16 +13,13 @@ import lombok.Setter;
  */
 @Getter @Setter
 public abstract class DrawingObject implements ComplexShape { // extends Model
-    String svgData;
     String id;
     double x;
     double y;
     InputObject inObject;
-    String shapeSVG;
 
     public DrawingObject(String newId, InputObject inObj){
         id = newId;
-        svgData = "";
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
@@ -42,4 +39,8 @@ public abstract class DrawingObject implements ComplexShape { // extends Model
                 " fill="+ '"' + "black" + '"' + ">" +
                 text + "</text>";
     }
+
+//    public <T> decodeType(DrawingObject dwObj){
+//
+//    }
 }
