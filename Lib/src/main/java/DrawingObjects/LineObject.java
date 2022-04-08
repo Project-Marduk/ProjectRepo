@@ -20,7 +20,4 @@ public abstract class LineObject extends DrawingObject{
         headIsVert = true;
         headSVG = "";
     }
-
-    public void generateShape(){
-    }
 }

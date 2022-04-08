@@ -8,5 +8,5 @@ package FactoryElements.Interfaces;
  * Color will also be assigned
  */
 public interface ComplexShape {
-    public void generateShape();
+    public String generateShape();
 }

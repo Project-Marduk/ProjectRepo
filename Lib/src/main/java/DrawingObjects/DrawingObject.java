@@ -29,7 +29,7 @@ public abstract class DrawingObject implements ComplexShape { // extends Model
     }
 
     public String getSVGData(){
-        return svgData;
+        return generateShape();
     }
 
     //This will be the translation of text to SVG data

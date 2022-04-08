@@ -27,24 +27,26 @@ public class IFMLParameter extends DrawingObject {
         hasHeader = !hasHeader;
     }
 
-    public void generateShape(){
+    public String generateShape(){
         int fontSize = 18; //this should be a passed in variable that will be padded
+        String partShapeSVG;
         if(super.inObject.getShapeType().equals("parallelogram")){
-            super.shapeSVG = parallelogramToSVG(super.inObject);
+            partShapeSVG = parallelogramToSVG(super.inObject);
         }
         else{
-            super.shapeSVG = activationExpressionSVG(super.inObject);
+            partShapeSVG = activationExpressionSVG(super.inObject);
         }
 
         String bindingTxtSvg = super.txtToSVG(bindingTxt,
                 super.inObject.getXCord() + super.inObject.getParams()[0]*.5,
                 super.inObject.getYCord() - super.inObject.getParams()[1]*.5);
-        super.svgData = shapeSVG + bindingTxtSvg;
+        partShapeSVG += "\n" + bindingTxtSvg;
         if(hasHeader){
             String headerTxtSvg = super.txtToSVG(headerTxt,
                     super.inObject.getXCord() + super.inObject.getParams()[0]*.5,
                     super.inObject.getYCord() - super.inObject.getParams()[1]*.25);
-            super.svgData += headerTxtSvg;
+            partShapeSVG += headerTxtSvg;
         }
+        return partShapeSVG;
     }
 }

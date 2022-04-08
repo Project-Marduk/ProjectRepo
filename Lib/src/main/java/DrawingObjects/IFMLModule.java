@@ -19,9 +19,8 @@ public class IFMLModule extends DrawingObject {
         text = "";
     }
 
-    public void generateShape(){
+    public String generateShape(){
         int fontSize = 18; //this should be a passed in variable that will be padded
-        super.shapeSVG = squareToSVG(super.getInObject());
 
         String leftBox = squareToSVG(new InputObject("Square",
                 new double[]{super.inObject.getParams()[1]*.15}, //2nd dim could be font size however there needs to be a font size to dimension conversion
@@ -43,6 +42,6 @@ public class IFMLModule extends DrawingObject {
         String textSvg = super.txtToSVG(text,
                 inObject.getXCord()+inObject.getParams()[0],
                 inObject.getYCord()+inObject.getParams()[1]);
-        super.svgData = super.shapeSVG + leftBox + rightBox + textSvg;
+        return squareToSVG(super.getInObject()) + "\n" + leftBox + "\n" + rightBox + "\n" + textSvg;
     }
 }

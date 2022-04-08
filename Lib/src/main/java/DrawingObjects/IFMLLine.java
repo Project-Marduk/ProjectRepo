@@ -35,11 +35,11 @@ public class IFMLLine extends LineObject {
         headIsLeft = !headIsLeft;
     }
 
-    public void makeHeadSVG(){
-        headSVG = headTriangleToSVG(super.getX(), super.getY(), headIsLeft, headIsVert);
+    public String makeHeadSVG(){
+        return headTriangleToSVG(super.getX(), super.getY(), headIsLeft, headIsVert);
     }
 
-    public void generateShape(){
+    public String generateShape(){
         //check the bearing of the second x cord to determine
         if(super.getSecondXCord() >= super.getX()){
             headIsVert = true;
@@ -47,12 +47,11 @@ public class IFMLLine extends LineObject {
         else{
             headIsVert = false;
         }
-         super.setShapeSVG(getLineElement(
+         return getLineElement(
                  Double.toString(super.getX()),
                  Double.toString(super.getY()),
                  Double.toString(super.getSecondXCord()),
                  Double.toString(super.getSecondYCord())
-         ));
-         makeHeadSVG();
+         ) + makeHeadSVG();
     }
 }
