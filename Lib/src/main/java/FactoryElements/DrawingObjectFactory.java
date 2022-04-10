@@ -43,7 +43,7 @@ public class DrawingObjectFactory {
             case "IFML_Module":
                 return new IFMLModule(id, input);
             case "IFML_Parameter":
-                return new IFMLParameter(id, input);
+                return new IFMLParameterParallelogram(id, input);
             case "IFML_View_Component":
                 return new IFMLViewComponent(id, input);
             case "IFML_View_Component_Part":

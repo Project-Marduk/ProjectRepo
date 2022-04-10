@@ -11,20 +11,23 @@ import static DrawingObjects.ShapeSVGFunctions.headTriangleToSVG;
 /**
  * @author David Lindeman
  * Line for UML diagrams
- *
+ * TODO: changing head svg is not reachable with current implementation
  */
 @Getter @Setter
 //@Table("IFML_Line")
 public class IFMLLine extends LineObject {
     boolean headIsLeft;
     boolean headIsVert;
-    String headSVG;
 
     public IFMLLine(String id, InputObject inObj) {
         super(id, inObj);
         headIsLeft = true;
         headIsVert = true;
-        headSVG = "";
+        super.setTextBoxes(new TextBox[]{
+                new TextBox("",
+                        super.getX(),
+                        super.getY())
+        });
     }
 
     /**

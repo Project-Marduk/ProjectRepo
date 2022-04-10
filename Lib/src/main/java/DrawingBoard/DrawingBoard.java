@@ -65,6 +65,7 @@ public class DrawingBoard {
         String svgData = "";
         for(String key : objects.keySet()){
             svgData += "\n" + objects.get(key).getSVGData();
+            svgData += "\n" + objects.get(key).txtToSVG();
         }
 
         return "<svg contentScriptType=\"text/ecmascript\" width=\"" + Double.toString(xMax) + "px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full \"\n" +

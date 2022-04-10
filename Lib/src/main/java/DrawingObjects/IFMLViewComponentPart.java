@@ -24,10 +24,19 @@ public class IFMLViewComponentPart extends DrawingObject {
 
     public IFMLViewComponentPart(String id, InputObject inObj){
         super(id, inObj);
-        //default values for text boxes
         text1 = ""; text2 = ""; text3 ="";
         floatUp = true;
-        fontSize = 18;
+        super.setTextBoxes(new TextBox[]{
+            new TextBox("",
+                    super.inObject.getXCord() + super.inObject.getParams()[0] *.1,
+                    0),
+            new TextBox("",
+                    super.inObject.getXCord() + super.inObject.getParams()[0] + 2,
+                    0),
+            new TextBox("",
+                    super.inObject.getXCord() + super.inObject.getParams()[0] + 2,
+                    0)
+        });
     }
 
     /**
@@ -56,9 +65,12 @@ public class IFMLViewComponentPart extends DrawingObject {
         String outlineShape = rectToSVG(super.inObject);
 
         //Large text box
-        String smallBoxTextSVG = super.txtToSVG(text1,
-                super.inObject.getXCord() + super.inObject.getParams()[0] *.1,
-                super.inObject.getYCord() + super.inObject.getParams()[1] * smallBoxSizeScalar + 2);
+        super.getTextBox(0).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * smallBoxSizeScalar + 2);
+        //header text inside larger text box
+        super.getTextBox(1).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * largeBoxYPosScalar + 2);
+        //text box inside larger text box
+        super.getTextBox(2).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * largeBoxYPosScalar + 2);
+
         String smallBox = rectToSVG(
                 new InputObject(
                         "Rectangle",
@@ -69,7 +81,6 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getXCord(),
                         super.inObject.getYCord() + smallBoxYPosScalar
                 ));
-
 
         //large text box
         String largeTextBox = rectToSVG(
@@ -83,15 +94,7 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getXCord(),
                         super.inObject.getYCord() + largeBoxYPosScalar + 2
                 ));
-        String largeTextBoxUpperTextSVG = super.txtToSVG(text2,
-                super.inObject.getXCord() + super.inObject.getParams()[0] + 2,
-                super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYPosScalar + 2);
 
-
-        //text box inside larger text box
-        String innerTextBoxSVG = super.txtToSVG(text3,
-                super.inObject.getXCord() + super.inObject.getParams()[0] + 2,
-                super.inObject.getYCord() + super.inObject.getParams()[1]* largeBoxYPosScalar + 2);
         String innerTextBox = rectToSVG(
                 new InputObject(
                         "Rectangle",
@@ -103,8 +106,8 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getYCord() + largeBoxYPosScalar + largeBoxHeight*.5
                 ));
 
-        return smallBoxTextSVG + "\n" + smallBox + "\n" +
-                largeTextBoxUpperTextSVG + "\n" + largeTextBox +
-                "\n" + innerTextBoxSVG + "\n" + innerTextBox;
+        return smallBox + "\n " +
+                largeTextBox + "\n " +
+                innerTextBox;
     }
 }

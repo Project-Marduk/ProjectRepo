@@ -9,6 +9,11 @@ import static DrawingObjects.ShapeSVGFunctions.getLineElement;
 public class Line extends LineObject {
     public Line(String id, InputObject inObj) {
         super(id, inObj);
+        super.setTextBoxes(new TextBox[]{
+                new TextBox("",
+                        super.getX(),
+                        super.getY())
+        });
     }
 
     public String generateShape(){

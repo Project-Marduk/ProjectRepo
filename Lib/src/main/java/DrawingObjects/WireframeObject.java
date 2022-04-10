@@ -2,10 +2,11 @@ package DrawingObjects;
 
 import FactoryElements.InputObject;
 import lombok.Getter;
+import lombok.Setter;
 
 import static DrawingObjects.ShapeSVGFunctions.*;
 
-@Getter
+@Getter @Setter
 /**
  * @author David Lindeman
  * Wireframe objects are represented as a single shape with a text box,
@@ -13,25 +14,16 @@ import static DrawingObjects.ShapeSVGFunctions.*;
  */
 //@Table("Wireframe_Object")
 public class WireframeObject extends DrawingObject {
-//    String txtSVGData;
-    double txtX;
-    double txtY;
-    String text;
 
     public WireframeObject(String newId, InputObject inObj){
         super(newId, inObj);
-        txtX = inObj.getXCord();
-        txtY = inObj.getYCord();
 //        setTxtSVGData(""); //default value of an empty string
 //        generateShape();
-    }
-
-    public void setTxtX(double x){
-        txtX = x;
-    }
-
-    public void setTxtY(double y){
-        txtY = y;
+        super.setTextBoxes(new TextBox[]{
+                new TextBox("",
+                        inObj.getXCord(),
+                        inObj.getYCord())
+        });
     }
 
     /**
@@ -62,7 +54,7 @@ public class WireframeObject extends DrawingObject {
                 break;
         }
         //combine SVG Data
-        return shapeSVG + "\n" + txtToSVG(text, super.getX(), super.getY());
+        return shapeSVG;
     }
 
 }

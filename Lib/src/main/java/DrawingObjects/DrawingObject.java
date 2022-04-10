@@ -17,6 +17,7 @@ public abstract class DrawingObject implements ComplexShape { // extends Model
     double x;
     double y;
     InputObject inObject;
+    TextBox[] textBoxes;
 
     public DrawingObject(String newId, InputObject inObj){
         id = newId;
@@ -31,13 +32,39 @@ public abstract class DrawingObject implements ComplexShape { // extends Model
 
     //This will be the translation of text to SVG data
     //This may be unnecessary depending on how we convert text to SVG
-    public String txtToSVG(String text, double xPos, double yPos){
-        return "<text x=" + '"' + Double.toString(xPos) + '"' +
-                " y=" + '"' + Double.toString(yPos) + '"' +
-                " font-family=" + '"' + "Verdana" + '"' +
-                " font-size="+'"' + "18" + '"' +
-                " fill="+ '"' + "black" + '"' + ">" +
-                text + "</text>";
+    public String txtToSVG(){
+        String svgTextData = "";
+        for(TextBox tb : textBoxes){
+            svgTextData += tb.getSVGData() + "\n";
+        }
+
+        return svgTextData;
+    }
+
+    public TextBox getTextBox(int pos){
+//        TextBox outBox = null;
+        try{
+            return textBoxes[pos];
+        }
+        catch(IndexOutOfBoundsException e){
+            //return the last entry of the list
+            return textBoxes[textBoxes.length-1];
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+
+    public void setTextBox(int pos, TextBox tb){
+        try{
+            textBoxes[pos] = tb;
+        }
+        catch(IndexOutOfBoundsException e){
+            textBoxes[textBoxes.length-1] = tb;
+        }
+        catch(Exception e){
+
+        }
     }
 
 //    public <T> decodeType(DrawingObject dwObj){

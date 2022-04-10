@@ -16,6 +16,7 @@ import static DrawingObjects.ShapeSVGFunctions.rectToSVG;
  * View, XOR, Landmark, Default
  * To cut down on the size of this file we will be storing the data that will be presented in the factory object
  * Takes in a rectangle for input object type
+ * TextBox has 1 element
  */
 @Getter @Setter
 //@Table("IFML_Container")
@@ -27,26 +28,27 @@ public class IFMLContainer extends DrawingObject {
 
     public IFMLContainer(String id, InputObject inObj){ //String cHeader, String defaultText,
         super(id, inObj);
-        containerHeader = "";//cHeader;
-        text = "";//defaultText; //text starts out as the value to the key of the map in IMFLFactory's variable "containerHeaders"
+        super.setTextBoxes(new TextBox[]{
+                new TextBox("",
+                        super.inObject.getXCord() + 2,
+                        super.inObject.getYCord() + 2)
+        });
     }
 
     public String generateShape(){
-        String headerTxtSvg = super.txtToSVG(containerHeader,
-                super.getX() + inObject.getParams()[0]*1.1,
-                super.getY() + inObject.getParams()[1]*1.1);
+        //update the text position
+        super.getTextBox(0).setYCord(super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 2);
+        super.getTextBox(0).setXCord(super.inObject.getXCord() + super.getTextBox(0).getFontSize() + 2);
 
         String containerBox = rectToSVG(super.inObject);
         String headerLine = getLineElement(
                 Double.toString(super.inObject.getXCord()),
                 Double.toString(super.inObject.getXCord() + super.inObject.getParams()[0]),
-                Double.toString(super.inObject.getYCord() + super.inObject.getParams()[1]*.25),
-                Double.toString(super.inObject.getYCord() + super.inObject.getParams()[1]*.25)
+                Double.toString(super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 4),
+                Double.toString(super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 4)
                 );
 
         //this could be refactored for the second text box to just be a line 15% down the top of the input rectangle however this doesnt work because our lines have set x,y cords
-        return headerTxtSvg + "\n" + headerLine + "\n" + containerBox; //the shape SVG should be the combination of the two boxes, this may need to be changed depending on how we have to format the text
-        //add text to the shapeSVG
-
+        return headerLine + "\n" + containerBox; //the shape SVG should be the combination of the two boxes, this may need to be changed depending on how we have to format the text
     }
 }
