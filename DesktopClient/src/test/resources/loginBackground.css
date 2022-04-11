@@ -1,0 +1,7 @@
+.background{
+    -fx-image: url(/Images/Test.jpg);
+    -fx-border-image-width: cover;
+}
+.moveVbox{
+    -fx-start-margin: 10;
+}
