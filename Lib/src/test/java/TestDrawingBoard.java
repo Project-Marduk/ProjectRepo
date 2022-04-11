@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TestDrawingBoard {
@@ -116,8 +116,11 @@ public class TestDrawingBoard {
 
     @Test
     void canAddIFMLEvent(){
-        InputObject ifmlEvent = makeOneDInputObject("IFML_Event", 40, 100, 100);
-        canMakeShape("IFML_Event", ifmlEvent);
+        HashSet<String> hs = new HashSet<>();
+        System.out.println(hs.toString());
+        assertEquals("null", hs.toString());
+//        InputObject ifmlEvent = makeOneDInputObject("IFML_Event", 40, 100, 100);
+//        canMakeShape("IFML_Event", ifmlEvent);
     }
 
     @Test
