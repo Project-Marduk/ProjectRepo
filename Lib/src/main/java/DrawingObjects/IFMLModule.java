@@ -1,24 +1,30 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
-import static FactoryElements.ShapeSVGFunctions.squareToSVG;
+import org.javalite.activejdbc.annotations.Table;
+
+import static DrawingObjects.ShapeSVGFunctions.squareToSVG;
 
 /**
  * @author David Lindeman
  * Contains 1 large box and 2 smaller boxes on its left and right edges
  * the smaller box on the left edge will be
+ * TextBoxes is size 1
+ * InputObjects Params are size 2
  */
+//@Table("IFML_Module")
 public class IFMLModule extends DrawingObject {
-    String text;
 
     public IFMLModule(String id, InputObject inObj){
         super(id, inObj);
-        text = "";
+        super.setTextBoxes(new TextBox[]{
+            new TextBox( "",
+            inObject.getXCord()+inObject.getParams()[0],
+            inObject.getYCord()+inObject.getParams()[1])
+        });
     }
 
-    public void generateShape(){
-        int fontSize = 18; //this should be a passed in variable that will be padded
-        super.shapeSVG = squareToSVG(super.getInObject());
+    public String generateShape(){
 
         String leftBox = squareToSVG(new InputObject("Square",
                 new double[]{super.inObject.getParams()[1]*.15}, //2nd dim could be font size however there needs to be a font size to dimension conversion
@@ -36,10 +42,6 @@ public class IFMLModule extends DrawingObject {
                 super.y - super.inObject.getParams()[1]) //move the y axis of the box to halfway down the height of the larger square
         );
 
-        //text box
-        String textSvg = super.txtToSVG(text,
-                inObject.getXCord()+inObject.getParams()[0],
-                inObject.getYCord()+inObject.getParams()[1]);
-        super.svgData = super.shapeSVG + leftBox + rightBox + textSvg;
+        return squareToSVG(super.getInObject()) + "\n" + leftBox + "\n" + rightBox;
     }
 }
