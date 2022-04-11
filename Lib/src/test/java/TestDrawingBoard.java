@@ -116,11 +116,8 @@ public class TestDrawingBoard {
 
     @Test
     void canAddIFMLEvent(){
-        HashSet<String> hs = new HashSet<>();
-        System.out.println(hs.toString());
-        assertEquals("null", hs.toString());
-//        InputObject ifmlEvent = makeOneDInputObject("IFML_Event", 40, 100, 100);
-//        canMakeShape("IFML_Event", ifmlEvent);
+        InputObject ifmlEvent = makeOneDInputObject("IFML_Event", 40, 100, 100);
+        canMakeShape("IFML_Event", ifmlEvent);
     }
 
     @Test
