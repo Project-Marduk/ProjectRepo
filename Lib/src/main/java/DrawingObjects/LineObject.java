@@ -1,14 +1,11 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
 
-import static FactoryElements.ShapeSVGFunctions.getLineElement;
-import static FactoryElements.ShapeSVGFunctions.headTriangleToSVG;
-
 @Getter @Setter
-public class LineObject extends DrawingObject{
+public abstract class LineObject extends DrawingObject{
     double secondXCord;
     double secondYCord;
     boolean headIsLeft;
@@ -22,8 +19,5 @@ public class LineObject extends DrawingObject{
         headIsLeft = true;
         headIsVert = true;
         headSVG = "";
-    }
-
-    public void generateShape(){
     }
 }
