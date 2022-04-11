@@ -4,10 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Released]
 
 
-## [0.0.0] - 2022-02-18
+## [1.0.0] - 2022-02-18
 ### Added
 - Our Project Setup Documentation, imcluding:
   - Read Me
@@ -22,10 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## [Unreleased]
+## [Released]
 
 
-## [0.0.0] - 2022-03-20
+## [2.0.0] - 2022-03-20
 ### Added
 - A login page for users to login (currently doesn't need a username for develop purposes until released)
 - A create username page so the user can create an account with a new valid username that isn't taken yet
@@ -47,3 +47,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - The basic default packages inside of Desktop Client (replaced with new ones)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## [Released]
+
+
+## [3.0.0] - 2022-03-20
+### Added
+- Desktop Client
+  - TestFX Application Testing
+  - Hamcrest JavaFX Assert Testing 
+  - DesktopClientTest package inside of it's own Test module
+  - Test resource path in order to test FXML files without touching the actual FXML files
+
+### Changed
+- Desktop Client
+-   Login.FXML to include more javaFX layouts and specify fx controller
+-   CreateUser.FXML to include more javaFX layouts and specify fx controler
+-   Design.FXML to add special fx:ID's to each element
+-   Build.gradle in order to add testfx dependency and hamcrest dependency
+-   Cache information in order to build dependencies properly
+-   Refactored testing file names and pathing
+-   FXController is now ready for the SVG pathing and shapes instead of using JavaFX shapes
+
+### Removed
+- Desktop Client
+  - First take of testing classes that aren't needed
