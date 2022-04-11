@@ -2,6 +2,7 @@ package FactoryElements;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.javalite.activejdbc.annotations.Table;
 
 /**
  * @author David Lindeman
@@ -14,6 +15,7 @@ import lombok.Setter;
  * All type checking will need to be done on the front end(s)
  */
 @Getter @Setter
+//@Table("Input_Object")
 public class InputObject {
     String shapeType;
     double xCord;

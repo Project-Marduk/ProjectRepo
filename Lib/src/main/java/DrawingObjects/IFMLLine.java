@@ -1,29 +1,33 @@
-package IFML;
+package DrawingObjects;
 
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
+import org.javalite.activejdbc.annotations.Table;
 
-import static FactoryElements.ShapeSVGFunctions.getLineElement;
-import static FactoryElements.ShapeSVGFunctions.headTriangleToSVG;
+import static DrawingObjects.ShapeSVGFunctions.getLineElement;
+import static DrawingObjects.ShapeSVGFunctions.headTriangleToSVG;
 
 /**
  * @author David Lindeman
  * Line for UML diagrams
- * TODO: LINES NEED OUT OF BOUNDS CHECK CODE RAN WHEN HEAD LOCATIONS ARE DECIDED OR FRAMEWORK FOR OUT OF BOUNDS SVG ELEMENTS NEED TO NOT BE DISPLAYED
- *
+ * TODO: changing head svg is not reachable with current implementation
  */
 @Getter @Setter
+//@Table("IFML_Line")
 public class IFMLLine extends LineObject {
     boolean headIsLeft;
     boolean headIsVert;
-    String headSVG;
 
     public IFMLLine(String id, InputObject inObj) {
         super(id, inObj);
         headIsLeft = true;
         headIsVert = true;
-        headSVG = "";
+        super.setTextBoxes(new TextBox[]{
+                new TextBox("",
+                        super.getX(),
+                        super.getY())
+        });
     }
 
     /**
@@ -34,11 +38,11 @@ public class IFMLLine extends LineObject {
         headIsLeft = !headIsLeft;
     }
 
-    public void makeHeadSVG(){
-        headSVG = headTriangleToSVG(super.getX(), super.getY(), headIsLeft, headIsVert);
+    public String makeHeadSVG(){
+        return headTriangleToSVG(super.getX(), super.getY(), headIsLeft, headIsVert);
     }
 
-    public void generateShape(){
+    public String generateShape(){
         //check the bearing of the second x cord to determine
         if(super.getSecondXCord() >= super.getX()){
             headIsVert = true;
@@ -46,12 +50,11 @@ public class IFMLLine extends LineObject {
         else{
             headIsVert = false;
         }
-         super.setShapeSVG(getLineElement(
+         return getLineElement(
                  Double.toString(super.getX()),
-                 Double.toString(super.getY()),
                  Double.toString(super.getSecondXCord()),
+                 Double.toString(super.getY()),
                  Double.toString(super.getSecondYCord())
-         ));
-         makeHeadSVG();
+         ) + makeHeadSVG();
     }
 }
