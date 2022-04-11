@@ -1,3 +1,9 @@
+/**
+ * Desktop Client
+ * @Author Project Marduk: Tyler Kelley
+ * Software Engineering project
+ * Griffith
+ */
 package DesktopClient;
 
 import javafx.application.Application;
