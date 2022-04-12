@@ -1,14 +1,8 @@
-package Servers.Connections;
+package Server.Connections;
 
-import Servers.Files.PNGformat;
-import Servers.Files.SVGformat;
-import Servers.Resources.ServerMessages;
-import Servers.apiCommands.FEapi;
+import Server.Resources.ServerMessages;
+import Server.apiCommands.FEapi;
 import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 
 /**

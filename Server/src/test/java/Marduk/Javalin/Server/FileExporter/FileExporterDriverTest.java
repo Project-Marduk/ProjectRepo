@@ -1,5 +1,6 @@
-package Marduk.Javalin.Server;
+package Marduk.Javalin.Server.FileExporter;
 
+import Marduk.Javalin.Server.FileExporter.FileExporterDriver;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author
  * @version 0.1.0
  */
-public class FileExporterTest {
+public class FileExporterDriverTest {
 
     @Test
     void getInstanceTest(){
-        FileExporter fileExporter = FileExporter.getInstance();
-        assertNotNull(fileExporter);
+        FileExporterDriver fileExporterDriver = FileExporterDriver.getInstance();
+        assertNotNull(fileExporterDriver);
     }
 
 }

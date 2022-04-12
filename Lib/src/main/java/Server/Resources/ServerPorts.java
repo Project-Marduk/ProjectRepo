@@ -1,4 +1,4 @@
-package Servers.Resources;
+package Server.Resources;
 /**
  * The port numbers for the microservices.
  *
@@ -12,9 +12,7 @@ package Servers.Resources;
  */
 public enum ServerPorts {
     WebClient(7000),
-    DiagramComposer(7001),
-    FileExporter(7002),
-    InfoManager(7003);
+    Server(7001);
 
         private final int portToUse;
         private ServerPorts(int i) {

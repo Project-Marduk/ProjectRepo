@@ -1,4 +1,4 @@
-package Marduk.Javalin.Server;
+package Marduk.Javalin.Server.FileExporter;
 
 /**
  * File Exporter Driver class.
@@ -8,13 +8,13 @@ package Marduk.Javalin.Server;
  * @author Steve
  * @version 0.1.0
  */
-public class FileExporter {
-    private static FileExporter instance = null;
+public class FileExporterDriver {
+    private static FileExporterDriver instance = null;
 
-    private FileExporter(){}
-    public static FileExporter getInstance() {
+    private FileExporterDriver(){}
+    public static FileExporterDriver getInstance() {
         if (instance == null){
-            instance = new FileExporter();
+            instance = new FileExporterDriver();
         }
         return instance;
     }

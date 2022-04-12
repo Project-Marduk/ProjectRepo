@@ -1,6 +1,7 @@
-package Marduk.Javalin.Server;
+package Marduk.Javalin.Server.DataManager;
 
 
+import Marduk.Javalin.Server.DataManager.DataManagerDriver;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author
  * @version 0.1.0
  */
-public class DataManagerTest {
+public class DataManagerDriverTest {
 
     @Test
     void getInstanceTest(){
-        DataManager dataManager = DataManager.getInstance();
-        assertNotNull(dataManager);
+        DataManagerDriver dataManagerDriver = DataManagerDriver.getInstance();
+        assertNotNull(dataManagerDriver);
     }
 
     

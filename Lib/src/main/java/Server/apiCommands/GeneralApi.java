@@ -1,4 +1,4 @@
-package Servers.apiCommands;
+package Server.apiCommands;
 
 /**
  * General Api Paths

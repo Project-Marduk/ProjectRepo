@@ -1,9 +1,9 @@
-package Servers.Connections;
+package Server.Connections;
 
-import Servers.Resources.ServerMessages;
-import Servers.Resources.ServerResponses;
-import Servers.Users.User;
-import Servers.apiCommands.IMapi;
+import Server.Resources.ServerMessages;
+import Server.Resources.ServerResponses;
+import Server.Users.User;
+import Server.apiCommands.DMapi;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.http.HttpRequest;
@@ -23,11 +23,11 @@ import java.net.http.HttpResponse;
  * @version 0.1.0
  */
 public class IMconnection extends Connection{
-    private static final String REGISTER_CALL = httpSuffix + IMapi.registerUser.path();
-    private static final String LOGIN_CALL = httpSuffix + IMapi.loginUser.path();
-    private static final String USER_CALL = httpSuffix + IMapi.getUserData.path();
-    private static final String LOAD_CALL = httpSuffix + IMapi.getDiagram.path();
-    private static final String SAVE_CALL = httpSuffix + IMapi.saveDiagram.path();
+    private static final String REGISTER_CALL = httpSuffix + DMapi.registerUser.path();
+    private static final String LOGIN_CALL = httpSuffix + DMapi.loginUser.path();
+    private static final String USER_CALL = httpSuffix + DMapi.getUserData.path();
+    private static final String LOAD_CALL = httpSuffix + DMapi.getDiagram.path();
+    private static final String SAVE_CALL = httpSuffix + DMapi.saveDiagram.path();
 
     Gson gson;
 

@@ -1,4 +1,4 @@
-package Servers.Users;
+package Server.Users;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
-package Servers.Connections;
+package Server.Connections;
 
-import Servers.Resources.HttpRequestHeader;
-import Servers.Resources.ServerStatuses;
-import Servers.apiCommands.GeneralApi;
+import Server.Resources.HttpRequestHeader;
+import Server.Resources.ServerStatuses;
+import Server.apiCommands.GeneralApi;
 
 import java.io.IOException;
 import java.net.URI;

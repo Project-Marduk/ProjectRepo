@@ -1,4 +1,4 @@
-package Marduk.Javalin.Server;
+package Marduk.Javalin.Server.DataManager;
 
 /**
  * The Info Manager
@@ -7,13 +7,13 @@ package Marduk.Javalin.Server;
  *
  * @author Traae
  */
-public class DataManager {
-    private static DataManager instance = null;
+public class DataManagerDriver {
+    private static DataManagerDriver instance = null;
 
-    private DataManager(){}
-    public static DataManager getInstance() {
+    private DataManagerDriver(){}
+    public static DataManagerDriver getInstance() {
         if (instance == null){
-            instance = new DataManager();
+            instance = new DataManagerDriver();
         }
         return instance;
     }

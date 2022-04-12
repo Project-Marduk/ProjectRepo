@@ -1,4 +1,4 @@
-package Servers.Resources;
+package Server.Resources;
 
 public enum ServerResponses{
     operationSuccessful,

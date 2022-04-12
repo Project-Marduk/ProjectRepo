@@ -39,8 +39,8 @@ sourceSets {
 
 application {
     // Define the main class for the application.
-    mainClass = 'IM.Javalin.Server.IMServer'
-    applicationName = "IM-Server"
+    mainClass = 'Marduk.Javalin.Server.MardukServer'
+    applicationName = "MardukServer"
 }
 
 test {

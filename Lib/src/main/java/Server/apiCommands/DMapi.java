@@ -1,4 +1,4 @@
-package Servers.apiCommands;
+package Server.apiCommands;
 
 /**
  * Info Manager Api Paths
@@ -11,7 +11,7 @@ package Servers.apiCommands;
  * @author Traae
  * @version 0.1.0
  */
-public enum IMapi {
+public enum DMapi {
     registerUser("/api/post/register/user"),
     loginUser("/api/post/login/user"),
     logoutUser("api/get/login/user"),
@@ -20,7 +20,7 @@ public enum IMapi {
     saveDiagram("/api/post/save/Diagram");
 
     private final String address;
-    private IMapi(String s) {
+    private DMapi(String s) {
         this.address = s;
     }
     public String path(){
