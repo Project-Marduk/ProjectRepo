@@ -1,4 +1,4 @@
-package Server.Connections;
+package Server.Connection;
 
 public class IMconnectionTest{
 

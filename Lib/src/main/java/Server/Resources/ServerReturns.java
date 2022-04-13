@@ -14,16 +14,17 @@ package Server.Resources;
  * @author Traae
  * @version 0.1.0
  */
-public enum ServerStatuses {
+public enum ServerReturns {
+    serverMessage("This is the Marduk Server"),
     allGood("Server is running. No Errors."),
     encounteredError("Server has encountered an Error."),
     processing("Server is busy processing");
 
     private final String message;
-    private ServerStatuses(String s) {
+    private ServerReturns(String s) {
         this.message = s;
     }
-    public String Message(){
+    public String message(){
         return message;
     };
 
