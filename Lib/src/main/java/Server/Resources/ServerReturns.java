@@ -15,9 +15,14 @@ package Server.Resources;
  * @version 0.1.0
  */
 public enum ServerStatuses {
+    serverMessage("This is the Marduk Server"),
     allGood("Server is running. No Errors."),
     encounteredError("Server has encountered an Error."),
-    processing("Server is busy processing");
+    processing("Server is busy processing"),
+    operationSuccessful(),
+    operationFailed,
+    operationNotPossible,
+    clientSideException;
 
     private final String message;
     private ServerStatuses(String s) {
