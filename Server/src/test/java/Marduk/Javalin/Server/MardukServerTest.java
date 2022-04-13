@@ -1,2 +1,5 @@
-package Marduk.Javalin.Server;public class MardukServerTest {
+package Marduk.Javalin.Server;
+
+public class MardukServerTest {
+
 }

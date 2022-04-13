@@ -1,4 +1,4 @@
-package Server.Resources;
+package Server.Connection;
 
 
 /**

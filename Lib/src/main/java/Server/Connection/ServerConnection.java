@@ -1,8 +1,8 @@
-package Server.Connections;
+package Server.Connection;
 
-import Server.Resources.HttpRequestHeader;
-import Server.Resources.ServerStatuses;
-import Server.apiCommands.GeneralApi;
+import Server.Resources.ServerReturns;
+import Server.Resources.ApiCommands;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,30 +20,56 @@ import java.time.Duration;
  *
  * Largely copy and pasted from Issac's Lights out.
  *
+ * TODO currently the 2 methods are commented out.
+ * TODO Un-comment them after we finalize the Diagram class. (highlight ctrl + /)
+ * TODO enable a better sever message system
+ *
+ *TODO currently the 2 methods are commented out.
+ * TODO Un-comment them after we finalize the Diagram class. (highlight ctrl + /)
+ * TODO update them to work properly with the Diagram,
+ * TODO or which ever class represents the top of the data structure.
+ *
  *
  * @author Traae
  * @version 0.9.0
  */
-public abstract class Connection {
-    protected static final String httpSuffix = "http://%s:%s";
-    protected static final String ROOT_CALL = httpSuffix + GeneralApi.root.path();
-    protected static final String STATUS_CALL = httpSuffix + GeneralApi.getStatus.path();
-    protected static final String ERROR_CALL = httpSuffix + GeneralApi.getError.path();
+public class ServerConnection {
+    private static final String httpSuffix = "http://%s:%s";
+    private static final String ROOT_CALL = httpSuffix + ApiCommands.root.path();
+    private static final String STATUS_CALL = httpSuffix + ApiCommands.getStatus.path();
+    private static final String ERROR_CALL = httpSuffix + ApiCommands.getError.path();
+    private static final String PNG_CALL = httpSuffix + ApiCommands.renderPNG.path();
+    private static final String SVG_CALL = httpSuffix + ApiCommands.renderSVG.path();
 
-    protected static Connection INSTANCE = null;
-    protected String address;
-    protected String port;
-    protected String expectedMessage;
-    boolean initialized = false;
-    protected HttpClient client;
+    private static final String REGISTER_CALL = httpSuffix + ApiCommands.registerUser.path();
+    private static final String LOGIN_CALL = httpSuffix + ApiCommands.loginUser.path();
+    private static final String USER_CALL = httpSuffix + ApiCommands.getUserData.path();
+    private static final String LOAD_CALL = httpSuffix + ApiCommands.getDiagram.path();
+    private static final String SAVE_CALL = httpSuffix + ApiCommands.saveDiagram.path();
 
-    // Empty constructor
-    protected Connection(){}
+    private static ServerConnection INSTANCE = null;
+    private String address;
+    private String port;
+    private String expectedMessage;
+    private boolean initialized = false;
+    private HttpClient client;
+    private Gson gson;
+
+    // constructor
+    protected ServerConnection(){
+        expectedMessage = ServerReturns.serverMessage.message();
+        gson = new Gson();
+    }
 
     /**
-     * @return the concrete implementation instance of a Connection, as they are meant to be singleton.
+     * @return the concrete implementation instance of a Connection.
      */
-    abstract public Connection instance();
+    public ServerConnection instance() {
+        if (INSTANCE == null){
+            INSTANCE = new ServerConnection();
+        }
+        return INSTANCE;
+    }
 
 
     // Initialize and disconnect, the setup and clean up functions.
@@ -149,11 +175,11 @@ public abstract class Connection {
      *
      * @return an ServerStatuses enum representing the server's status. Null is the call fails.
      */
-    public ServerStatuses getStatus(){
+    public ServerReturns getStatus(){
         try {
             HttpRequest request = createGet(STATUS_CALL);
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            ServerStatuses status = Enum.valueOf(ServerStatuses.class, response.body());
+            ServerReturns status = Enum.valueOf(ServerReturns.class, response.body());
             return status;
         } catch (Exception e){
             System.out.println("Error caught in Connection.getStatus(): " + e.getMessage());
@@ -213,6 +239,154 @@ public abstract class Connection {
 //        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 //        CalculatorOutputs output = gson.fromJson(response.body(), CalculatorOutputs.class);
 //        return output;
+//    }
+
+    //    /**
+//     * Render Png
+//     *
+//     * Send a Diagram Json to the File Exporter and get a
+//     *
+//     *
+//     * @param diagram The diagram to be rendered.
+//     * @return a PNGformat object that can be written to a file.
+//     */
+//    public PNGformat renderPNG(DIAGRAM diagram) {
+//        String input = gson.toJson(diagram);
+//        HttpRequest request = createPost(PNG_CALL, input);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            return gson.fromJson(response.body(), PNGformat.class);
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in FEconnection.renderPNG(): " + ex.getMessage());
+//        }
+//        return null;
+//    }
+//
+//    /**
+//     * render SVG
+//     *
+//     * @param diagram the diagram to be compiled into an svg file
+//     * @return SVGformat object for writeing to file.
+//     */
+//    public SVGformat renderSVG(DIAGRAM diagram) {
+//        String input = gson.toJson(diagram);
+//        HttpRequest request = createPost(SVG_CALL, input);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            return gson.fromJson(response.body(), SVGformat.class);
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in FEconnection.renderSVG(): " + ex.getMessage());
+//            return null;
+//        }
+//    }
+
+//    /**
+//     * Register User
+//     *
+//     * Send a username to the Info Manager to register it.
+//     *
+//     *
+//     * @param userName the username of the New User.
+//     * @return a Server Response enum
+//     */
+//    public ServerResponses registerUser(String userName) {
+//        HttpRequest request = createPost(REGISTER_CALL, userName);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            return Enum.valueOf(ServerResponses.class, response.body());
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in IMconnection.registerUser(): " + ex.getMessage());
+//            return ServerResponses.clientSideException;
+//        }
+//    }
+//
+//    /**
+//     * Login User
+//     *
+//     * @param userName username trying to log in
+//     * @return a string specifying details of confirmation.
+//     */
+//    public ServerResponses loginUser(String userName) {
+//        HttpRequest request = createPost(LOGIN_CALL, userName);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            return Enum.valueOf(ServerResponses.class, response.body());
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in IMconnection.loginUser(): " + ex.getMessage());
+//            return ServerResponses.clientSideException;
+//        }
+//    }
+
+//    /**
+//     * get User Data.
+//     *
+//     * the User, their folders and all their available diagram files.
+//     *
+//     * @param userName the username of the Data you want to fetch.
+//     * @return a User.class of the requested Username, returns NULL
+//     */
+//    public User getUserData(String userName) {
+//        HttpRequest request = createPost(USER_CALL, userName);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            User user = gson.fromJson(response.body(), User.class);
+//            return user;
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in IMconnection.getUserData(): " + ex.getMessage());
+//            return null;
+//        }
+//    }
+
+//    /**
+//     * Get Diagram function
+//     *
+//     * Pass in the diagram's identifying information,
+//     * get the diagram object from the server.
+//     *
+//     * TODO Change DIAGRAM to the finalized data structure class
+//     *
+//     * @param userName the owner of the diagram.
+//     * @param diagramName the diagram's identifier
+//     * @return DIAGRAM object, or null if there is an exception.
+//     */
+//    public DIAGRAM getDiagram(String userName, String diagramName) {
+//        HashMap<String, String> userDiagram = new HashMap<>();
+//        userDiagram.put("user", userName);
+//        userDiagram.put("diagram", diagramName);
+//        String toLoad = gson.toJson(userDiagram);
+//        HttpRequest request = createPost(LOAD_CALL, toLoad);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            DIAGRAM d = gson.fromJson(response.body(), DIAGRAM.class);
+//            return d;
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+//            return null;
+//        }
+//    }
+//
+//    /**
+//     * Save Diagram
+//     *
+//     * Pass in the Diagram Data structure for the Info Manager to save.
+//     *
+//     * TODO edit DIAGRAM to work with the finalized data structure.
+//     * TODO Change the string message system to something better.
+//     *
+//     * @param diagram the Diagram data structure to be saved.
+//     * @return String containing a success message.
+//     */
+//    public String saveDiagram(DIAGRAM diagram) {
+//        String toSave = gson.toJson(diagram);
+//        HttpRequest request = createPost(LOAD_CALL, toSave);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            String out = response.body();
+//            return out;
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+//            return "An exception was thrown in the IMconnection.saveDiagram().";
+//        }
 //    }
 
 

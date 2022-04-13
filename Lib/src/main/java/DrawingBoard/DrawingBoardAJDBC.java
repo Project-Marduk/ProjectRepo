@@ -1,12 +1,12 @@
 package DrawingBoard;
 
-import FactoryElements.InputObject;
 import DrawingObjects.DrawingObject;
 import FactoryElements.DrawingObjectFactory;
+import FactoryElements.InputObject;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import lombok.Setter;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Set;
 
 //@Table("Drawing_Board")
 @Getter @Setter
-public class DrawingBoard {
+public class DrawingBoardAJDBC {
     Map<String, DrawingObject> objects = new HashMap<>();
     String[] objectTypes = new String[]{
         "IFML_Action",
@@ -35,7 +35,7 @@ public class DrawingBoard {
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 0;
 
-    public DrawingBoard(double xSize, double ySize){
+    public DrawingBoardAJDBC(double xSize, double ySize){
         xMax = xSize;
         yMax = ySize;
     }

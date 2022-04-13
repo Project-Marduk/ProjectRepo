@@ -1,4 +1,4 @@
-package Server.apiCommands;
+package Server.Resources;
 
 /**
  * General Api Paths
@@ -11,13 +11,26 @@ package Server.apiCommands;
  * @author Traae
  * @version 0.1.0
  */
-public enum GeneralApi {
+public enum ApiCommands {
     root("/"),
-    getStatus("/api/get/status"),
-    getError("/api/get/error");
+    up("/up"),
+
+    getStatus("/get/server/status"),
+    getError("/get/server/error"),
+
+    renderPNG("/post/fileExporter/render/png"),
+    renderSVG("/post/fileExporter/render/svg"),
+
+    registerUser("/api/post/register/user"),
+    loginUser("/api/post/login/user"),
+    logoutUser("api/get/login/user"),
+    getDiagram("/api/get/diagram"),
+    getUserData("/api/get/diagram/list"),
+    saveDiagram("/api/post/save/Diagram");
+
 
     private final String address;
-    private GeneralApi(String s) {
+    private ApiCommands(String s) {
         this.address = s;
     }
     public String path(){
