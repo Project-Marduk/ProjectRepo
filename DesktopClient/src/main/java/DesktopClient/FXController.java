@@ -61,6 +61,7 @@ public class FXController {
     private App app;
     @FXML BorderPane Design;
     @FXML WebView designWebView;
+    @FXML Pane designCenter;
 
 
     /**
@@ -69,9 +70,14 @@ public class FXController {
     @Getter double insertX = 700;
     @Getter double insertY = 400;
     @Getter double stroke = 3;
+    double orgSceneX, orgSceneY;
+    double orgTranslateX, orgTranslateY;
+
     String shape;
     WebEngine engine;
-    Shape Circle;
+    Shape javaShape;
+    SVGPath path;
+
 
 
     /**
@@ -162,6 +168,7 @@ public class FXController {
         mainStage.show();
     }
 
+    /**
     @FXML
     public void testCreate(){
         testBoard.addObject(inputObject3);
@@ -182,46 +189,100 @@ public class FXController {
 
         Design.getChildren().add(designWebView);
     }
+     **/
 
     @FXML
-    public void testWrite(){
+    public void testSVGPathMethods(){
+        //Method 1 works
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGPathExample());
+        javaShape = path;
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(javaShape);
+
+        //Method 2 failed
+        /**
+         * WARNING: Failed to configure svg path "rect fill="none" x="131.0" width="222.0"
+         * height="146.0" y="79.0" stroke="#000000"/": invalid command (r) in SVG path at pos=1
+         */
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGRectExample());
+        javaShape = path;
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(javaShape);
+
+        //Method 3 failed
+        /**
+         * WARNING: Failed to configure svg path "
+         * <rect x="20.0" y="20.0" fill="#FFFFFF" fill-opacity=".25" width="100.0" stroke-linejoin="round" height="100.0" stroke="#000000"/>
+         * <text x="20.0" y="20.0" font-family="Verdana" font-size="12.0" fill="black"></text>
+         * ": invalid command (<) in SVG path at pos=2
+         */
         testBoard.addObject(inputObject);
-        shape = testBoard.returnSVGData();
-        System.out.println("Test");
-        System.out.println(shape);
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGPathEdgeless());
+        javaShape = path;
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(javaShape);
 
-        StringBuilder svgBuilder = new StringBuilder();
-        svgBuilder.append("<!DOCTYPE html>");
-        svgBuilder.append("<html>");
-        svgBuilder.append("<body>");
-        svgBuilder.append(testBoard.returnSVGData());
-        svgBuilder.append("</body>");
-        svgBuilder.append("</html>");
-        String html = svgBuilder.toString();
-
-        engine = designWebView.getEngine();
-        engine.loadContent(html);
-        Design.getChildren().add(designWebView);
+        //Method 4 failed
+        /**
+         * WARNING: Failed to configure svg path "
+         * <rect x="20.0" y="20.0" fill="#FFFFFF" fill-opacity=".25" width="100.0" stroke-linejoin="round" height="100.0" stroke="#000000"/>
+         * <text x="20.0" y="20.0" font-family="Verdana" font-size="12.0" fill="black"></text>
+         * ": invalid command (<) in SVG path at pos=2
+         */
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGPath());
+        javaShape = path;
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(javaShape);
     }
 
-    @FXML
-    public void testAdd() throws IOException {
-        testBoard.addObject(inputObject2);
+    /**
+     * Open source code from http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
+     * I do not own rights to this code. This is just in for now to demonstrate an easy way to move shapes
+     */
+    EventHandler<MouseEvent> shapeOnMousePressedEventHandler =
+            new EventHandler<MouseEvent>() {
 
-        StringBuilder svgBuilder = new StringBuilder();
-        svgBuilder.append("<!DOCTYPE html>");
-        svgBuilder.append("<html>");
-        svgBuilder.append("<body>");
-        svgBuilder.append(testBoard.returnSVGData());
-        svgBuilder.append("</body>");
-        svgBuilder.append("</html>");
-        String html = svgBuilder.toString();
+                @Override
+                public void handle(MouseEvent t) {
+                    orgSceneX = t.getSceneX();
+                    orgSceneY = t.getSceneY();
+                    orgTranslateX = ((Shape)(t.getSource())).getTranslateX();
+                    orgTranslateY = ((Shape)(t.getSource())).getTranslateY();
 
-        Design.getChildren().remove(designWebView);
+                    if(t.getButton() == MouseButton.SECONDARY){
+                        designCenter.getChildren().remove(t.getSource());
+                    }
+                }
+            };
 
-        engine = designWebView.getEngine();
-        engine.loadContent(html);
+    EventHandler<MouseEvent> shapeOnMouseDraggedEventHandler =
+            new EventHandler<MouseEvent>() {
 
-        Design.getChildren().add(designWebView);
-    }
+                @Override
+                public void handle(MouseEvent t) {
+                    double offsetX = t.getSceneX() - orgSceneX;
+                    double offsetY = t.getSceneY() - orgSceneY;
+                    double newTranslateX = orgTranslateX + offsetX;
+                    double newTranslateY = orgTranslateY + offsetY;
+
+                    ((Shape)(t.getSource())).setTranslateX(newTranslateX);
+                    ((Shape)(t.getSource())).setTranslateY(newTranslateY);
+                }
+            };
 }
