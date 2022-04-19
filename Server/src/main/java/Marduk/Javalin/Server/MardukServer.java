@@ -4,12 +4,9 @@
 package Marduk.Javalin.Server;
 
 import Marduk.Javalin.Server.DataManager.DataManagerDriver;
-import Server.Resources.ServerMessages;
 import Server.Resources.ServerPorts;
-import Server.Resources.ServerStatuses;
-import Server.apiCommands.FEapi;
-import Server.apiCommands.GeneralApi;
-import Server.apiCommands.DMapi;
+import Server.Resources.ServerReturns;
+import Server.Resources.ApiCommands;
 import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -24,32 +21,32 @@ public class MardukServer {
     private static final int MAX_THREADS = 20;
     private static final int MIN_THREADS = 2;
     private static final int TIMEOUT = 60000;
-    private static final int DEFAULT_PORT = ServerPorts.InfoManager.port();
+    private static final int DEFAULT_PORT = ServerPorts.Server.port();
 
 
 
     public static void main(String[] args) {
-        ServerStatuses currentStatus = ServerStatuses.allGood;
+        ServerReturns currentStatus = ServerReturns.allGood;
         String errorMessage = "No current error.";
-        String defaultMessage = ServerMessages.IMmessage.getMessage();
+        String defaultMessage = ServerReturns.serverMessage.message();
         DataManagerDriver dataManagerDriver = DataManagerDriver.getInstance();
 
         
         QueuedThreadPool queuedThreadPool = new QueuedThreadPool(MAX_THREADS, MIN_THREADS,TIMEOUT);
         Javalin app = Javalin.create(config ->
                 config.server(() ->
-                        new Server(queuedThreadPool))).start(ServerPorts.InfoManager.port());
+                        new Server(queuedThreadPool))).start(ServerPorts.Server.port());
 
         app.routes(() -> {
             // Basic info calls
-            app.get(GeneralApi.root.path(), ctx -> ctx.result(defaultMessage));
+            app.get(ApiCommands.root.path(), ctx -> ctx.result(defaultMessage));
 
             // Check status and Error message
-            app.get(GeneralApi.getStatus.path(), ctx -> {
+            app.get(ApiCommands.getStatus.path(), ctx -> {
                 //STATUS UPDATE FUNCTION
                 ctx.result(String.valueOf(currentStatus));
             });
-            app.get(GeneralApi.getError.path(), ctx -> {
+            app.get(ApiCommands.getError.path(), ctx -> {
                 // ERROR UPDATING FUNCTION
                 ctx.result(errorMessage);
             });
@@ -57,22 +54,22 @@ public class MardukServer {
 
 
 
-            app.post(DMapi.registerUser.path(), ctx -> {
+            app.post(ApiCommands.registerUser.path(), ctx -> {
                 // [Database User Register and Save Function](ctx.body());
                 ctx.result("Register Successful");
             });
-            app.get(DMapi.loginUser.path(), ctx -> {
+            app.get(ApiCommands.loginUser.path(), ctx -> {
                 // toLogin = [Database User Load](ctx.body());
                 // InfoManager UserLogin( toLogin );
                 // ctx.result("Login Succefull");
             });
-            app.get(DMapi.getDiagram.path(), ctx -> {
+            app.get(ApiCommands.getDiagram.path(), ctx -> {
                 //String diagramName = ctx.body();
                 // Diagram toLoad = [Database load Diagram](diagramName);
                 // ctx.json(toLoad);
             });
             // Receive a diagram for save.
-            app.post(DMapi.saveDiagram.path(), ctx -> {
+            app.post(ApiCommands.saveDiagram.path(), ctx -> {
                 /*
                 NOTE: I still do not full understand this conditional,
                 specificly "application/json"
@@ -88,7 +85,7 @@ public class MardukServer {
             });
 
             // Receive a diagram for rendering.
-            app.post(FEapi.renderPNG.path(), ctx -> {
+            app.post(ApiCommands.renderPNG.path(), ctx -> {
                 /*
                 NOTE: I still do not full understand this conditional,
                 specificly "application/json"
@@ -110,7 +107,7 @@ public class MardukServer {
                     ctx.result();
                 }*/
             });
-            app.post(FEapi.renderSVG.path(), ctx -> {
+            app.post(ApiCommands.renderSVG.path(), ctx -> {
                 /*
                 if (Objects.equals(ctx.contentType(), "application/json")) {
                     Diagram diagram = ctx.bodyAsClass(Diagram.class);
