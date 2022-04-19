@@ -202,7 +202,7 @@ public class FXController {
     public void testSVGPathMethods(){
         //Method 1 works
         path = new SVGPath();
-        path.setContent(testBoard.TYLERreturnSVGPathExample());
+        path.setContent(testBoard.getObject("0").TYLERgetSVGEdgeless());
         javaShape = path;
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);
