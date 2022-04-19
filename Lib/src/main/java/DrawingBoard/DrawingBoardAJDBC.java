@@ -1,12 +1,12 @@
 package DrawingBoard;
 
-import FactoryElements.InputObject;
 import DrawingObjects.DrawingObject;
 import FactoryElements.DrawingObjectFactory;
+import FactoryElements.InputObject;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import lombok.Setter;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Set;
 
 //@Table("Drawing_Board")
 @Getter @Setter
-public class DrawingBoard {
+public class DrawingBoardAJDBC {
     Map<String, DrawingObject> objects = new HashMap<>();
     String[] objectTypes = new String[]{
         "IFML_Action",
@@ -35,7 +35,7 @@ public class DrawingBoard {
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 0;
 
-    public DrawingBoard(double xSize, double ySize){
+    public DrawingBoardAJDBC(double xSize, double ySize){
         xMax = xSize;
         yMax = ySize;
     }
@@ -59,66 +59,6 @@ public class DrawingBoard {
 
     public String getSVGDataFromId(String id){
         return objects.get(id).getSVGData();
-    }
-
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 1
-     *
-     * This is the plain SVG path example from the tutorial as a control test.
-     *
-     * @author Traae
-     * @return SVG example path string
-     */
-    public String TYLERreturnSVGPathExample(){
-       return  "M 100 100 L 300 100 L 200 300 z";
-    }
-
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 2
-     *
-     * This a simple svg rectangle, god I hope SVGPATH doesn't just mean draw paths.
-     *
-     * @author Traae
-     * @return SVG example rectangle path string
-     */
-    public String TYLERreturnSVGRectExample(){
-        return "rect fill=\"none\" x=\"131.0\" width=\"222.0\" height=\"146.0\" y=\"79.0\" stroke=\"#000000\"/";
-    }
-
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 3
-     *
-     * This is the compiled path minus all the edge symbols
-     *
-     * @author Traae
-     * @return SVG example path string
-     */
-    public String TYLERreturnSVGPathEdgeless(){
-        String svgData = "";
-        for(String key : objects.keySet()){
-            svgData += "\n" + objects.get(key).getSVGData();
-            svgData += "\n" + objects.get(key).txtToSVG();
-        }
-        svgData.replaceAll("[<>]", " ");
-        return svgData;
-    }
-
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 4
-     *
-     * This is the compiled path with all the edge symbols
-     *
-     * @author Traae
-     * @return SVG example path string
-     */
-    public String TYLERreturnSVGPath(){
-        String svgData = "";
-        for(String key : objects.keySet()){
-            svgData += "\n" + objects.get(key).getSVGData();
-            svgData += "\n" + objects.get(key).txtToSVG();
-        }
-
-        return svgData;
     }
 
     public String returnSVGData(){

@@ -12,14 +12,14 @@ import lombok.Setter;
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
 @Getter @Setter
-public abstract class DrawingObject implements ComplexShape { // extends Model
+public abstract class DrawingObjectAJDBC implements ComplexShape { // extends Model
     String id;
     double x;
     double y;
     InputObject inObject;
     TextBox[] textBoxes;
 
-    public DrawingObject(String newId, InputObject inObj){
+    public DrawingObjectAJDBC(String newId, InputObject inObj){
         id = newId;
         inObject = inObj;
         x = inObj.getXCord();
@@ -39,19 +39,6 @@ public abstract class DrawingObject implements ComplexShape { // extends Model
         }
 
         return svgTextData;
-    }
-
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 5
-     *
-     * This is the individual path without edges.
-     *
-     * @author Traae
-     * @return SVG example path string
-     */
-    public String TYLERgetSVGEdgeless(){
-        String svgData = generateShape().replaceAll("[<>]", " ");
-        return svgData;
     }
 
     public TextBox getTextBox(int pos){
