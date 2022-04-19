@@ -31,55 +31,32 @@ public class DrawingObjectFactory {
             shapeIdHandle = input.getShapeType();
         }
 
-        DrawingObject d;
         switch (shapeIdHandle) {
             case "IFML_Action":
-                d = new IFMLAction();
-                d.initialize(id, input);
-                break;
+                return new IFMLAction(id, input);
             case "IFML_Activation_Expression":
-                d = new IFMLActivationExpression();
-                d.initialize(id, input);
-                break;
+                return new IFMLActivationExpression(id, input);
             case "IFML_Container":
-                d = new IFMLContainer();
-                d.initialize(id, input);
-                break;
+                return new IFMLAction(id, input);
             case "IFML_Event":
-                d = new IFMLEvent();
-                d.initialize(id, input);
-                break;
+                return new IFMLEvent(id, input);
             case "IFML_Module":
-                d = new IFMLModule();
-                d.initialize(id, input);
-                break;
+                return new IFMLModule(id, input);
             case "IFML_Parameter":
-                d = new IFMLParameterActivationFunction();
-                d.initialize(id, input);
-                break;
+                return new IFMLParameterParallelogram(id, input);
             case "IFML_View_Component":
-                d = new IFMLViewComponent();
-                d.initialize(id, input);
-                break;
+                return new IFMLViewComponent(id, input);
             case "IFML_View_Component_Part":
-                d = new IFMLViewComponentPart();
-                d.initialize(id, input);
-                break;
+                return new IFMLViewComponentPart(id, input);
             case "IFML_Line":
-                d = new IFMLLine();
-                d.initialize(id, input);
-                break;
+                return new IFMLLine(id, input);
             case "Wireframe_Object":
-                d = new WireframeObject();
-                d.initialize(id, input);
-                break;
+                return new WireframeObject(id, input);
             case "Line":
-                d = new Line();
-                d.initialize(id, input);
-                break;
+                return new Line(id, input);
             default:
-                d = null;
+                return null;
+
         }
-        return d;
     }
 }

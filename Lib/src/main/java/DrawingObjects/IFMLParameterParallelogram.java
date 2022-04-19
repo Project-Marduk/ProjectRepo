@@ -15,9 +15,8 @@ import static DrawingObjects.ShapeSVGFunctions.parallelogramToSVG;
 //@Table("IFML_Parameter")
 public class IFMLParameterParallelogram extends DrawingObject {
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
+    public IFMLParameterParallelogram(String id, InputObject inObj){
+        super(id, inObj);
         super.setTextBoxes(new TextBox[]{
             new TextBox("",
                 super.inObject.getXCord() + super.inObject.getParams()[0]*.5,

@@ -38,17 +38,10 @@ import javafx.scene.shape.*;
 
 public class FXController {
 
-    DrawingBoard testBoard = new DrawingBoard();
-    InputObject inputObject = new InputObject();
-    InputObject inputObject2 = new InputObject();
-    InputObject inputObject3 = new InputObject();
-
-    //("Square", new double[]{100, 100},"black","solid",20.0,20.0);
-    //("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0)
-      //      ("Circle", new double[]{100, 200},"black","solid",600.0,400.0)
-
-
-
+    DrawingBoard testBoard = new DrawingBoard(3000,3000);
+    InputObject inputObject = new InputObject("Square", new double[]{100, 100},"black","solid",20.0,20.0);
+    InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
+    InputObject inputObject3 = new InputObject("Circle", new double[]{100, 200},"black","solid",600.0,400.0);
 
 
 

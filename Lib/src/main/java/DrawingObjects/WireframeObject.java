@@ -15,9 +15,8 @@ import static DrawingObjects.ShapeSVGFunctions.*;
 //@Table("Wireframe_Object")
 public class WireframeObject extends DrawingObject {
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
+    public WireframeObject(String newId, InputObject inObj){
+        super(newId, inObj);
 //        setTxtSVGData(""); //default value of an empty string
 //        generateShape();
         super.setTextBoxes(new TextBox[]{

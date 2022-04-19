@@ -43,15 +43,12 @@ public class DrawingBoard implements Serializable {
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 1;
 
-    public DrawingBoard(){
-        xMax = SIZE_DEFAULT;
-        yMax = SIZE_DEFAULT;
-        name = "diagram name";
-        id = null;
-    }
-    public void initialize(double xMax, double yMax){
+    public DrawingBoard(){}
+    public DrawingBoard(double xMax, double yMax){
         this.xMax = xMax;
         this.yMax = yMax;
+        name = "diagram name";
+        id = null;
     }
 
     public void setId(String id) {

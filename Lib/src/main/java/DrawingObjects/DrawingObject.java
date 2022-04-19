@@ -21,14 +21,13 @@ public abstract class DrawingObject implements ComplexShape, Serializable { // e
     InputObject inObject;
     TextBox[] textBoxes;
 
-    public void initialize(String newId, InputObject inObj){
+    public DrawingObject(){}
+    public DrawingObject(String newId, InputObject inObj){
         id = newId;
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
     }
-
-    public DrawingObject(){}
 
     public String getSVGData(){
         return generateShape();

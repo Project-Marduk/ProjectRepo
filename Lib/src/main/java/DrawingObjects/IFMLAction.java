@@ -16,9 +16,8 @@ public class IFMLAction extends DrawingObject {
     String componentName;
     String fillColor = "#B7BDBB"; //Hex for light blue grey
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
+    public IFMLAction(String id, InputObject inObj){
+        super(id, inObj);
         componentName = "";
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",

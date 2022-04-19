@@ -15,9 +15,8 @@ import static DrawingObjects.ShapeSVGFunctions.squareToSVG;
 //@Table("IFML_Module")
 public class IFMLModule extends DrawingObject {
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
+    public IFMLModule(String id, InputObject inObj){
+        super(id, inObj);
         super.setTextBoxes(new TextBox[]{
             new TextBox( "",
             inObject.getXCord()+inObject.getParams()[0],

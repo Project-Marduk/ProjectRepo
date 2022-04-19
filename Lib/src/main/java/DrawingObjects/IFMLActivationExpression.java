@@ -17,9 +17,8 @@ import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
 //@Table("IFML_Activation_Expression")
 public class IFMLActivationExpression extends DrawingObject {
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
+    public IFMLActivationExpression(String id, InputObject inObj){
+        super(id, inObj);
         super.inObject.setColor("#B7BDBB"); //light blue/grey, there are two colors to this shape the other is white
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
