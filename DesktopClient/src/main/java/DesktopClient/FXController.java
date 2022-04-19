@@ -6,6 +6,11 @@
  */
 package DesktopClient;
 
+import FactoryElements.*;
+import DrawingBoard.*;
+import DrawingObjects.*;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +20,13 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import javafx.event.ActionEvent;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -23,7 +34,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
+
+
 public class FXController {
+
+    DrawingBoard testBoard = new DrawingBoard(3000,3000);
+    InputObject inputObject = new InputObject("Square", new double[]{100, 100},"black","solid",20.0,20.0);
+    InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
+    InputObject inputObject3 = new InputObject("Circle", new double[]{100, 200},"black","solid",600.0,400.0);
+
+
+
 
     /**
      * FXML files located in the resource folder. This allows for variables to be called instead
@@ -39,19 +60,24 @@ public class FXController {
      */
     private App app;
     @FXML BorderPane Design;
+    @FXML WebView designWebView;
+    @FXML Pane designCenter;
 
 
     /**
      * Shapes for the application
      */
-    Circle circle;
-    Rectangle rectangle;
-    Line line;
     @Getter double insertX = 700;
     @Getter double insertY = 400;
     @Getter double stroke = 3;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
+
+    String shape;
+    WebEngine engine;
+    Shape javaShape;
+    SVGPath path;
+
 
 
     /**
@@ -143,47 +169,87 @@ public class FXController {
     }
 
     /**
-     * Create a circle based on what the user selected from the scroll bar
-     * @param event
-     * @throws IOException
-     */
     @FXML
-    public void createCircle(ActionEvent event) throws IOException{
-        circle = new Circle(50.0f);
-        makeShapeAttributes(circle);
-        Design.getChildren().add(circle);
-    }
+    public void testCreate(){
+        testBoard.addObject(inputObject3);
 
-    /**
-     * Create a rectangle or square based on what the user selected from the scroll bar
-     * @param event
-     * @throws IOException
-     */
+        StringBuilder svgBuilder = new StringBuilder();
+        svgBuilder.append("<!DOCTYPE html>");
+        svgBuilder.append("<html>");
+        svgBuilder.append("<body>");
+        svgBuilder.append(testBoard.returnSVGData());
+        svgBuilder.append("</body>");
+        svgBuilder.append("</html>");
+        String html = svgBuilder.toString();
+
+        Design.getChildren().remove(designWebView);
+
+        engine = designWebView.getEngine();
+        engine.loadContent(html);
+
+        Design.getChildren().add(designWebView);
+    }
+     **/
+
     @FXML
-    public void createRectangle(ActionEvent event) throws IOException{
-        rectangle = new Rectangle(150,150);
-        makeShapeAttributes(rectangle);
-        Design.getChildren().add(rectangle);
-    }
+    public void testSVGPathMethods(){
+        //Method 1 works
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGPathExample());
+        javaShape = path;
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(javaShape);
 
-    @FXML
-    public void createLine(ActionEvent event) throws IOException{
-        line = new Line(0,0,200,0);
-        makeShapeAttributes(line);
-        Design.getChildren().add(line);
-    }
+        //Method 2 failed
+        /**
+         * WARNING: Failed to configure svg path "rect fill="none" x="131.0" width="222.0"
+         * height="146.0" y="79.0" stroke="#000000"/": invalid command (r) in SVG path at pos=1
+         */
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGRectExample());
+        javaShape = path;
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(javaShape);
 
-    public void makeShapeAttributes(Shape shape){
-        shape.setFill(Color.WHITE);
-        shape.setStrokeWidth(stroke);
-        shape.setStroke(Color.BLACK);
-        shape.setCursor(Cursor.MOVE);
-        shape.setTranslateX(insertX);
-        shape.setTranslateY(insertY);
-        shape.setOnMousePressed(shapeOnMousePressedEventHandler);
-        shape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
-    }
+        //Method 3 failed
+        /**
+         * WARNING: Failed to configure svg path "
+         * <rect x="20.0" y="20.0" fill="#FFFFFF" fill-opacity=".25" width="100.0" stroke-linejoin="round" height="100.0" stroke="#000000"/>
+         * <text x="20.0" y="20.0" font-family="Verdana" font-size="12.0" fill="black"></text>
+         * ": invalid command (<) in SVG path at pos=2
+         */
+        testBoard.addObject(inputObject);
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGPathEdgeless());
+        javaShape = path;
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(javaShape);
 
+        //Method 4 failed
+        /**
+         * WARNING: Failed to configure svg path "
+         * <rect x="20.0" y="20.0" fill="#FFFFFF" fill-opacity=".25" width="100.0" stroke-linejoin="round" height="100.0" stroke="#000000"/>
+         * <text x="20.0" y="20.0" font-family="Verdana" font-size="12.0" fill="black"></text>
+         * ": invalid command (<) in SVG path at pos=2
+         */
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGPath());
+        javaShape = path;
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(javaShape);
+    }
 
     /**
      * Open source code from http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
@@ -200,7 +266,7 @@ public class FXController {
                     orgTranslateY = ((Shape)(t.getSource())).getTranslateY();
 
                     if(t.getButton() == MouseButton.SECONDARY){
-                        Design.getChildren().remove(t.getSource());
+                        designCenter.getChildren().remove(t.getSource());
                     }
                 }
             };

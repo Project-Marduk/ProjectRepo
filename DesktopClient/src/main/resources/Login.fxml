@@ -12,7 +12,7 @@
 
 
 
-<BorderPane   style="-fx-background-color: #C39EE7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="623.0"  xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DesktopClient.FXController">
+<BorderPane   style="-fx-background-color: #C39EE7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="623.0"  xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
     <right>
         <VBox fx:id="rightVBox" BorderPane.alignment="CENTER" style="-fx-background-color: white"  maxHeight="700" maxWidth="800" alignment="TOP_LEFT" spacing="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
             <BorderPane.margin>

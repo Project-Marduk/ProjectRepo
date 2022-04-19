@@ -33,7 +33,7 @@ public class DrawingBoard {
     double xMax;
     double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
-    static int idIndex = 0;
+    static int idIndex = 1;
 
     public DrawingBoard(double xSize, double ySize){
         xMax = xSize;
