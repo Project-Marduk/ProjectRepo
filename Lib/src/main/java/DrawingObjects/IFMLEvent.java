@@ -17,17 +17,14 @@ import org.javalite.activejdbc.annotations.Table;
 public class IFMLEvent extends DrawingObject {
     boolean isFilled; //default value is false
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
+    public IFMLEvent(String id, InputObject inObj){
+        super(id, inObj);
         isFilled = false;
-
-        TextBox t1;
-        t1 = new TextBox();
-        t1.initialize("",
-                super.inObject.getXCord() + 2*super.inObject.getParams()[0],
-                super.inObject.getYCord() + super.inObject.getParams()[0]);
-        super.setTextBoxes(new TextBox[]{t1});
+        super.setTextBoxes(new TextBox[]{
+                new TextBox("",
+                        super.inObject.getXCord() + 2*super.inObject.getParams()[0],
+                        super.inObject.getYCord() + super.inObject.getParams()[0])
+        });
     }
 
     public String generateShape(){

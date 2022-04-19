@@ -18,16 +18,13 @@ import org.javalite.activejdbc.annotations.Table;
 public class IFMLViewComponent extends DrawingObject {
     String fillColor = "#B7BDBB"; //Hex for light blue grey
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
-
-        TextBox t1;
-        t1 = new TextBox();
-        t1.initialize("",
-                super.inObject.getXCord() + inObject.getParams()[0]*.5,
-                super.inObject.getYCord() + super.inObject.getParams()[1]*.5);
-        super.setTextBoxes(new TextBox[]{t1,});
+    public IFMLViewComponent(String id, InputObject inObj){
+        super(id, inObj);
+        super.setTextBoxes(new TextBox[]{
+            new TextBox("",
+                    super.inObject.getXCord() + inObject.getParams()[0]*.5,
+                    super.inObject.getYCord() + super.inObject.getParams()[1]*.5)
+        });
     }
 
     public String generateShape(){

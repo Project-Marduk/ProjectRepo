@@ -22,27 +22,19 @@ public class IFMLViewComponentPart extends DrawingObject {
     boolean floatUp; //default value is to float text1 above the second box
     double fontSize;
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
-        text1 = ""; text2 = ""; text3 ="";
-        floatUp = true;
-        TextBox t1, t2, t3;
-        t1 = new TextBox();
-        t2 = new TextBox();
-        t3 = new TextBox();
-        t1.initialize(
-                "",
-                super.inObject.getXCord() + super.inObject.getParams()[0] *.1,
-                0);
-        t2.initialize(
-                "",
-                super.inObject.getXCord() + super.inObject.getParams()[0] + 2,
-                0);
-        t3.initialize("",
-                super.inObject.getXCord() + super.inObject.getParams()[0] + 2,
-                0);
-        super.setTextBoxes(new TextBox[]{t1, t2, t3});
+    public IFMLViewComponentPart(String id, InputObject inObj){
+        super(id, inObj);
+        super.setTextBoxes(new TextBox[]{
+            new TextBox("",
+                    super.inObject.getXCord() + super.inObject.getParams()[0] *.1,
+                    0),
+            new TextBox("",
+                    super.inObject.getXCord() + super.inObject.getParams()[0] + 2,
+                    0),
+            new TextBox("",
+                    super.inObject.getXCord() + super.inObject.getParams()[0] + 2,
+                    0)
+        });
     }
 
     /**
@@ -77,41 +69,40 @@ public class IFMLViewComponentPart extends DrawingObject {
         //text box inside larger text box
         super.getTextBox(2).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * largeBoxYPosScalar + 2);
 
-        InputObject small = new InputObject();
-        small.initialize("Rectangle",
-                new double[]{super.inObject.getParams()[0] * .75,
-                        super.inObject.getParams()[1] * smallBoxSizeScalar},
-                super.inObject.getColor(),
-                super.inObject.getStyle(),
-                super.inObject.getXCord(),
-                super.inObject.getYCord() + smallBoxYPosScalar
-        );
-        String smallBox = rectToSVG(small);
+        String smallBox = rectToSVG(
+                new InputObject(
+                        "Rectangle",
+                        new double[]{super.inObject.getParams()[0] * .75,
+                                super.inObject.getParams()[1] * smallBoxSizeScalar},
+                        super.inObject.getColor(),
+                        super.inObject.getStyle(),
+                        super.inObject.getXCord(),
+                        super.inObject.getYCord() + smallBoxYPosScalar
+                ));
 
         //large text box
-        InputObject large = new InputObject();
-        large.initialize("Rectangle",
-                //{width, height}
-                new double[]{super.inObject.getParams()[0],
-                        largeBoxHeight},
-                super.inObject.getColor(),
-                super.inObject.getStyle(),
-                super.inObject.getXCord(),
-                super.inObject.getYCord() + largeBoxYPosScalar + 2
-        );
-        String largeTextBox = rectToSVG(large);
+        String largeTextBox = rectToSVG(
+                new InputObject(
+                        "Rectangle",
+                        //{width, height}
+                        new double[]{super.inObject.getParams()[0],
+                                largeBoxHeight},
+                        super.inObject.getColor(),
+                        super.inObject.getStyle(),
+                        super.inObject.getXCord(),
+                        super.inObject.getYCord() + largeBoxYPosScalar + 2
+                ));
 
-        InputObject inner = new InputObject();
-        inner.initialize(
-                "Rectangle",
-                new double[]{super.inObject.getParams()[0]*.8,
-                        super.inObject.getParams()[1]*largeBoxSizeScalar*.5-2},
-                super.inObject.getColor(),
-                super.inObject.getStyle(),
-                super.inObject.getXCord() + super.inObject.getParams()[0]*.05,
-                super.inObject.getYCord() + largeBoxYPosScalar + largeBoxHeight*.5
-        );
-        String innerTextBox = rectToSVG(inner);
+        String innerTextBox = rectToSVG(
+                new InputObject(
+                        "Rectangle",
+                        new double[]{super.inObject.getParams()[0]*.8,
+                                super.inObject.getParams()[1]*largeBoxSizeScalar*.5-2},
+                        super.inObject.getColor(),
+                        super.inObject.getStyle(),
+                        super.inObject.getXCord() + super.inObject.getParams()[0]*.05,
+                        super.inObject.getYCord() + largeBoxYPosScalar + largeBoxHeight*.5
+                ));
 
         return smallBox + "\n " +
                 largeTextBox + "\n " +

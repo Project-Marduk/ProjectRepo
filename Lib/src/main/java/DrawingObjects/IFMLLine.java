@@ -19,14 +19,15 @@ public class IFMLLine extends LineObject {
     boolean headIsLeft;
     boolean headIsVert;
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
+    public IFMLLine(String id, InputObject inObj) {
+        super(id, inObj);
         headIsLeft = true;
         headIsVert = true;
-        TextBox t = new TextBox();
-        t.initialize("", super.getX(), super.getY());
-        super.setTextBoxes(new TextBox[]{t});
+        super.setTextBoxes(new TextBox[]{
+                new TextBox("",
+                        super.getX(),
+                        super.getY())
+        });
     }
 
     /**

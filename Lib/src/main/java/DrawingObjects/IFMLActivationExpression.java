@@ -17,17 +17,14 @@ import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
 //@Table("IFML_Activation_Expression")
 public class IFMLActivationExpression extends DrawingObject {
 
-    @Override
-    public void initialize(String id, InputObject inObj){
-        super.initialize(id, inObj);
+    public IFMLActivationExpression(String id, InputObject inObj){
+        super(id, inObj);
         super.inObject.setColor("#B7BDBB"); //light blue/grey, there are two colors to this shape the other is white
-        TextBox t1;
-        t1 = new TextBox();
-        t1.initialize("",
-                super.inObject.getXCord() + inObject.getParams()[0]*.5,
-                super.inObject.getYCord() + super.inObject.getParams()[1]*1.5);
-        super.setTextBoxes(new TextBox[]{t1,});
-
+        super.setTextBoxes(new TextBox[]{
+                new TextBox("",
+                        super.inObject.getXCord() + inObject.getParams()[0]*.5,
+                        super.inObject.getYCord() + super.inObject.getParams()[1]*1.5)
+        });
     }
 
     public String generateShape(){
