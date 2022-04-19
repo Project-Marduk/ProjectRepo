@@ -35,7 +35,7 @@ public class IMconnection extends Connection{
     // Constructor
     private IMconnection(){
         super();
-        expectedMessage = ServerMessages.IMmessage.getMessage();
+        //expectedMessage = ServerMessages.IMmessage.getMessage();
         gson = new Gson();
     }
 

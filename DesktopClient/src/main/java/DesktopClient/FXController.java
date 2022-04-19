@@ -6,6 +6,11 @@
  */
 package DesktopClient;
 
+import FactoryElements.*;
+import DrawingBoard.*;
+import DrawingObjects.*;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +20,13 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import javafx.event.ActionEvent;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -23,7 +34,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
+
+
 public class FXController {
+
+    DrawingBoard testBoard = new DrawingBoard(3000,3000);
+    InputObject inputObject = new InputObject("Square", new double[]{100, 100},"black","solid",20.0,20.0);
+    InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
+    InputObject inputObject3 = new InputObject("Circle", new double[]{100, 200},"black","solid",600.0,400.0);
+
+
+
 
     /**
      * FXML files located in the resource folder. This allows for variables to be called instead
@@ -39,19 +60,18 @@ public class FXController {
      */
     private App app;
     @FXML BorderPane Design;
+    @FXML WebView designWebView;
 
 
     /**
      * Shapes for the application
      */
-    Circle circle;
-    Rectangle rectangle;
-    Line line;
     @Getter double insertX = 700;
     @Getter double insertY = 400;
     @Getter double stroke = 3;
-    double orgSceneX, orgSceneY;
-    double orgTranslateX, orgTranslateY;
+    String shape;
+    WebEngine engine;
+    Shape Circle;
 
 
     /**
@@ -142,81 +162,66 @@ public class FXController {
         mainStage.show();
     }
 
-    /**
-     * Create a circle based on what the user selected from the scroll bar
-     * @param event
-     * @throws IOException
-     */
     @FXML
-    public void createCircle(ActionEvent event) throws IOException{
-        circle = new Circle(50.0f);
-        makeShapeAttributes(circle);
-        Design.getChildren().add(circle);
-    }
+    public void testCreate(){
+        testBoard.addObject(inputObject3);
 
-    /**
-     * Create a rectangle or square based on what the user selected from the scroll bar
-     * @param event
-     * @throws IOException
-     */
-    @FXML
-    public void createRectangle(ActionEvent event) throws IOException{
-        rectangle = new Rectangle(150,150);
-        makeShapeAttributes(rectangle);
-        Design.getChildren().add(rectangle);
+        StringBuilder svgBuilder = new StringBuilder();
+        svgBuilder.append("<!DOCTYPE html>");
+        svgBuilder.append("<html>");
+        svgBuilder.append("<body>");
+        svgBuilder.append(testBoard.returnSVGData());
+        svgBuilder.append("</body>");
+        svgBuilder.append("</html>");
+        String html = svgBuilder.toString();
+
+        Design.getChildren().remove(designWebView);
+
+        engine = designWebView.getEngine();
+        engine.loadContent(html);
+
+        Design.getChildren().add(designWebView);
     }
 
     @FXML
-    public void createLine(ActionEvent event) throws IOException{
-        line = new Line(0,0,200,0);
-        makeShapeAttributes(line);
-        Design.getChildren().add(line);
+    public void testWrite(){
+        testBoard.addObject(inputObject);
+        shape = testBoard.returnSVGData();
+        System.out.println("Test");
+        System.out.println(shape);
+
+        StringBuilder svgBuilder = new StringBuilder();
+        svgBuilder.append("<!DOCTYPE html>");
+        svgBuilder.append("<html>");
+        svgBuilder.append("<body>");
+        svgBuilder.append(testBoard.returnSVGData());
+        svgBuilder.append("</body>");
+        svgBuilder.append("</html>");
+        String html = svgBuilder.toString();
+
+        engine = designWebView.getEngine();
+        engine.loadContent(html);
+        Design.getChildren().add(designWebView);
     }
 
-    public void makeShapeAttributes(Shape shape){
-        shape.setFill(Color.WHITE);
-        shape.setStrokeWidth(stroke);
-        shape.setStroke(Color.BLACK);
-        shape.setCursor(Cursor.MOVE);
-        shape.setTranslateX(insertX);
-        shape.setTranslateY(insertY);
-        shape.setOnMousePressed(shapeOnMousePressedEventHandler);
-        shape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+    @FXML
+    public void testAdd() throws IOException {
+        testBoard.addObject(inputObject2);
+
+        StringBuilder svgBuilder = new StringBuilder();
+        svgBuilder.append("<!DOCTYPE html>");
+        svgBuilder.append("<html>");
+        svgBuilder.append("<body>");
+        svgBuilder.append(testBoard.returnSVGData());
+        svgBuilder.append("</body>");
+        svgBuilder.append("</html>");
+        String html = svgBuilder.toString();
+
+        Design.getChildren().remove(designWebView);
+
+        engine = designWebView.getEngine();
+        engine.loadContent(html);
+
+        Design.getChildren().add(designWebView);
     }
-
-
-    /**
-     * Open source code from http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
-     * I do not own rights to this code. This is just in for now to demonstrate an easy way to move shapes
-     */
-    EventHandler<MouseEvent> shapeOnMousePressedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
-                    orgSceneX = t.getSceneX();
-                    orgSceneY = t.getSceneY();
-                    orgTranslateX = ((Shape)(t.getSource())).getTranslateX();
-                    orgTranslateY = ((Shape)(t.getSource())).getTranslateY();
-
-                    if(t.getButton() == MouseButton.SECONDARY){
-                        Design.getChildren().remove(t.getSource());
-                    }
-                }
-            };
-
-    EventHandler<MouseEvent> shapeOnMouseDraggedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent t) {
-                    double offsetX = t.getSceneX() - orgSceneX;
-                    double offsetY = t.getSceneY() - orgSceneY;
-                    double newTranslateX = orgTranslateX + offsetX;
-                    double newTranslateY = orgTranslateY + offsetY;
-
-                    ((Shape)(t.getSource())).setTranslateX(newTranslateX);
-                    ((Shape)(t.getSource())).setTranslateY(newTranslateY);
-                }
-            };
 }

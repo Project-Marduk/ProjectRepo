@@ -26,7 +26,7 @@ public class FEconnection extends Connection {
 
     private FEconnection(){
         super();
-        expectedMessage = ServerMessages.FEmessage.getMessage();
+        //expectedMessage = ServerMessages.FEmessage.getMessage();
         gson = new Gson();
     }
     @Override

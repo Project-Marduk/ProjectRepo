@@ -25,6 +25,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -50,10 +51,11 @@ public class DesignTest extends ApplicationTest{
             MenuItem exportPNG;
         Menu menuExit;
             MenuItem closeWindow;
-
      */
     ScrollPane scrollPane;
     VBox scrollPaneVBox;
+    TreeView treeViewBasicShapes;
+
 
     /**
      * Start the application test for testfx
@@ -79,6 +81,8 @@ public class DesignTest extends ApplicationTest{
         menuBar = (MenuBar) root.lookup("#menuBar");
         scrollPane = (ScrollPane) root.lookup("#scrollPane");
         scrollPaneVBox = (VBox) root.lookup("#scrollPaneVBox");
+        treeViewBasicShapes = (TreeView) root.lookup("#treeViewBasicShapes");
+
     }
 
     /**
@@ -198,23 +202,31 @@ public class DesignTest extends ApplicationTest{
     }
 
     /**
-     * Test the scroll pane and make sure it works properly while being laid out correctly with the elements
-     */
-    @Test
-    public void testScrollPane(){
-        MatcherAssert.assertThat(scrollPane.getMinWidth(), is(141.0));
-        scroll(40, VerticalDirection.DOWN);
-        //assert that the scroll moves the VBox with it
-        assertEquals(1,1);
-    }
-
-    /**
      * Test that the VBox inside of the scroll pane is laid out properly and contains the elements needed
      */
     @Test
     public void testScrollPaneVBox(){
-        MatcherAssert.assertThat(scrollPaneVBox.getSpacing(), is(20.0));
-        MatcherAssert.assertThat(scrollPaneVBox.getMinWidth(), is(125.0));
+        MatcherAssert.assertThat(scrollPaneVBox.getSpacing(), is(10.0));
+        MatcherAssert.assertThat(scrollPaneVBox.getMinWidth(), is(286.0));
+    }
+
+    /**
+     * Test that the treeview is displaying properly on the application
+     */
+    @Test
+    public void testTreeView(){
+        assertNotNull(treeViewBasicShapes);
+        assertFalse(treeViewBasicShapes.isShowRoot());
+        MatcherAssert.assertThat(treeViewBasicShapes.getMaxWidth(), is(286.0));
+    }
+
+    /**
+     * Test that the treeview contains the proper buttons the user can click on to instert shapes
+     */
+    @Test
+    public void testTreeViewElements(){
+        clickOn("#treeViewBasicShapes");
+        MatcherAssert.assertThat(treeViewBasicShapes.getExpandedItemCount(), is(2));
     }
 
     /**
