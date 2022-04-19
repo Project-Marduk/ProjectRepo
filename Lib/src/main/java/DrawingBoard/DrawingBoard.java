@@ -49,6 +49,10 @@ public class DrawingBoard implements Serializable {
         name = "diagram name";
         id = null;
     }
+    public void initialize(double xMax, double yMax){
+        this.xMax = xMax;
+        this.yMax = yMax;
+    }
 
     public void setId(String id) {
         if (id == null){

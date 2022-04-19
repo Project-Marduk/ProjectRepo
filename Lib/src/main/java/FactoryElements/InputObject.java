@@ -27,7 +27,8 @@ public class InputObject implements Serializable {
     String style;
     String fill;
 
-    public InputObject(String sType, double[] p, String c, String s, double x, double y){ //TODO: Look up default values in Java
+    public InputObject(){}
+    public void initialize(String sType, double[] p, String c, String s, double x, double y){ //TODO: Look up default values in Java
         shapeType = sType;
         params = p;
         color = c;
