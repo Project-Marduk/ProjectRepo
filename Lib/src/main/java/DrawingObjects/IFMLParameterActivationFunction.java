@@ -12,8 +12,9 @@ import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
  */
 public class IFMLParameterActivationFunction extends DrawingObject{
 
-    public IFMLParameterActivationFunction(String id, InputObject inObj){
-        super(id, inObj);
+    @Override
+    public void initialize(String id, InputObject inObj){
+        super.initialize(id, inObj);
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
                         super.inObject.getXCord() + super.inObject.getParams()[0]*.5,

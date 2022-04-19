@@ -1,5 +1,9 @@
 package Marduk.Javalin.Server.DataManager;
 
+import Server.Users.User;
+
+import java.util.ArrayList;
+
 /**
  * The Info Manager
  *
@@ -10,6 +14,8 @@ package Marduk.Javalin.Server.DataManager;
 public class DataManagerDriver {
     private static DataManagerDriver instance = null;
 
+    private ArrayList<User> loggedIn;
+
     private DataManagerDriver(){}
     public static DataManagerDriver getInstance() {
         if (instance == null){
@@ -17,4 +23,6 @@ public class DataManagerDriver {
         }
         return instance;
     }
+
+
 }

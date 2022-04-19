@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.javalite.activejdbc.annotations.Table;
 
+import java.io.Serializable;
+
 /**
  * @author David Lindeman
  * All inputs must be passed into the input object
@@ -16,7 +18,7 @@ import org.javalite.activejdbc.annotations.Table;
  */
 @Getter @Setter
 //@Table("Input_Object")
-public class InputObject {
+public class InputObject implements Serializable {
     String shapeType;
     double xCord;
     double yCord;

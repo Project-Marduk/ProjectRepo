@@ -1,5 +1,6 @@
 package DrawingObjects;
 
+import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,11 +16,12 @@ public class TextBox  {
     double xCord;
     double yCord;
 
-    public TextBox(String t, double x, double y){
-        text = t;
-        xCord = x;
-        yCord = y;
+
+    public void initialize(String t, double x, double y){
+
+
     }
+    public TextBox(){}
 
     public String getSVGData(){
         return "<text x=" + '"' + Double.toString(xCord) + '"' +

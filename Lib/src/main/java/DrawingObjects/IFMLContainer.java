@@ -26,8 +26,9 @@ public class IFMLContainer extends DrawingObject {
     ShapeSVGFunctions shapeSVGFunctions = new ShapeSVGFunctions();
 
 
-    public IFMLContainer(String id, InputObject inObj){ //String cHeader, String defaultText,
-        super(id, inObj);
+    @Override
+    public void initialize(String id, InputObject inObj){
+        super.initialize(id, inObj);
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
                         super.inObject.getXCord() + 2,

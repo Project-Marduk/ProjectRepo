@@ -17,8 +17,9 @@ import org.javalite.activejdbc.annotations.Table;
 public class IFMLEvent extends DrawingObject {
     boolean isFilled; //default value is false
 
-    public IFMLEvent(String id, InputObject inObj){
-        super(id, inObj);
+    @Override
+    public void initialize(String id, InputObject inObj){
+        super.initialize(id, inObj);
         isFilled = false;
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",

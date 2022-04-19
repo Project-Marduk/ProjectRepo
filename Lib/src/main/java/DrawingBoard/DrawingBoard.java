@@ -8,14 +8,22 @@ import lombok.Getter;
 import lombok.Setter;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 //@Table("Drawing_Board")
 @Getter @Setter
-public class DrawingBoard {
+public class DrawingBoard implements Serializable {
+    private final double SIZE_DEFAULT = 1000;
+
+    String name;
+    private String id;
+    private ArrayList<String> users;
+
     Map<String, DrawingObject> objects = new HashMap<>();
     String[] objectTypes = new String[]{
         "IFML_Action",
@@ -35,9 +43,20 @@ public class DrawingBoard {
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 1;
 
-    public DrawingBoard(double xSize, double ySize){
-        xMax = xSize;
-        yMax = ySize;
+    public DrawingBoard(){
+        xMax = SIZE_DEFAULT;
+        yMax = SIZE_DEFAULT;
+        name = "diagram name";
+        id = null;
+    }
+
+    public void setId(String id) {
+        if (id == null){
+            this.id = id;
+        }
+    }
+    public String getId() {
+        return id;
     }
 
     public void addObject(InputObject inObj){

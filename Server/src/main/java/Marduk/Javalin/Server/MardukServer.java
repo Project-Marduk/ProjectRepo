@@ -63,6 +63,13 @@ public class MardukServer {
                 // InfoManager UserLogin( toLogin );
                 // ctx.result("Login Succefull");
             });
+            app.get(ApiCommands.logoutUser.path(), ctx -> {
+                // toLogin = [Database User Load](ctx.body());
+                // InfoManager UserLogin( toLogin );
+                // ctx.result("Login Succefull");
+            });
+
+
             app.get(ApiCommands.getDiagram.path(), ctx -> {
                 //String diagramName = ctx.body();
                 // Diagram toLoad = [Database load Diagram](diagramName);

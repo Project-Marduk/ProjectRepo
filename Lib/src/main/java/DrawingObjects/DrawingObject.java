@@ -5,6 +5,8 @@ import FactoryElements.Interfaces.ComplexShape;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @author David Lindeman
  * All Objects that will be displayed in the pane will extend this
@@ -12,19 +14,21 @@ import lombok.Setter;
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
 @Getter @Setter
-public abstract class DrawingObject implements ComplexShape { // extends Model
+public abstract class DrawingObject implements ComplexShape, Serializable { // extends Model
     String id;
     double x;
     double y;
     InputObject inObject;
     TextBox[] textBoxes;
 
-    public DrawingObject(String newId, InputObject inObj){
+    public void initialize(String newId, InputObject inObj){
         id = newId;
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
     }
+
+    public DrawingObject(){}
 
     public String getSVGData(){
         return generateShape();
