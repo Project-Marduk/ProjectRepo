@@ -18,7 +18,9 @@ public class TextBox  {
 
 
     public void initialize(String t, double x, double y){
-
+        text = t;
+        xCord = x;
+        yCord = y;
 
     }
     public TextBox(){}
