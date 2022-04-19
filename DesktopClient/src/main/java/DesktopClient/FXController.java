@@ -43,9 +43,7 @@ public class FXController {
     InputObject inputObject2 = new InputObject();
     InputObject inputObject3 = new InputObject();
 
-    //("Square", new double[]{100, 100},"black","solid",20.0,20.0);
-    //("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0)
-      //      ("Circle", new double[]{100, 200},"black","solid",600.0,400.0)
+
 
 
 
@@ -103,6 +101,9 @@ public class FXController {
      */
     public FXController(App application){
         this.app = application;
+        inputObject.initialize("Square", new double[]{100, 100},"black","solid",20.0,20.0);
+        inputObject2.initialize("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
+        inputObject3.initialize("Circle", new double[]{100, 200},"black","solid",600.0,400.0);
     }
 
     /**
