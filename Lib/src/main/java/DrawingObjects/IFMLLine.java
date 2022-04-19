@@ -24,11 +24,9 @@ public class IFMLLine extends LineObject {
         super.initialize(id, inObj);
         headIsLeft = true;
         headIsVert = true;
-        super.setTextBoxes(new TextBox[]{
-                new TextBox("",
-                        super.getX(),
-                        super.getY())
-        });
+        TextBox t = new TextBox();
+        t.initialize("", super.getX(), super.getY());
+        super.setTextBoxes(new TextBox[]{t});
     }
 
     /**

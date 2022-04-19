@@ -20,11 +20,14 @@ public class IFMLAction extends DrawingObject {
     public void initialize(String id, InputObject inObj){
         super.initialize(id, inObj);
         componentName = "";
-        super.setTextBoxes(new TextBox[]{
-                new TextBox("",
-                        super.inObject.getXCord() + inObject.getParams()[0]*.5,
-                        super.inObject.getYCord() + super.inObject.getParams()[0]*.5)
-        });
+
+        TextBox t1;
+        t1 = new TextBox();
+        t1.initialize("",
+                super.inObject.getXCord() + inObject.getParams()[0]*.5,
+                super.inObject.getYCord() + super.inObject.getParams()[0]*.5);
+        super.setTextBoxes(new TextBox[]{t1});
+
     }
 
     public String generateShape(){

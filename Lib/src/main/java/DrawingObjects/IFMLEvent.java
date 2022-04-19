@@ -21,11 +21,13 @@ public class IFMLEvent extends DrawingObject {
     public void initialize(String id, InputObject inObj){
         super.initialize(id, inObj);
         isFilled = false;
-        super.setTextBoxes(new TextBox[]{
-                new TextBox("",
-                        super.inObject.getXCord() + 2*super.inObject.getParams()[0],
-                        super.inObject.getYCord() + super.inObject.getParams()[0])
-        });
+
+        TextBox t1;
+        t1 = new TextBox();
+        t1.initialize("",
+                super.inObject.getXCord() + 2*super.inObject.getParams()[0],
+                super.inObject.getYCord() + super.inObject.getParams()[0]);
+        super.setTextBoxes(new TextBox[]{t1});
     }
 
     public String generateShape(){

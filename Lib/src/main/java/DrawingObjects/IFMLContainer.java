@@ -29,11 +29,13 @@ public class IFMLContainer extends DrawingObject {
     @Override
     public void initialize(String id, InputObject inObj){
         super.initialize(id, inObj);
-        super.setTextBoxes(new TextBox[]{
-                new TextBox("",
-                        super.inObject.getXCord() + 2,
-                        super.inObject.getYCord() + 2)
-        });
+
+        TextBox t1;
+        t1 = new TextBox();
+        t1.initialize("",
+                super.inObject.getXCord() + 2,
+                super.inObject.getYCord() + 2);
+        super.setTextBoxes(new TextBox[]{t1,});
     }
 
     public String generateShape(){

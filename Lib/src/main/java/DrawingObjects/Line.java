@@ -10,11 +10,9 @@ public class Line extends LineObject {
     @Override
     public void initialize(String id, InputObject inObj){
         super.initialize(id, inObj);
-        super.setTextBoxes(new TextBox[]{
-                new TextBox("",
-                        super.getX(),
-                        super.getY())
-        });
+        TextBox t = new TextBox();
+        t.initialize("", super.getX(), super.getY());
+        super.setTextBoxes(new TextBox[]{t});
     }
 
     public String generateShape(){

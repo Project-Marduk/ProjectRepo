@@ -20,11 +20,9 @@ public class WireframeObject extends DrawingObject {
         super.initialize(id, inObj);
 //        setTxtSVGData(""); //default value of an empty string
 //        generateShape();
-        super.setTextBoxes(new TextBox[]{
-                new TextBox("",
-                        inObj.getXCord(),
-                        inObj.getYCord())
-        });
+        TextBox t = new TextBox();
+        t.initialize("", super.getX(), super.getY());
+        super.setTextBoxes(new TextBox[]{t});
     }
 
     /**
