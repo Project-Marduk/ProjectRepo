@@ -1,10 +1,12 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
+import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 
 import static DrawingObjects.ShapeSVGFunctions.*;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.*;
 
 @Getter @Setter
 /**
@@ -57,4 +59,26 @@ public class WireframeObject extends DrawingObject {
         return shapeSVG;
     }
 
+    @Override
+    public void generateJavaFXGroup() {
+        switch (super.getInObject().getShapeType()) {
+            case "Rectangle":
+                super.linkedJavaFXObject.getChildren().add(rectToJavaFX(super.getInObject()));
+                break;
+            case "Square":
+                super.linkedJavaFXObject.getChildren().add(squareToJavaFX(super.getInObject()));
+                break;
+            case "Circle":
+                super.linkedJavaFXObject.getChildren().add(circleToJavaFX(super.getInObject()));
+                break;
+            case "Hexagon":
+                super.linkedJavaFXObject.getChildren().add(hexagonToJavaFX(super.getInObject()));
+                break;
+            case "Parallelogram":
+                super.linkedJavaFXObject.getChildren().add(parallelogramToJAVAFX(super.getInObject()));
+                break;
+            default:
+                break;
+        }
+    }
 }
