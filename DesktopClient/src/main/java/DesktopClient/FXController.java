@@ -9,11 +9,25 @@ package DesktopClient;
 import FactoryElements.*;
 import DrawingBoard.*;
 import DrawingObjects.*;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Bounds;
+import javafx.scene.*;
+import javafx.scene.Cursor;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -21,19 +35,20 @@ import lombok.Getter;
 
 import javafx.event.ActionEvent;
 
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import javafx.scene.image.WritableImage;
 
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-
+import javafx.scene.text.Text;
 
 
 public class FXController {
@@ -60,8 +75,8 @@ public class FXController {
      */
     private App app;
     @FXML BorderPane Design;
-    @FXML WebView designWebView;
     @FXML Pane designCenter;
+    @FXML ColorPicker colorPicker;
 
 
     /**
@@ -72,12 +87,14 @@ public class FXController {
     @Getter double stroke = 3;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
+    private Node selectedNode;
 
-    String shape;
+    String svgData = "";
     WebEngine engine;
     Shape javaShape;
     SVGPath path;
-
+    TextArea textArea;
+    Text textHolder = new Text();
 
 
     /**
@@ -192,22 +209,63 @@ public class FXController {
      **/
 
     @FXML
-    public void testSVGPathMethods(){
-        //Method 1 works
+    public void testAddText(){
+
+    }
+
+    @FXML
+    public void testAdd(){
+        Rectangle test = new Rectangle(200,200);
         path = new SVGPath();
-        path.setContent(testBoard.getObject("0").TYLERgetSVGEdgeless());
+        path.setContent(testBoard.TYLERreturnSVGPathExample());
         javaShape = path;
+        javaShape.setFill(colorPicker.getValue());
+
+        
+
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);
         javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
         javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
         designCenter.getChildren().add(javaShape);
+    }
+
+    @FXML
+    public void testSVGPathMethods(){
+        //Method 1 works
+        path = new SVGPath();
+        path.setContent(testBoard.TYLERreturnSVGRectExample());
+        javaShape = path;
+        javaShape.setFill(colorPicker.getValue());
+
+        Circle testcirc = new Circle(30);
+        testcirc.setFill(colorPicker.getValue());
+        Image testImgae = testcirc.snapshot(new SnapshotParameters(),null);
+
+        Rectangle test = new Rectangle(200,200);
+        test.setFill(new ImagePattern(testImgae));
+
+        javaShape.setCursor(Cursor.MOVE);
+        javaShape.setTranslateX(insertX);
+        javaShape.setTranslateY(insertY);
+        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        designCenter.getChildren().add(test);
+        makeSelectable(test);
+        //getSVGData();
+
+        /**
+        String test = designCenter.getChildren().toString();
+        svgData += test;
+        System.out.println(svgData);
+         **/
 
         //Method 2 failed
         /**
          * WARNING: Failed to configure svg path "rect fill="none" x="131.0" width="222.0"
          * height="146.0" y="79.0" stroke="#000000"/": invalid command (r) in SVG path at pos=1
          */
+        /**
         path = new SVGPath();
         path.setContent(testBoard.TYLERreturnSVGRectExample());
         javaShape = path;
@@ -224,6 +282,7 @@ public class FXController {
          * <text x="20.0" y="20.0" font-family="Verdana" font-size="12.0" fill="black"></text>
          * ": invalid command (<) in SVG path at pos=2
          */
+        /**
         testBoard.addObject(inputObject);
         path = new SVGPath();
         path.setContent(testBoard.TYLERreturnSVGPathEdgeless());
@@ -241,6 +300,7 @@ public class FXController {
          * <text x="20.0" y="20.0" font-family="Verdana" font-size="12.0" fill="black"></text>
          * ": invalid command (<) in SVG path at pos=2
          */
+        /**
         path = new SVGPath();
         path.setContent(testBoard.TYLERreturnSVGPath());
         javaShape = path;
@@ -249,6 +309,16 @@ public class FXController {
         javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
         javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
         designCenter.getChildren().add(javaShape);
+         **/
+    }
+
+    public void getSVGData(){
+        int i = 0;
+        while (i < designCenter.getChildren().size()){
+            svgData += designCenter.getChildren().get(i).toString() + "\n";
+            i += 1;
+        }
+        System.out.println(svgData);
     }
 
     /**
@@ -268,6 +338,7 @@ public class FXController {
                     if(t.getButton() == MouseButton.SECONDARY){
                         designCenter.getChildren().remove(t.getSource());
                     }
+
                 }
             };
 
@@ -283,6 +354,341 @@ public class FXController {
 
                     ((Shape)(t.getSource())).setTranslateX(newTranslateX);
                     ((Shape)(t.getSource())).setTranslateY(newTranslateY);
+                    ((Shape)(t.getSource())).toFront();
                 }
             };
+
+    private void makeSelectable(Node... nodes) {
+        designCenter.setOnMouseClicked(event -> {
+            final Parent parentNode = ((Node) event.getTarget()).getParent();
+            if (selectedNode != null && !(parentNode instanceof ResizingControl)) {
+                designCenter.getChildren().removeIf(candidate -> candidate instanceof ResizingControl);
+                selectedNode = null;
+            }
+        });
+        for (Node node: nodes) {
+            node.setOnMouseClicked(event -> {
+                if (selectedNode != node) {
+                    designCenter.getChildren().removeIf(candidate -> candidate instanceof ResizingControl);
+                    selectedNode = node;
+
+                    node.toFront();
+                    ResizingControl resizingControl = new ResizingControl(node);
+                    designCenter.getChildren().add(resizingControl);
+                }
+
+                event.consume();
+            });
+        }
+    }
+}
+
+class ResizingControl extends Group {
+    private Node targetNode = null;
+    private final Rectangle boundary = new Rectangle();
+
+    private Anchor topLeft = new Anchor(Color.GOLD, true, true, (oldX, oldY, newX, newY) -> {
+        double newWidth = boundary.getWidth() - (newX - oldX);
+        if (newWidth > 0) {
+            boundary.setX(newX);
+            boundary.setWidth(newWidth);
+        }
+        double newHeight = boundary.getHeight() - (newY - oldY);
+        if (newHeight > 0) {
+            boundary.setY(newY);
+            boundary.setHeight(newHeight);
+        }
+
+        updateAnchorPositions();
+        resizeTargetNode();
+    });
+    private Anchor topCenter = new Anchor(Color.GOLD, false, true, (oldX, oldY, newX, newY) -> {
+        double newHeight = boundary.getHeight() - (newY - oldY);
+        if (newHeight > 0) {
+            boundary.setY(newY);
+            boundary.setHeight(newHeight);
+        }
+
+        updateAnchorPositions();
+        resizeTargetNode();
+    });
+    private Anchor topRight = new Anchor(Color.GOLD, true, true, (oldX, oldY, newX, newY) -> {
+        double newWidth = boundary.getWidth() + (newX - oldX);
+        if (newWidth > 0) {
+            boundary.setWidth(newWidth);
+        }
+        double newHeight = boundary.getHeight() - (newY - oldY);
+        if (newHeight > 0) {
+            boundary.setY(newY);
+            boundary.setHeight(newHeight);
+        }
+
+        updateAnchorPositions();
+        resizeTargetNode();
+    });
+    private Anchor rightCenter = new Anchor(Color.GOLD, true, false, (oldX, oldY, newX, newY) -> {
+        double newWidth = boundary.getWidth() + (newX - oldX);
+        if (newWidth > 0) {
+            boundary.setWidth(newWidth);
+        }
+
+        updateAnchorPositions();
+        resizeTargetNode();
+    });
+    private Anchor bottomRight = new Anchor(Color.GOLD, true, true, (oldX, oldY, newX, newY) -> {
+        double newWidth = boundary.getWidth() + (newX - oldX);
+        if (newWidth > 0) {
+            boundary.setWidth(newWidth);
+        }
+        double newHeight = boundary.getHeight() + (newY - oldY);
+        if (newHeight > 0) {
+            boundary.setHeight(newHeight);
+        }
+
+        updateAnchorPositions();
+        resizeTargetNode();
+    });
+    private Anchor bottomCenter = new Anchor(Color.GOLD, false, true, (oldX, oldY, newX, newY) -> {
+        double newHeight = boundary.getHeight() + (newY - oldY);
+        if (newHeight > 0) {
+            boundary.setHeight(newHeight);
+        }
+
+        updateAnchorPositions();
+        resizeTargetNode();
+    });
+    private Anchor bottomLeft = new Anchor(Color.GOLD, true, true, (oldX, oldY, newX, newY) -> {
+        double newWidth = boundary.getWidth() - (newX - oldX);
+        if (newWidth > 0) {
+            boundary.setX(newX);
+            boundary.setWidth(newWidth);
+        }
+        double newHeight = boundary.getHeight() + (newY - oldY);
+        if (newHeight > 0) {
+            boundary.setHeight(newHeight);
+        }
+
+        updateAnchorPositions();
+        resizeTargetNode();
+    });
+    private Anchor leftCenter = new Anchor(Color.GOLD, true, false, (oldX, oldY, newX, newY) -> {
+        double newWidth = boundary.getWidth() - (newX - oldX);
+        if (newWidth > 0) {
+            boundary.setX(newX);
+            boundary.setWidth(newWidth);
+        }
+
+        updateAnchorPositions();
+        resizeTargetNode();
+    });
+
+    ResizingControl(Node targetNode) {
+        this.targetNode = targetNode;
+
+        attachBoundingRectangle(targetNode);
+        attachAnchors();
+
+        boundary.toBack();
+    }
+
+    private void attachBoundingRectangle(Node node) {
+        Bounds bounds = node.getBoundsInParent();
+
+        boundary.setStyle(
+                "-fx-stroke: forestgreen; " +
+                        "-fx-stroke-width: 2px; " +
+                        "-fx-stroke-dash-array: 12 2 4 2; " +
+                        "-fx-stroke-dash-offset: 6; " +
+                        "-fx-stroke-line-cap: butt; " +
+                        "-fx-fill: rgba(255, 228, 118, .5);"
+        );
+
+        boundary.setX(bounds.getMinX());
+        boundary.setY(bounds.getMinY());
+        boundary.setWidth(bounds.getWidth());
+        boundary.setHeight(bounds.getHeight());
+
+        Util.makeDraggable(boundary, (oldX, oldY, newX, newY) -> {
+            updateAnchorPositions();
+
+            relocateTargetNode(newX, newY);
+        });
+
+        getChildren().add(boundary);
+    }
+
+    private void relocateTargetNode(double newX, double newY) {
+        if (targetNode instanceof Ellipse) {
+            Ellipse ellipse = (Ellipse) targetNode;
+            ellipse.setCenterX(newX + ellipse.getRadiusX());
+            ellipse.setCenterY(newY + ellipse.getRadiusY());
+        } else if (targetNode instanceof Rectangle) {
+            Rectangle rectangle = (Rectangle) targetNode;
+            rectangle.setX(newX);
+            rectangle.setY(newY);
+        }
+    }
+
+    private void resizeTargetNode() {
+        if (targetNode instanceof Ellipse) {
+            Ellipse ellipse = (Ellipse) targetNode;
+            ellipse.setRadiusX(boundary.getWidth() / 2);
+            ellipse.setRadiusY(boundary.getHeight() / 2);
+
+            relocateTargetNode(boundary.getX(), boundary.getY());
+        } else if (targetNode instanceof Rectangle) {
+            Rectangle rectangle = (Rectangle) targetNode;
+            rectangle.setWidth(boundary.getWidth());
+            rectangle.setHeight(boundary.getHeight());
+
+            relocateTargetNode(boundary.getX(), boundary.getY());
+        }
+    }
+
+    private void attachAnchors() {
+        updateAnchorPositions();
+
+        getChildren().addAll(
+                topLeft,
+                topCenter,
+                topRight,
+                rightCenter,
+                bottomRight,
+                bottomCenter,
+                bottomLeft,
+                leftCenter
+        );
+    }
+
+    private void updateAnchorPositions() {
+        topLeft.setCenterX(boundary.getX());
+        topLeft.setCenterY(boundary.getY());
+        topCenter.setCenterX(boundary.getX() + boundary.getWidth() / 2);
+        topCenter.setCenterY(boundary.getY());
+        topRight.setCenterX(boundary.getX() + boundary.getWidth());
+        topRight.setCenterY(boundary.getY());
+        rightCenter.setCenterX(boundary.getX() + boundary.getWidth());
+        rightCenter.setCenterY(boundary.getY() + boundary.getHeight() / 2);
+        bottomRight.setCenterX(boundary.getX() + boundary.getWidth());
+        bottomRight.setCenterY(boundary.getY() + boundary.getHeight());
+        bottomCenter.setCenterX(boundary.getX() + boundary.getWidth() / 2);
+        bottomCenter.setCenterY(boundary.getY() + boundary.getHeight());
+        bottomLeft.setCenterX(boundary.getX());
+        bottomLeft.setCenterY(boundary.getY() + boundary.getHeight());
+        leftCenter.setCenterX(boundary.getX());
+        leftCenter.setCenterY(boundary.getY() + boundary.getHeight() / 2);
+    }
+}
+
+interface DragHandler {
+    void handle(double oldX, double oldY, double newX, double newY);
+}
+
+// a draggable anchor displayed around a point.
+class Anchor extends Circle {
+    Anchor(Color color, boolean canDragX, boolean canDragY, DragHandler dragHandler) {
+        super(0, 0, 5);
+        setFill(color.deriveColor(1, 1, 1, 0.5));
+        setStroke(color);
+        setStrokeWidth(2);
+        setStrokeType(StrokeType.OUTSIDE);
+
+        Util.enableDrag(this, canDragX, canDragY, dragHandler);
+    }
+}
+
+class Util {
+    // make a targetNode movable by dragging it around with the mouse.
+    static void enableDrag(Circle node, boolean canDragX, boolean canDragY, DragHandler dragHandler) {
+        final Delta dragDelta = new Delta();
+        node.setOnMousePressed(mouseEvent -> {
+            // record a delta distance for the drag and drop operation.
+            dragDelta.x = node.getCenterX() - mouseEvent.getX();
+            dragDelta.y = node.getCenterY() - mouseEvent.getY();
+            node.getScene().setCursor(Cursor.MOVE);
+        });
+        node.setOnMouseReleased(mouseEvent -> {
+            node.getScene().setCursor(Cursor.HAND);
+        });
+        node.setOnMouseDragged(mouseEvent -> {
+            double oldX = node.getCenterX();
+            double oldY = node.getCenterY();
+
+            double newX = mouseEvent.getX() + dragDelta.x;
+            if (canDragX && newX > 0 && newX < node.getScene().getWidth()) {
+                node.setCenterX(newX);
+            }
+
+            double newY = mouseEvent.getY() + dragDelta.y;
+            if (canDragY && newY > 0 && newY < node.getScene().getHeight()) {
+                node.setCenterY(newY);
+            }
+
+            newX = node.getCenterX();
+            newY = node.getCenterY();
+
+            if (dragHandler != null && (newX != oldX || newY != oldY)) {
+                dragHandler.handle(oldX, oldY, newX, newY);
+            }
+        });
+        node.setOnMouseEntered(mouseEvent -> {
+            if (!mouseEvent.isPrimaryButtonDown()) {
+                node.getScene().setCursor(Cursor.HAND);
+            }
+        });
+        node.setOnMouseExited(mouseEvent -> {
+            if (!mouseEvent.isPrimaryButtonDown()) {
+                node.getScene().setCursor(Cursor.DEFAULT);
+            }
+        });
+    }
+
+    // make a targetNode movable by dragging it around with the mouse.
+    static void makeDraggable(Rectangle node, DragHandler dragHandler) {
+        final Delta dragDelta = new Delta();
+
+        node.setOnMouseEntered(me -> {
+            if (!me.isPrimaryButtonDown()) {
+                node.getScene().setCursor(Cursor.HAND);
+            }
+        });
+        node.setOnMouseExited(me -> {
+            if (!me.isPrimaryButtonDown()) {
+                node.getScene().setCursor(Cursor.DEFAULT);
+            }
+        });
+        node.setOnMousePressed(me -> {
+            if (me.isPrimaryButtonDown()) {
+                node.getScene().setCursor(Cursor.DEFAULT);
+            }
+            dragDelta.x = me.getX() - node.getX();
+            dragDelta.y = me.getY() - node.getY();
+            node.getScene().setCursor(Cursor.MOVE);
+        });
+        node.setOnMouseReleased(me -> {
+            if (!me.isPrimaryButtonDown()) {
+                node.getScene().setCursor(Cursor.DEFAULT);
+            }
+        });
+        node.setOnMouseDragged(me -> {
+            double oldX = node.getX();
+            double oldY = node.getY();
+
+            node.setX(me.getX() - dragDelta.x);
+            node.setY(me.getY() - dragDelta.y);
+
+            double newX = node.getX();
+            double newY = node.getY();
+
+            if (dragHandler != null && (newX != oldX || newY != oldY)) {
+                dragHandler.handle(oldX, oldY, newX, newY);
+            }
+        });
+    }
+
+    // records relative x and y co-ordinates.
+    private static class Delta {
+        double x, y;
+    }
+
 }
