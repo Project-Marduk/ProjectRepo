@@ -1,12 +1,15 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
+import javafx.scene.Group;
+import javafx.scene.shape.Path;
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
 import static DrawingObjects.ShapeSVGFunctions.getLineElement;
 import static DrawingObjects.ShapeSVGFunctions.headTriangleToSVG;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.addLinetoPath;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.headTriangleToJavaFX;
 
 /**
  * @author David Lindeman
@@ -56,5 +59,20 @@ public class IFMLLine extends LineObject {
                  Double.toString(super.getY()),
                  Double.toString(super.getSecondYCord())
          ) + makeHeadSVG();
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        if(super.getSecondXCord() >= super.getX()){
+            headIsVert = true;
+        }
+        else{
+            headIsVert = false;
+        }
+
+        super.linkedJavaFXObject.getChildren().addAll(
+                addLinetoPath(super.getX(), super.getSecondXCord(), super.getY(), super.getSecondYCord(), new Path()),
+                headTriangleToJavaFX(super.getX(), super.getY(), headIsLeft, headIsVert));
+
     }
 }

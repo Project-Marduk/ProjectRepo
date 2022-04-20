@@ -9,6 +9,7 @@ package DesktopClient;
 import FactoryElements.*;
 import DrawingBoard.*;
 import DrawingObjects.*;
+
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.fxml.FXML;
@@ -43,6 +44,11 @@ public class FXController {
     InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
     InputObject inputObject3 = new InputObject("Circle", new double[]{100, 200},"black","solid",600.0,400.0);
 
+
+    public void TRAAEtestSPACE(){
+
+
+    }
 
 
 
@@ -195,7 +201,7 @@ public class FXController {
     public void testSVGPathMethods(){
         //Method 1 works
         path = new SVGPath();
-        path.setContent(testBoard.TYLERreturnSVGPathExample());
+        //path.setContent(testBoard.TYLERreturnSVGPathExample());
         javaShape = path;
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);
@@ -209,7 +215,7 @@ public class FXController {
          * height="146.0" y="79.0" stroke="#000000"/": invalid command (r) in SVG path at pos=1
          */
         path = new SVGPath();
-        path.setContent(testBoard.TYLERreturnSVGRectExample());
+        //path.setContent(testBoard.TYLERreturnSVGRectExample());
         javaShape = path;
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);
@@ -226,7 +232,7 @@ public class FXController {
          */
         testBoard.addObject(inputObject);
         path = new SVGPath();
-        path.setContent(testBoard.TYLERreturnSVGPathEdgeless());
+        //path.setContent(testBoard.TYLERreturnSVGPathEdgeless());
         javaShape = path;
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);
@@ -242,7 +248,7 @@ public class FXController {
          * ": invalid command (<) in SVG path at pos=2
          */
         path = new SVGPath();
-        path.setContent(testBoard.TYLERreturnSVGPath());
+        //path.setContent(testBoard.TYLERreturnSVGPath());
         javaShape = path;
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);

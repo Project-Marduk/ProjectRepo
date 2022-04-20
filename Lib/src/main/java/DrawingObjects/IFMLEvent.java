@@ -2,9 +2,11 @@ package DrawingObjects;
 
 import FactoryElements.InputObject;
 import static DrawingObjects.ShapeSVGFunctions.circleToSVG;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.circleToJavaFX;
+
+import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
 /**
  * @author David Lindeman
@@ -34,4 +36,11 @@ public class IFMLEvent extends DrawingObject {
         return circleToSVG(super.inObject);
     }
 
+    @Override
+    public void generateJavaFXGroup() {
+        if(isFilled){
+            super.inObject.setColor("#000000"); //sets the fill color to the hex code for black
+        }
+        super.linkedJavaFXObject.getChildren().add(circleToJavaFX(super.inObject));
+    }
 }

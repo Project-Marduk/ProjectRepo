@@ -1,9 +1,11 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import org.javalite.activejdbc.annotations.Table;
+import javafx.scene.Group;
+import javafx.scene.shape.Path;
 
 import static DrawingObjects.ShapeSVGFunctions.getLineElement;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.addLinetoPath;
 
 //@Table("Line")
 public class Line extends LineObject {
@@ -23,5 +25,12 @@ public class Line extends LineObject {
                 Double.toString(super.getSecondXCord()),
                 Double.toString(super.getSecondYCord())
         );
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        Path p = new Path();
+        addLinetoPath(super.getX(), super.getY(), getSecondXCord(), getSecondYCord(), p);
+        super.linkedJavaFXObject.getChildren().add(p);
     }
 }

@@ -1,11 +1,12 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
+import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
 import static DrawingObjects.ShapeSVGFunctions.rectToSVG;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.rectToJavaFX;
 
 /**
  * @author David Lindeman
@@ -107,5 +108,71 @@ public class IFMLViewComponentPart extends DrawingObject {
         return smallBox + "\n " +
                 largeTextBox + "\n " +
                 innerTextBox;
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+
+        double largeBoxYPosScalar;
+        double smallBoxYPosScalar;
+        double smallBoxSizeScalar = .3;
+        double largeBoxSizeScalar = .7;
+        double smallBoxHeight = super.inObject.getParams()[1] * smallBoxSizeScalar;
+        double largeBoxHeight = super.inObject.getParams()[1] * largeBoxSizeScalar;
+        if(floatUp){
+            largeBoxYPosScalar = smallBoxHeight;
+            smallBoxYPosScalar = 0;
+        }
+        else{
+            largeBoxYPosScalar = 0;
+            smallBoxYPosScalar = largeBoxHeight;
+        }
+
+        //outlineShape will be entirely transparent
+        super.linkedJavaFXObject.getChildren().addAll(rectToJavaFX(super.inObject));
+
+        //Large text box
+        super.getTextBox(0).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * smallBoxSizeScalar + 2);
+        //header text inside larger text box
+        super.getTextBox(1).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * largeBoxYPosScalar + 2);
+        //text box inside larger text box
+        super.getTextBox(2).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * largeBoxYPosScalar + 2);
+
+        super.linkedJavaFXObject.getChildren().addAll(
+                rectToJavaFX(
+                new InputObject(
+                        "Rectangle",
+                        new double[]{super.inObject.getParams()[0] * .75,
+                                super.inObject.getParams()[1] * smallBoxSizeScalar},
+                        super.inObject.getColor(),
+                        super.inObject.getStyle(),
+                        super.inObject.getXCord(),
+                        super.inObject.getYCord() + smallBoxYPosScalar
+                )),
+
+        //large text box
+        rectToJavaFX(
+                new InputObject(
+                        "Rectangle",
+                        //{width, height}
+                        new double[]{super.inObject.getParams()[0],
+                                largeBoxHeight},
+                        super.inObject.getColor(),
+                        super.inObject.getStyle(),
+                        super.inObject.getXCord(),
+                        super.inObject.getYCord() + largeBoxYPosScalar + 2
+                )),
+
+        rectToJavaFX(
+                new InputObject(
+                        "Rectangle",
+                        new double[]{super.inObject.getParams()[0]*.8,
+                                super.inObject.getParams()[1]*largeBoxSizeScalar*.5-2},
+                        super.inObject.getColor(),
+                        super.inObject.getStyle(),
+                        super.inObject.getXCord() + super.inObject.getParams()[0]*.05,
+                        super.inObject.getYCord() + largeBoxYPosScalar + largeBoxHeight*.5
+                )));
+
     }
 }
