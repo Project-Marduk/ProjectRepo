@@ -102,7 +102,7 @@ public class DrawingBoard implements Serializable {
      * @return SVG example rectangle path string
      */
     public String TYLERreturnSVGRectExample(){
-        return "rect fill=\"none\" x=\"131.0\" width=\"222.0\" height=\"146.0\" y=\"79.0\" stroke=\"#000000\"/";
+        return "M 20 -30 L 120 -30 L 120 -130 M 20 -130 L 120 -130 L 20 -30";             //x=\"20.0\" width=\"100.0\" height=\"100.0\" y=\"30.0\" stroke=\"#000000\"/";
     }
 
     /**
