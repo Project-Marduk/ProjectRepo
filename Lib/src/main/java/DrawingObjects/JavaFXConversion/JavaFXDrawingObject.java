@@ -6,7 +6,7 @@ import FactoryElements.InputObject;
 import javafx.scene.Group;
 
 public class JavaFXDrawingObject extends Group {
-    DrawingObject linkedDrawingObject;
+    public DrawingObject linkedDrawingObject;
 
     public JavaFXDrawingObject(DrawingObject parent){
         super(parent.getLinkedJavaFXObject());
