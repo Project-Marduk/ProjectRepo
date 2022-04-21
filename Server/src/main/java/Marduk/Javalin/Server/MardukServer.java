@@ -78,8 +78,28 @@ public class MardukServer {
                 // ctx.result("Login Succefull");
             });
 
-
+            //returns a string of all object JSON data
             app.get(ApiCommands.getDiagram.path(), ctx -> {
+                String param =  ctx.queryParam("drawing_board_id");
+
+                DBConfiguration.loadConfiguration("/database.properties");
+                Base.open();
+
+                DrawingBoard db = DrawingBoard.findById(Integer.parseInt(param));
+                LazyList<DrawingObject> lzDwgObj =  db.getAll(DrawingObject.class); //pulls a lazy list
+                String outString = "";
+
+                //serializes all the drawingobjects to json
+                for (DrawingObject dw : lzDwgObj) {
+                    outString += dw.toJSON();
+                }
+
+
+                Base.close();
+
+                //returns svg data with wrappers
+                ctx.result(outString);
+
                 //String diagramName = ctx.body();
                 // Diagram toLoad = [Database load Diagram](diagramName);
                 // ctx.json(toLoad);
@@ -138,8 +158,7 @@ public class MardukServer {
                 LazyList<DrawingObject> lzDwgObj =  db.getAll(DrawingObject.class); //pulls a lazy list
                 String outString = "";
 
-                for (DrawingObject dw :
-                        lzDwgObj) {
+                for (DrawingObject dw : lzDwgObj) {
                     outString += dw.getSVGData();
                 }
 
@@ -215,19 +234,46 @@ public class MardukServer {
                     t3 = inObj.getText()[2];
                 }
 
-                DrawingBoard db = DrawingBoard.findById(inObj.getParent_id());
+//                DrawingBoard db = DrawingBoard.findById(inObj.getParent_id());
 
-                DrawingObject.createIt(inObj.getId(), inObj.getParent_id(), inObj.getShapeType(),
-                        inObj.getXCord(), inObj.getYCord(), p1, p2, inObj.getColor(), inObj.getStyle(),
-                        inObj.getFill(), t1, t2, t3);
+                //using createIt
+//                DrawingObject dw = DrawingObject.createIt(inObj.getId(), inObj.getParent_id(), inObj.getShapeType(),
+//                        inObj.getXCord(), inObj.getYCord(), p1, p2, inObj.getColor(), inObj.getStyle(),
+//                        inObj.getFill(), t1, t2, t3);
+                //dw.saveIt();
 
-                db.saveIt();
+                //explicity way to set variables
+                DrawingObject dwgObj = new DrawingObject();
+                dwgObj.set("id", inObj.getId());
+                dwgObj.set("drawing_board_id", inObj.getParent_id());
+                dwgObj.set("shape_type", inObj.getShapeType());
+                dwgObj.set("x_cord", inObj.getXCord());
+                dwgObj.set("y_cord", inObj.getYCord());
+                dwgObj.set("param_one", p1);
+                dwgObj.set("param_two", p2);
+                dwgObj.set("color", inObj.getColor());
+                dwgObj.set("style", inObj.getStyle());
+                dwgObj.set("fill", inObj.getFill());
+                dwgObj.set("text_one", t1);
+                dwgObj.set("text_two", t2);
+                dwgObj.set("text_three", t3);
+
+                dwgObj.saveIt();
 
                 //test
                 //object creation that takes in a json and attempts to make it an object
                 //check beekeeper to validate
                 //
 
+                Base.close();
+
+            });
+            //deletes a drawing object from the drawing object table based on its unique id
+            app.post(ApiCommands.deleteDrawingObject.path(), ctx -> {
+                String param = ctx.queryParam("drawing_object_id");
+                DBConfiguration.loadConfiguration("/database.properties");
+                Base.open();
+                DrawingObject.delete(param);
                 Base.close();
 
             });

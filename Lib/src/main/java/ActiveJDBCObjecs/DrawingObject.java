@@ -19,7 +19,7 @@ public class DrawingObject extends Model {
 
     }
 
-    //id INTEGER NOT NULL Auto_Increment,
+    //    id INTEGER NOT NULL Auto_Increment,
     //    drawing_board_id INTEGER NOT NULL,
     //    shape_type VARCHAR(20) NOT NULL,
     //    x_cord INTEGER NOT NULL,
@@ -46,12 +46,12 @@ public class DrawingObject extends Model {
      * Converts a drawing object to a JSON string using GSON
      */
     //reference for reading JSON files to java: https://attacomsian.com/blog/gson-read-json-file
-    public String toJSON(DrawingObject dwObj) {
+    public String toJSON() {
         //create Gson instance
         Gson gson = new Gson();
         //create json string to hold data
-        String jsonString = gson.toJson(dwObj);
-        return null;
+        String jsonString = gson.toJson(this);
+        return jsonString;
     }
 
 

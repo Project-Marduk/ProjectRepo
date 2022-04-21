@@ -24,10 +24,14 @@ public enum ApiCommands {
     registerUser("/api/post/register/user"),
     loginUser("/api/post/login/user"),
     logoutUser("api/get/login/user"),
-    getDiagram("/api/get/diagram"),
+    getDiagram("/api/get/diagram"), //acts as get drawing board
     getUserData("/api/get/diagram/list"),
     saveDiagram("/api/post/save/Diagram"),
-    createDrawingObject("/api/post/create/drawingobject");
+    createDrawingObject("/api/post/create/drawingobject"),
+    deleteDrawingObject("/api/post/delete/drawingobject"),
+    updateDrawingObject("/api/post/update/drawingobject"),
+    createDrawingBoard("/api/post/create/drawingboard"),
+    deleteDrawingBoard("/api/post/delete/drawingboard");
 
 
 
