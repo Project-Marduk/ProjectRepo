@@ -31,11 +31,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
     // ActiveJDBC
     activejdbc 'org.scala-lang:scala-library:2.12.6'
-
-    // SQLite
-    implementation 'org.xerial:sqlite-jdbc:3.25.2'
-// MariaDborg.sqlite.JDBC
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.6.0'
 // MySQL
     implementation 'mysql:mysql-connector-java:8.0.20'
 // JavaLite
