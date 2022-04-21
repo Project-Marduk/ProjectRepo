@@ -10,6 +10,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.control.skin.ColorPalette.ColorPickerGrid?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.paint.Color?>
 <BorderPane fx:id="Design" style="-fx-background-color: white" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
 
     <top>
@@ -67,16 +70,21 @@
                         </TreeItem>
                     </TreeView>
                     <Button VBox.vgrow="ALWAYS" fx:id="yeet" mnemonicParsing="false" onAction="#testSVGPathMethods" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Circle.png); -fx-border-color: #f3f3f3" />
-                    <Button VBox.vgrow="ALWAYS" fx:id="yert" mnemonicParsing="false"  minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Rectangle.png); -fx-border-color: #f3f3f3" />
-                    <Button VBox.vgrow="ALWAYS" fx:id="line" mnemonicParsing="false"  minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Line.png); -fx-border-color: #f3f3f3" />
-                    <Button VBox.vgrow="ALWAYS" fx:id="testSVG" mnemonicParsing="false" minHeight="75" minWidth="75" text="Test" style="-fx-background-color: white" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="yert" mnemonicParsing="false" onAction="#testAdd" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Rectangle.png); -fx-border-color: #f3f3f3" />
+                    <ColorPicker fx:id="colorPicker">
+                        <value>
+                            <Color blue="0.0" green="0.0" red="1.0" />
+                        </value>
+                    </ColorPicker>
+                    <TextField fx:id="userText"  maxWidth="20" maxHeight="20"/>
+                    <Button VBox.vgrow="ALWAYS" fx:id="testSVG" mnemonicParsing="false" onAction="#testAddText" minHeight="75" minWidth="75" text="Test" style="-fx-background-color: white" />
 
                 </children>
             </VBox>
     </left>
 
     <center>
-        <Pane fx:id="designCenter" style="-fx-background-color: grey"/>
+        <Pane fx:id="designCenter" style="-fx-background-color: white"/>
     </center>
 
 
