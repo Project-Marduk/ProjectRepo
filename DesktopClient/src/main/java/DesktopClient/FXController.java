@@ -221,7 +221,7 @@ public class FXController {
         javaShape = path;
         javaShape.setFill(colorPicker.getValue());
 
-        
+
 
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);
@@ -252,7 +252,7 @@ public class FXController {
         javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
         designCenter.getChildren().add(test);
         makeSelectable(test);
-        //getSVGData();
+        getSVGData();
 
         /**
         String test = designCenter.getChildren().toString();
@@ -495,7 +495,7 @@ class ResizingControl extends Group {
         Bounds bounds = node.getBoundsInParent();
 
         boundary.setStyle(
-                "-fx-stroke: forestgreen; " +
+                "-fx-stroke: black; " +
                         "-fx-stroke-width: 2px; " +
                         "-fx-stroke-dash-array: 12 2 4 2; " +
                         "-fx-stroke-dash-offset: 6; " +
