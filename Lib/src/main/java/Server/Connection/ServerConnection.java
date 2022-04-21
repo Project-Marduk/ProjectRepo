@@ -137,7 +137,7 @@ public class ServerConnection {
     }
 
 
-    // CALL FUNCTIONS
+    // server FUNCTIONS
     /**
      * Method to test whether the server is up and running and we have the correct address and port to connect to it.
      *

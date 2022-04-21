@@ -61,11 +61,6 @@ public class FXController {
 
 
 
-    public void TRAAEtestSPACE(){
-
-    }
-
-
 
     /**
      * FXML files located in the resource folder. This allows for variables to be called instead
@@ -223,6 +218,10 @@ public class FXController {
         test.setFill(new ImagePattern(testImgae));
          **/
 
+        testBoard.addObject(inputObject);
+
+        JavaFXDrawingObject example = testBoard.getObjects().get(0).getUpdateLinkedJavaFX();//testBoard.getList().get(0).getUpdateLinkedJavaFX();
+
         javaShape = ShapeJavaFXFunctions.rectToJavaFX(inputObject);
         javaShape.setFill(colorPicker.getValue());
 
@@ -231,8 +230,10 @@ public class FXController {
         javaShape.setTranslateY(insertY);
         javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
         javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
-        designCenter.getChildren().add(javaShape);
-        makeSelectable(javaShape);
+
+        designCenter.getChildren().add(example);
+        designCenter.getChildren().add(example);
+        makeSelectable(example);
         getSVGData();
 
         //Method 2 failed

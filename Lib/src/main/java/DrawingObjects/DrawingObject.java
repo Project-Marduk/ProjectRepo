@@ -36,7 +36,7 @@ public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, S
         linkedJavaFXObject = null;
     }
 
-    public Group getUpdateLinkedJavaFX(){
+    public JavaFXDrawingObject getUpdateLinkedJavaFX(){
         if (linkedJavaFXObject == null){
             linkedJavaFXObject = new JavaFXDrawingObject(this);
         }
