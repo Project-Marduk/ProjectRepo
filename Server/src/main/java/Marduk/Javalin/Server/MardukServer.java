@@ -46,7 +46,19 @@ public class MardukServer {
                 config.server(() ->
                         new Server(queuedThreadPool))).start(ServerPorts.Server.port());
 
+
+
         app.routes(() -> {
+            //Runs before each request handler
+            //ensures database is properly opened and closed
+            app.before(ctx -> {
+                DBConfiguration.loadConfiguration("/database.properties");
+                Base.open();
+            });
+            app.after(ctx -> {
+                Base.close();
+            });
+
             // Basic info calls
             app.get(ApiCommands.root.path(), ctx -> ctx.result(defaultMessage));
 
@@ -78,24 +90,35 @@ public class MardukServer {
                 // ctx.result("Login Succefull");
             });
 
+            app.post(ApiCommands.deleteDrawingBoard.path(), ctx->{
+
+            });
+
+            app.post(ApiCommands.validateDatabaseConnection.path(), ctx->{
+                ctx.result("connection success");
+            });
+
             //returns a string of all object JSON data
             app.get(ApiCommands.getDiagram.path(), ctx -> {
                 String param =  ctx.queryParam("drawing_board_id");
-
-                DBConfiguration.loadConfiguration("/database.properties");
-                Base.open();
-
-                DrawingBoard db = DrawingBoard.findById(Integer.parseInt(param));
-                LazyList<DrawingObject> lzDwgObj =  db.getAll(DrawingObject.class); //pulls a lazy list
                 String outString = "";
 
-                //serializes all the drawingobjects to json
-                for (DrawingObject dw : lzDwgObj) {
-                    outString += dw.toJSON();
+//                DBConfiguration.loadConfiguration("/database.properties");
+//                Base.open();
+
+                DrawingBoard dwgb = DrawingBoard.findById(Integer.parseInt(param));
+
+                if(dwgb != null){
+                    LazyList<DrawingObject> lzDwgObj =  dwgb.getAll(DrawingObject.class); //pulls a lazy list
+
+                    //serializes all the drawingobjects to json
+                    for (DrawingObject dw : lzDwgObj) {
+                        outString += dw.toJSON();
+                    }
                 }
-
-
-                Base.close();
+                else{
+                    outString = "id not found";
+                }
 
                 //returns svg data with wrappers
                 ctx.result(outString);
@@ -146,14 +169,6 @@ public class MardukServer {
             app.post(ApiCommands.renderSVG.path(), ctx -> {
                 String param = ctx.queryParam("drawing_board_id");
 
-//                new DB("default").open("com.mysql.cj.jdbc.Driver", // DB Connection Class
-//                        "projectmarduk.cbvcsctgz8mg.us-west-2.rds.amazonaws.com", // DB URL
-//                        "admin", // User Name
-//                        "cR4bh4ND5"); // password
-                //opens the database from the information in the database.properties in Lib
-                DBConfiguration.loadConfiguration("/database.properties");
-                Base.open();
-
                 DrawingBoard db = DrawingBoard.findById(Integer.parseInt(param));
                 LazyList<DrawingObject> lzDwgObj =  db.getAll(DrawingObject.class); //pulls a lazy list
                 String outString = "";
@@ -161,8 +176,6 @@ public class MardukServer {
                 for (DrawingObject dw : lzDwgObj) {
                     outString += dw.getSVGData();
                 }
-
-                Base.close();
 
                 //returns svg data with wrappers
                 ctx.result(outString);
@@ -199,73 +212,80 @@ public class MardukServer {
             //deleteDrawingBoard : deletes a drawingboard
             app.post(ApiCommands.createDrawingObject.path(), ctx -> {
                 //adds a drawing object to the drawing object table
-                String param = ctx.queryParam("drawingobjectjson");
+                String param = ctx.queryParam("inputobjectjson");
 
-                DBConfiguration.loadConfiguration("/database.properties");
-                Base.open();
+                InputObject inObj;
 
-                InputObject inObj = inputObjectFromJSON(param);
+                try{
+                    inObj = inputObjectFromJSON(param);
+                }
+                catch(Exception e){
+                    inObj = null;
+                }
+
+                //checks if JSON was correctly parsed
+                if(inObj != null){
+                    Double p1;
+                    Double p2 = null;
+                    String t1;
+                    String t2 = null;
+                    String t3 = null;
+
+                    if(inObj.getParams().length == 1){
+                        p1 = inObj.getParams()[0];
+                    }
+                    else{
+                        p1 = inObj.getParams()[0];
+                        p2 = inObj.getParams()[1];
+                    }
+
+                    if(inObj.getText().length == 1){
+                        t1 = inObj.getText()[0];
+                    }
+                    else if(inObj.getText().length == 2){
+                        t1 = inObj.getText()[0];
+                        t2 = inObj.getText()[1];
+                    }
+                    else{
+                        t1 = inObj.getText()[0];
+                        t2 = inObj.getText()[1];
+                        t3 = inObj.getText()[2];
+                    }
+
+                    //using createIt
+                    DrawingObject dw = DrawingObject.createIt(1, inObj.getShapeType(), //inObj.getParent_id() update this once parent id is added
+                        inObj.getXCord(), inObj.getYCord(), p1, p2, inObj.getColor(), inObj.getStyle(),
+                        inObj.getFill(), t1, t2, t3);
+                    dw.saveIt();
+
+                    //explicity way to set variables
+//                    DrawingObject dwgObj = new DrawingObject();
+//                    dwgObj.set("id", inObj.getId());
+//                    dwgObj.set("drawing_board_id", inObj.getParent_id());
+//                    dwgObj.set("shape_type", inObj.getShapeType());
+//                    dwgObj.set("x_cord", inObj.getXCord());
+//                    dwgObj.set("y_cord", inObj.getYCord());
+//                    dwgObj.set("param_one", p1);
+//                    dwgObj.set("param_two", p2);
+//                    dwgObj.set("color", inObj.getColor());
+//                    dwgObj.set("style", inObj.getStyle());
+//                    dwgObj.set("fill", inObj.getFill());
+//                    dwgObj.set("text_one", t1);
+//                    dwgObj.set("text_two", t2);
+//                    dwgObj.set("text_three", t3);
 
 
-                Double p1;
-                Double p2 = null;
-                String t1;
-                String t2 = null;
-                String t3 = null;
 
-                if(inObj.getParams().length == 1){
-                    p1 = inObj.getParams()[0];
+//                    dwgObj.saveIt();
                 }
                 else{
-                    p1 = inObj.getParams()[0];
-                    p2 = inObj.getParams()[1];
+                    ctx.result("input object was unable to be correctly parsed from JSON");
                 }
-
-                if(inObj.getText().length == 1){
-                    t1 = inObj.getText()[0];
-                }
-                else if(inObj.getText().length == 2){
-                    t1 = inObj.getText()[0];
-                    t2 = inObj.getText()[1];
-                }
-                else{
-                    t1 = inObj.getText()[0];
-                    t2 = inObj.getText()[1];
-                    t3 = inObj.getText()[2];
-                }
-
-//                DrawingBoard db = DrawingBoard.findById(inObj.getParent_id());
-
-                //using createIt
-//                DrawingObject dw = DrawingObject.createIt(inObj.getId(), inObj.getParent_id(), inObj.getShapeType(),
-//                        inObj.getXCord(), inObj.getYCord(), p1, p2, inObj.getColor(), inObj.getStyle(),
-//                        inObj.getFill(), t1, t2, t3);
-                //dw.saveIt();
-
-                //explicity way to set variables
-                DrawingObject dwgObj = new DrawingObject();
-                dwgObj.set("id", inObj.getId());
-                dwgObj.set("drawing_board_id", inObj.getParent_id());
-                dwgObj.set("shape_type", inObj.getShapeType());
-                dwgObj.set("x_cord", inObj.getXCord());
-                dwgObj.set("y_cord", inObj.getYCord());
-                dwgObj.set("param_one", p1);
-                dwgObj.set("param_two", p2);
-                dwgObj.set("color", inObj.getColor());
-                dwgObj.set("style", inObj.getStyle());
-                dwgObj.set("fill", inObj.getFill());
-                dwgObj.set("text_one", t1);
-                dwgObj.set("text_two", t2);
-                dwgObj.set("text_three", t3);
-
-                dwgObj.saveIt();
 
                 //test
                 //object creation that takes in a json and attempts to make it an object
                 //check beekeeper to validate
                 //
-
-                Base.close();
 
             });
             //deletes a drawing object from the drawing object table based on its unique id
@@ -280,6 +300,10 @@ public class MardukServer {
 
 
         });
+
+    }
+
+    public static void start(){
 
     }
 }

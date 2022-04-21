@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -64,6 +65,15 @@ public class TestDrawingBoard {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    @Test
+    void testCreateDrawingObject(){
+        InputObject rectInObj = makeTwoDInputObject("Rectangle", 100, 50, 100, 100);
+        rectInObj.setParent_id(1);
+        String inObjJSON = rectInObj.toJSON();
+        System.out.println(inObjJSON);
+        assertTrue(true);
     }
 
     @Test

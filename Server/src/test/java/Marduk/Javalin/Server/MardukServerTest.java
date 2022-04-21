@@ -1,9 +1,19 @@
 package Marduk.Javalin.Server;
 
 import FactoryElements.InputObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertTrue;
+
 public class MardukServerTest {
+    MardukServer testMS;
+
+    @BeforeEach
+    public void start(){
+
+    }
+
 
     InputObject makeOneDInputObject(String objName, double dim, double x, double y){
         double[] inParams = new double[]{dim};
@@ -17,12 +27,21 @@ public class MardukServerTest {
         return inObj;
     }
 
+//    @Test
+//    void validateDBConnection(){
+//
+//    }
+
+    //JSON string for testing
+    //{"parent_id":1,"shapeType":"Rectangle","xCord":100.0,"yCord":100.0,"params":[100.0,50.0],"color":"000000","style":"bold","fill":"#FFFFFF","text":[""]}
+
     @Test
     void testCreateDrawingObject(){
+        MardukServer testMS = new MardukServer();
+        testMS
         InputObject rectInObj = makeTwoDInputObject("Rectangle", 100, 50, 100, 100);
         String inObjJSON = rectInObj.toJSON();
-
-
-
+        System.out.println(inObjJSON);
+        assertTrue(true);
     }
 }

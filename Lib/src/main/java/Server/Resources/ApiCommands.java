@@ -31,7 +31,8 @@ public enum ApiCommands {
     deleteDrawingObject("/api/post/delete/drawingobject"),
     updateDrawingObject("/api/post/update/drawingobject"),
     createDrawingBoard("/api/post/create/drawingboard"),
-    deleteDrawingBoard("/api/post/delete/drawingboard");
+    deleteDrawingBoard("/api/post/delete/drawingboard"),
+    validateDatabaseConnection("/api/post/validate/databaseconnection");
 
 
 
