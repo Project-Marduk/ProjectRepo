@@ -3,6 +3,9 @@
  */
 package Marduk.Javalin.Server;
 
+import ActiveJDBCObjecs.DrawingBoard;
+import ActiveJDBCObjecs.DrawingObject;
+import FactoryElements.InputObject;
 import Marduk.Javalin.Server.DataManager.DataManagerDriver;
 import Server.Resources.ServerPorts;
 import Server.Resources.ServerReturns;
@@ -10,6 +13,12 @@ import Server.Resources.ApiCommands;
 import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.javalite.activejdbc.Base;
+import org.javalite.activejdbc.DB;
+import org.javalite.activejdbc.LazyList;
+import org.javalite.activejdbc.connection_config.DBConfiguration;
+
+import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
 
 /**
  * The Info Manager Server
@@ -115,6 +124,39 @@ public class MardukServer {
                 }*/
             });
             app.post(ApiCommands.renderSVG.path(), ctx -> {
+                String param = ctx.queryParam("drawing_board_id");
+
+//                new DB("default").open("com.mysql.cj.jdbc.Driver", // DB Connection Class
+//                        "projectmarduk.cbvcsctgz8mg.us-west-2.rds.amazonaws.com", // DB URL
+//                        "admin", // User Name
+//                        "cR4bh4ND5"); // password
+                //opens the database from the information in the database.properties in Lib
+                DBConfiguration.loadConfiguration("/database.properties");
+                Base.open();
+
+                DrawingBoard db = DrawingBoard.findById(Integer.parseInt(param));
+                LazyList<DrawingObject> lzDwgObj =  db.getAll(DrawingObject.class); //pulls a lazy list
+                String outString = "";
+
+                for (DrawingObject dw :
+                        lzDwgObj) {
+                    outString += dw.getSVGData();
+                }
+
+                Base.close();
+
+                //returns svg data with wrappers
+                ctx.result(outString);
+
+//                try{
+//                    ctx.result(outString);
+//                }
+//                catch(IndexOutOfBoundsException e){
+//
+//                }
+
+
+
                 /*
                 if (Objects.equals(ctx.contentType(), "application/json")) {
                     Diagram diagram = ctx.bodyAsClass(Diagram.class);
@@ -128,6 +170,66 @@ public class MardukServer {
 
                 }
                 */
+            });
+            //needed calls
+            //returnSVG : gets all SVG data and returns the string value, will only apply to javaFX
+            //createDrawingObject : adds a new drawing object to the drawingboard
+            //removeDrawingObject : removes a drawing object from the drawingboard
+            //updateDrawingObject : overwrites a drawing object from the drawingboard
+            //createDrawingBoard : creates a new drawingboard
+            //deleteDrawingBoard : deletes a drawingboard
+            app.post(ApiCommands.createDrawingObject.path(), ctx -> {
+                //adds a drawing object to the drawing object table
+                String param = ctx.queryParam("drawingobjectjson");
+
+                DBConfiguration.loadConfiguration("/database.properties");
+                Base.open();
+
+                InputObject inObj = inputObjectFromJSON(param);
+
+
+                Double p1;
+                Double p2 = null;
+                String t1;
+                String t2 = null;
+                String t3 = null;
+
+                if(inObj.getParams().length == 1){
+                    p1 = inObj.getParams()[0];
+                }
+                else{
+                    p1 = inObj.getParams()[0];
+                    p2 = inObj.getParams()[1];
+                }
+
+                if(inObj.getText().length == 1){
+                    t1 = inObj.getText()[0];
+                }
+                else if(inObj.getText().length == 2){
+                    t1 = inObj.getText()[0];
+                    t2 = inObj.getText()[1];
+                }
+                else{
+                    t1 = inObj.getText()[0];
+                    t2 = inObj.getText()[1];
+                    t3 = inObj.getText()[2];
+                }
+
+                DrawingBoard db = DrawingBoard.findById(inObj.getParent_id());
+
+                DrawingObject.createIt(inObj.getId(), inObj.getParent_id(), inObj.getShapeType(),
+                        inObj.getXCord(), inObj.getYCord(), p1, p2, inObj.getColor(), inObj.getStyle(),
+                        inObj.getFill(), t1, t2, t3);
+
+                db.saveIt();
+
+                //test
+                //object creation that takes in a json and attempts to make it an object
+                //check beekeeper to validate
+                //
+
+                Base.close();
+
             });
 
 

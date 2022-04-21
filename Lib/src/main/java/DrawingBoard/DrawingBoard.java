@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import com.google.gson.reflect.TypeToken;
+import org.javalite.activejdbc.Model;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -25,7 +26,7 @@ public class DrawingBoard implements Serializable {
     private ArrayList<String> users;
 
     Map<String, DrawingObject> objects = new HashMap<>();
-    String[] objectTypes = new String[]{
+    String[] objectTypes = new String[]{ //TODO: CHANGE TO ENUM CLASS
         "IFML_Action",
         "IFML_Activation_Expression",
         "IFML_Container",
@@ -53,7 +54,7 @@ public class DrawingBoard implements Serializable {
 
     public void setId(String id) {
         if (id == null){
-            this.id = id;
+            this.id = "0";
         }
     }
     public String getId() {

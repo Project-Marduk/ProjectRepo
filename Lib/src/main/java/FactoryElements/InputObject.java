@@ -19,6 +19,8 @@ import java.io.Serializable;
 @Getter @Setter
 //@Table("Input_Object")
 public class InputObject implements Serializable {
+    Integer id;
+    Integer parent_id;
     String shapeType;
     double xCord;
     double yCord;
@@ -26,11 +28,12 @@ public class InputObject implements Serializable {
     String color;
     String style;
     String fill;
+    String[] text;
 
     public InputObject(){
         fill = fill = "#FFFFFF";
     }
-    public InputObject(String sType, double[] p, String c, String s, double x, double y){ //TODO: Look up default values in Java
+    public InputObject(String sType, double[] p, String c, String s, double x, double y, String[] t){ //TODO: Look up default values in Java
         shapeType = sType;
         params = p;
         color = c;
@@ -38,5 +41,6 @@ public class InputObject implements Serializable {
         xCord = x;
         yCord = y;
         fill = "#FFFFFF"; //set default value as white fill
+        text = t;
     }
 }

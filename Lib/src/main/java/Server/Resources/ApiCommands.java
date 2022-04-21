@@ -26,7 +26,10 @@ public enum ApiCommands {
     logoutUser("api/get/login/user"),
     getDiagram("/api/get/diagram"),
     getUserData("/api/get/diagram/list"),
-    saveDiagram("/api/post/save/Diagram");
+    saveDiagram("/api/post/save/Diagram"),
+    createDrawingObject("/api/post/create/drawingobject");
+
+
 
 
     private final String address;

@@ -2,6 +2,8 @@ plugins {
     id 'groovy'
     id 'java'
     id 'application'
+
+    id "com.empirilytics.activejdbc-gradle-plugin" version "3.0-j11"
 }
 
 version 'unspecified'
@@ -28,6 +30,15 @@ dependencies {
 
     // from the library
     implementation project(":Lib")
+
+
+    implementation "org.javalite:activejdbc:3.0-j11"
+    implementation "org.javalite:javalite-common:3.0-j11"
+// MySQL
+    implementation 'mysql:mysql-connector-java:8.0.20'
+// JavaLite
+    implementation "org.javalite:activejdbc:3.0-j11"
+    implementation "org.javalite:javalite-common:3.0-j11"
 }
 sourceSets {
     main {
@@ -41,6 +52,10 @@ application {
     // Define the main class for the application.
     mainClass = 'Marduk.Javalin.Server.MardukServer'
     applicationName = "MardukServer"
+}
+
+activejdbc {
+    toolVersion = '3.0-j11'
 }
 
 test {
