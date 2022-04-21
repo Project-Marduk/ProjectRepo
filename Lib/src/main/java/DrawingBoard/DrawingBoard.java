@@ -81,6 +81,66 @@ public class DrawingBoard implements Serializable {
         return objects.get(id).getSVGData();
     }
 
+    /**
+     * EXPERIMENT FUNCTION FOR TYLER 1
+     *
+     * This is the plain SVG path example from the tutorial as a control test.
+     *
+     * @author Traae
+     * @return SVG example path string
+     */
+    public String TYLERreturnSVGPathExample(){
+       return  "M 100 100 L 300 100 L 200 300 z";
+    }
+
+    /**
+     * EXPERIMENT FUNCTION FOR TYLER 2
+     *
+     * This a simple svg rectangle, god I hope SVGPATH doesn't just mean draw paths.
+     *
+     * @author Traae
+     * @return SVG example rectangle path string
+     */
+    public String TYLERreturnSVGRectExample(){
+        return "M 20 -30 L 120 -30 L 120 -130 M 20 -130 L 120 -130 L 20 -30";             //x=\"20.0\" width=\"100.0\" height=\"100.0\" y=\"30.0\" stroke=\"#000000\"/";
+    }
+
+    /**
+     * EXPERIMENT FUNCTION FOR TYLER 3
+     *
+     * This is the compiled path minus all the edge symbols
+     *
+     * @author Traae
+     * @return SVG example path string
+     */
+    public String TYLERreturnSVGPathEdgeless(){
+        String svgData = "";
+        for(String key : objects.keySet()){
+            svgData += "\n" + objects.get(key).getSVGData();
+            svgData += "\n" + objects.get(key).txtToSVG();
+        }
+        svgData.replaceAll("[<>]", " ");
+        return svgData;
+    }
+
+    /**
+     * EXPERIMENT FUNCTION FOR TYLER 4
+     *
+     * This is the compiled path with all the edge symbols
+     *
+     * @author Traae
+     * @return SVG example path string
+     */
+    public String TYLERreturnSVGPath(){
+        String svgData = "";
+        for(String key : objects.keySet()){
+            svgData += "\n" + objects.get(key).getSVGData();
+            svgData += "\n" + objects.get(key).txtToSVG();
+        }
+
+        return svgData;
+    }
+
     public String returnSVGData(){
         String svgData = "";
         for(String key : objects.keySet()){
