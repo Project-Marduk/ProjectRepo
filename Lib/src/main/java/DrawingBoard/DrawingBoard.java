@@ -51,6 +51,11 @@ public class DrawingBoard implements Serializable {
         id = null;
     }
 
+    public ArrayList<DrawingObject> getList(){
+        return new ArrayList<DrawingObject>(objects.values());
+    }
+
+
     public void setId(String id) {
         if (id == null){
             this.id = id;

@@ -4,12 +4,17 @@
 package Marduk.Javalin.Server;
 
 import Marduk.Javalin.Server.DataManager.DataManagerDriver;
+import Marduk.Javalin.Server.FileExporter.FileExporterDriver;
+import Server.Connection.HttpRequestHeader;
 import Server.Resources.ServerPorts;
 import Server.Resources.ServerReturns;
 import Server.Resources.ApiCommands;
+import com.google.gson.Gson;
 import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+
+import java.util.Objects;
 
 /**
  * The Info Manager Server
@@ -29,7 +34,8 @@ public class MardukServer {
         ServerReturns currentStatus = ServerReturns.allGood;
         String errorMessage = "No current error.";
         String defaultMessage = ServerReturns.serverMessage.message();
-        DataManagerDriver dataManagerDriver = DataManagerDriver.getInstance();
+        DataManagerDriver dataManager = DataManagerDriver.getInstance();
+        FileExporterDriver fileExporter = FileExporterDriver.getInstance();
 
         
         QueuedThreadPool queuedThreadPool = new QueuedThreadPool(MAX_THREADS, MIN_THREADS,TIMEOUT);
@@ -91,43 +97,31 @@ public class MardukServer {
                 }*/
             });
 
-            // Receive a diagram for rendering.
+            /**
+             * Receive a diagram for rendering.
+             *
+             * TODO change toRender to the final Datastructure
+             */
             app.post(ApiCommands.renderPNG.path(), ctx -> {
-                /*
-                NOTE: I still do not full understand this conditional,
-                specificly "application/json"
+                if (Objects.equals(ctx.contentType(), HttpRequestHeader.value.get())) {
 
-                if (Objects.equals(ctx.contentType(), "application/json")) {
-                    // we make a diagram out of the diagram json that was sent to us.
-                    Diagram d = ctx.bodyAsClass(Diagram.class);
+                    Object toRender = ctx.bodyAsClass(Object.class);
 
-                    // then we return the result
-                    // we can do this one for 3 ways
-                    // 1. Return a byte array holding the png's data, and the client can write that to a file
-                    // 2. we can use a stream
-                    // see: https://javalin.io/archive/docs/v2.8.0.html#context
-
-                    // Using a stream to pass a file seems the most professional.
-
-                    // what ever we choose, we put the FileExporter function into ctx.result( HERE );
-
-                    ctx.result();
-                }*/
-            });
-            app.post(ApiCommands.renderSVG.path(), ctx -> {
-                /*
-                if (Objects.equals(ctx.contentType(), "application/json")) {
-                    Diagram diagram = ctx.bodyAsClass(Diagram.class);
-
-                    // Same as the above function, but we could also pass the whole body of the SVG
-                    // as a string and have the client write that to a file.
-
-                    // Once again, using a stream to
-
-                    ctx.result( );
-
+                    ctx.json(fileExporter.renderPNG(toRender));
                 }
-                */
+            });
+            /**
+             * Receive a diagram for rendering.
+             *
+             * TODO change toRender to the final Datastructure
+             */
+            app.post(ApiCommands.renderSVG.path(), ctx -> {
+                if (Objects.equals(ctx.contentType(), HttpRequestHeader.value.get())) {
+
+                    Object toRender = ctx.bodyAsClass(Object.class);
+
+                    ctx.json(fileExporter.renderSVG(toRender));
+                }
             });
 
 

@@ -1,5 +1,7 @@
 package Server.Connection;
 
+import Server.Files.PNGformatData;
+import Server.Files.SVGformatData;
 import Server.Resources.ServerReturns;
 import Server.Resources.ApiCommands;
 import com.google.gson.Gson;
@@ -47,6 +49,7 @@ public class ServerConnection {
     private static final String LOAD_CALL = httpSuffix + ApiCommands.getDiagram.path();
     private static final String SAVE_CALL = httpSuffix + ApiCommands.saveDiagram.path();
 
+
     private static ServerConnection INSTANCE = null;
     private String address;
     private String port;
@@ -55,8 +58,8 @@ public class ServerConnection {
     private HttpClient client;
     private Gson gson;
 
-    // constructor
-    protected ServerConnection(){
+    // CLASS FUNCTIONS
+    private ServerConnection(){
         expectedMessage = ServerReturns.serverMessage.message();
         gson = new Gson();
     }
@@ -70,7 +73,6 @@ public class ServerConnection {
         }
         return INSTANCE;
     }
-
 
     // Initialize and disconnect, the setup and clean up functions.
     /**
@@ -120,7 +122,6 @@ public class ServerConnection {
                 .build();
     }
 
-
     /**
      * Constructs a new HttpRequest object using the GET method, for the provided format string of the api call
      *
@@ -135,7 +136,8 @@ public class ServerConnection {
                 .build();
     }
 
-    // Call functions
+
+    // server FUNCTIONS
     /**
      * Method to test whether the server is up and running and we have the correct address and port to connect to it.
      *
@@ -202,9 +204,50 @@ public class ServerConnection {
             System.out.println("Error caught in Connection.getErrorMessage(): " + e.getMessage());
             return null;
         }
-
     }
 
+    // FILE EXPORTER FUNCTIONS
+    /**
+     *  EXPORT PNG CALL
+     *
+     * @param toRender Serialize and send the entire data Structure
+     * @return PNGFormat data class for writing with the FileWriter.
+     */
+    public PNGformatData renderPNG(/*DATASTRUCTURE toRender*/ Object toRender){
+        try{
+            String json = gson.toJson(toRender);
+            HttpRequest request = createPost(PNG_CALL, json);
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            PNGformatData data = gson.fromJson(response.body(), PNGformatData.class);
+
+            return data;
+        }catch (Exception e){
+            System.out.println("Error caught in Connection.getErrorMessage(): " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     *  EXPORT SVG CALL
+     *
+     * @param toRender Serialize and send the entire data Structure
+     * @return PNGFormat data class for writing with the FileWriter.
+     */
+    public SVGformatData renderSVG(/*DATASTRUCTURE toRender*/ Object toRender){
+        try{
+            String json = gson.toJson(toRender);
+            HttpRequest request = createPost(PNG_CALL, json);
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            SVGformatData data = gson.fromJson(response.body(), SVGformatData.class);
+
+            return data;
+        }catch (Exception e){
+            System.out.println("Error caught in Connection.getErrorMessage(): " + e.getMessage());
+            return null;
+        }
+    }
 
 
 
