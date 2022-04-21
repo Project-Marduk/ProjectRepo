@@ -8,8 +8,7 @@ package DesktopClient;
 
 import FactoryElements.*;
 import DrawingBoard.*;
-import DrawingObjects.*;
-<<<<<<< HEAD
+import DrawingObjects.JavaFXConversion.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,9 +24,6 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-=======
-
->>>>>>> df3751aa05f5ef9879c7645102939e7e42d1b9b6
 import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.fxml.FXML;
@@ -61,10 +57,11 @@ public class FXController {
     InputObject inputObject = new InputObject("Square", new double[]{100, 100},"black","solid",20.0,20.0);
     InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
     InputObject inputObject3 = new InputObject("Circle", new double[]{100, 200},"black","solid",600.0,400.0);
+    InputObject inputObject4 = new InputObject("Hexagon",new double[]{100,200}, "black","solid",50.0,50.0);
+
 
 
     public void TRAAEtestSPACE(){
-
 
     }
 
@@ -194,44 +191,16 @@ public class FXController {
         mainStage.show();
     }
 
-    /**
-    @FXML
-    public void testCreate(){
-        testBoard.addObject(inputObject3);
-
-        StringBuilder svgBuilder = new StringBuilder();
-        svgBuilder.append("<!DOCTYPE html>");
-        svgBuilder.append("<html>");
-        svgBuilder.append("<body>");
-        svgBuilder.append(testBoard.returnSVGData());
-        svgBuilder.append("</body>");
-        svgBuilder.append("</html>");
-        String html = svgBuilder.toString();
-
-        Design.getChildren().remove(designWebView);
-
-        engine = designWebView.getEngine();
-        engine.loadContent(html);
-
-        Design.getChildren().add(designWebView);
-    }
-     **/
-
     @FXML
     public void testAddText(){
-
     }
 
     @FXML
     public void testAdd(){
         Rectangle test = new Rectangle(200,200);
         path = new SVGPath();
-        //path.setContent(testBoard.TYLERreturnSVGPathExample());
         javaShape = path;
         javaShape.setFill(colorPicker.getValue());
-
-
-
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);
         javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
@@ -239,35 +208,32 @@ public class FXController {
         designCenter.getChildren().add(javaShape);
     }
 
+    /**
+     * This is the main method that will add the shapes we are creating. Just press the circle button under the tree view
+     * to insert shapes
+     */
     @FXML
     public void testSVGPathMethods(){
-        //Method 1 works
-        path = new SVGPath();
-        path.setContent(testBoard.TYLERreturnSVGRectExample());
-        javaShape = path;
-        javaShape.setFill(colorPicker.getValue());
-
+        /**
         Circle testcirc = new Circle(30);
         testcirc.setFill(colorPicker.getValue());
         Image testImgae = testcirc.snapshot(new SnapshotParameters(),null);
 
         Rectangle test = new Rectangle(200,200);
         test.setFill(new ImagePattern(testImgae));
+         **/
+
+        javaShape = ShapeJavaFXFunctions.rectToJavaFX(inputObject);
+        javaShape.setFill(colorPicker.getValue());
 
         javaShape.setCursor(Cursor.MOVE);
         javaShape.setTranslateX(insertX);
         javaShape.setTranslateY(insertY);
         javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
         javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
-        designCenter.getChildren().add(test);
-        makeSelectable(test);
+        designCenter.getChildren().add(javaShape);
+        makeSelectable(javaShape);
         getSVGData();
-
-        /**
-        String test = designCenter.getChildren().toString();
-        svgData += test;
-        System.out.println(svgData);
-         **/
 
         //Method 2 failed
         /**
@@ -321,6 +287,9 @@ public class FXController {
          **/
     }
 
+    /**
+     * Returns the svg data inside of the design center to make sure it is giving the right data
+     */
     public void getSVGData(){
         int i = 0;
         while (i < designCenter.getChildren().size()){
@@ -332,7 +301,8 @@ public class FXController {
 
     /**
      * Open source code from http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
-     * I do not own rights to this code. This is just in for now to demonstrate an easy way to move shapes
+     * This allows for the java shapes to be moved around freely inside of the design center
+     * I need to add bounds on this somehow so you cant drag all over the screen
      */
     EventHandler<MouseEvent> shapeOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
@@ -367,6 +337,11 @@ public class FXController {
                 }
             };
 
+    /**
+     * make selectable allows for basic shapes inside of javafx to be dragged and resized such as a rectangle.
+     * Sadly this is hella bugged with our svg shape paths
+     * @param nodes
+     */
     private void makeSelectable(Node... nodes) {
         designCenter.setOnMouseClicked(event -> {
             final Parent parentNode = ((Node) event.getTarget()).getParent();

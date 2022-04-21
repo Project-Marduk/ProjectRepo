@@ -81,7 +81,6 @@ public class DrawingBoard implements Serializable {
         return objects.get(id).getSVGData();
     }
 
-<<<<<<< HEAD
     /**
      * EXPERIMENT FUNCTION FOR TYLER 1
      *
@@ -142,8 +141,6 @@ public class DrawingBoard implements Serializable {
         return svgData;
     }
 
-=======
->>>>>>> df3751aa05f5ef9879c7645102939e7e42d1b9b6
     public String returnSVGData(){
         String svgData = "";
         for(String key : objects.keySet()){

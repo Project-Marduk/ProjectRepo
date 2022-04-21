@@ -32,7 +32,7 @@ public class ShapeJavaFXFunctions {
         Rectangle r = new Rectangle();
         r.setX(inObj.getXCord());
         r.setY(inObj.getYCord());
-        r.setFill(hexToRgb(inObj.getFill()));
+        //r.setFill(hexToRgb(inObj.getFill()));
         r.setWidth(inObj.getParams()[0]);
         r.setHeight(inObj.getParams()[1]);
         r.setArcWidth(r.getWidth() / 20);
@@ -44,7 +44,7 @@ public class ShapeJavaFXFunctions {
         Rectangle square = new Rectangle();
         square.setX(inObj.getXCord());
         square.setY(inObj.getXCord());
-        square.setFill(hexToRgb(inObj.getFill()));
+        //square.setFill(hexToRgb(inObj.getFill()));
         square.setWidth(inObj.getParams()[0]);
         square.setHeight(inObj.getParams()[0]);
         square.setArcWidth(square.getWidth() / 20);
@@ -57,13 +57,13 @@ public class ShapeJavaFXFunctions {
         c.setCenterX(inObj.getXCord());
         c.setCenterY(inObj.getYCord());
         c.setRadius(inObj.getParams()[0]);
-        c.setFill(hexToRgb(inObj.getFill()));
+        //c.setFill(hexToRgb(inObj.getFill()));
         return c;
     }
 
     public static Path hexagonToJavaFX(InputObject inObj){
         Path path = new Path();
-        path.setFill(hexToRgb(inObj.getFill()));
+        //path.setFill(hexToRgb(inObj.getFill()));
 
         //variables used in calculating the 6 points
         double xOrigin = inObj.getXCord() - inObj.getParams()[0];
