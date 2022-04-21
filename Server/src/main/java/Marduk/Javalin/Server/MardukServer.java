@@ -11,6 +11,8 @@ import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
+import java.util.Objects;
+
 /**
  * The Info Manager Server
  *
@@ -117,7 +119,7 @@ public class MardukServer {
             app.post(ApiCommands.renderSVG.path(), ctx -> {
                 /*
                 if (Objects.equals(ctx.contentType(), "application/json")) {
-                    Diagram diagram = ctx.bodyAsClass(Diagram.class);
+                     diagram = ctx.bodyAsClass();
 
                     // Same as the above function, but we could also pass the whole body of the SVG
                     // as a string and have the client write that to a file.

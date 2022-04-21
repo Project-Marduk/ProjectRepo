@@ -24,8 +24,11 @@ public enum ApiCommands {
     registerUser("/api/post/register/user"),
     loginUser("/api/post/login/user"),
     logoutUser("api/get/login/user"),
+    getUserData("/api/post/diagram/list"),
+
+
     getDiagram("/api/get/diagram"),
-    getUserData("/api/get/diagram/list"),
+
     saveDiagram("/api/post/save/Diagram");
 
 
