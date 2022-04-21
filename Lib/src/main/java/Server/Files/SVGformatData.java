@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  * @author Traae
  */
-public class SVGformat implements fileFormat, Serializable {
+public class SVGformatData implements fileFormat, Serializable {
     public String name;
     public String data;
 
