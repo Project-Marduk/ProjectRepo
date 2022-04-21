@@ -1,10 +1,9 @@
 package DrawingObjects.JavaFXConversion;
 
 import FactoryElements.InputObject;
-import javafx.scene.Group;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import org.checkerframework.checker.units.qual.C;
 
 
 /**
