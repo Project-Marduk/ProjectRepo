@@ -15,6 +15,10 @@ import java.nio.file.Paths;
  * @version 0.1.0
  */
 public class FileWriter {
+    public static boolean isvalidDirectory(String directory){
+       return Files.isDirectory(Paths.get(directory));
+    }
+
     public static void writeToFile(fileFormat toWrite, String directory){
         try {
             Files.write(
