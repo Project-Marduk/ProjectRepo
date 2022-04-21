@@ -1,5 +1,6 @@
 package FactoryElements;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import org.javalite.activejdbc.annotations.Table;
@@ -42,5 +43,13 @@ public class InputObject implements Serializable {
         yCord = y;
         fill = "#FFFFFF"; //set default value as white fill
         text = t;
+    }
+
+    public String toJSON() {
+        //create Gson instance
+        Gson gson = new Gson();
+        //create json string to hold data
+        String jsonString = gson.toJson(this);
+        return jsonString;
     }
 }

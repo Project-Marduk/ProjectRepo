@@ -27,13 +27,13 @@ public class TestDrawingBoard {
      */
     InputObject makeOneDInputObject(String objName, double dim, double x, double y){
         double[] inParams = new double[]{dim};
-        InputObject inObj = new InputObject(objName, inParams, "000000", "bold", x, y);
+        InputObject inObj = new InputObject(objName, inParams, "000000", "bold", x, y, new String[]{""});
         return inObj;
     }
 
     InputObject makeTwoDInputObject(String objName, double dim1, double dim2, double x, double y){
         double[] inParams = new double[]{dim1, dim2};
-        InputObject inObj = new InputObject(objName, inParams, "000000", "bold", x, y);
+        InputObject inObj = new InputObject(objName, inParams, "000000", "bold", x, y, new String[]{""});
         return inObj;
     }
 

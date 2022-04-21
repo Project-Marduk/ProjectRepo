@@ -78,7 +78,7 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
                         super.inObject.getXCord(),
-                        super.inObject.getYCord() + smallBoxYPosScalar
+                        super.inObject.getYCord() + smallBoxYPosScalar, new String[]{""}
                 ));
 
         //large text box
@@ -91,7 +91,7 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
                         super.inObject.getXCord(),
-                        super.inObject.getYCord() + largeBoxYPosScalar + 2
+                        super.inObject.getYCord() + largeBoxYPosScalar + 2, new String[]{""}
                 ));
 
         String innerTextBox = rectToSVG(
@@ -102,7 +102,7 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
                         super.inObject.getXCord() + super.inObject.getParams()[0]*.05,
-                        super.inObject.getYCord() + largeBoxYPosScalar + largeBoxHeight*.5
+                        super.inObject.getYCord() + largeBoxYPosScalar + largeBoxHeight*.5, new String[]{""}
                 ));
 
         return smallBox + "\n " +
@@ -147,7 +147,7 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
                         super.inObject.getXCord(),
-                        super.inObject.getYCord() + smallBoxYPosScalar
+                        super.inObject.getYCord() + smallBoxYPosScalar, new String[]{""}
                 )),
 
         //large text box
@@ -160,7 +160,7 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
                         super.inObject.getXCord(),
-                        super.inObject.getYCord() + largeBoxYPosScalar + 2
+                        super.inObject.getYCord() + largeBoxYPosScalar + 2, new String[]{""}
                 )),
 
         rectToJavaFX(
@@ -171,7 +171,7 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getColor(),
                         super.inObject.getStyle(),
                         super.inObject.getXCord() + super.inObject.getParams()[0]*.05,
-                        super.inObject.getYCord() + largeBoxYPosScalar + largeBoxHeight*.5
+                        super.inObject.getYCord() + largeBoxYPosScalar + largeBoxHeight*.5, new String[]{""}
                 )));
 
     }
