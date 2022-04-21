@@ -4,6 +4,9 @@ plugins {
     id "io.freefair.lombok" version "6.2.0"
     id 'application'
     id "de.schablinski.activejdbc-gradle-plugin" version "2.0.1"
+
+    //Javafx plugin for use of JavaFX and FXML
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 version 'unspecified'
@@ -47,7 +50,10 @@ dependencies {
 
 }
 
-
+javafx {
+    version = "17"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web']
+}
 
 
 test {

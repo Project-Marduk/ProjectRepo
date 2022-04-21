@@ -1,9 +1,10 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
+import javafx.scene.Group;
 
 import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
-
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.activationExpressionJFX;
 /**
  * @author David Lindeman
  * IFML Parameters can be either DogEaredRectangles OR Parallelograms
@@ -26,5 +27,10 @@ public class IFMLParameterActivationFunction extends DrawingObject{
 
     public String generateShape(){
         return activationExpressionSVG(super.inObject);
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        super.linkedJavaFXObject.getChildren().addAll(activationExpressionJFX(super.inObject));
     }
 }

@@ -51,6 +51,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.flogger/flogger
     implementation 'com.google.flogger:flogger:0.7.1'
 
+    // Include our own library
     implementation project(':Lib');
 
 

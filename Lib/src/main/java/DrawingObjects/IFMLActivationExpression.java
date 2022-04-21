@@ -1,11 +1,12 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
+import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
 import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.activationExpressionJFX;
 
 /**
  * @author David Lindeman
@@ -31,4 +32,8 @@ public class IFMLActivationExpression extends DrawingObject {
         return activationExpressionSVG(super.inObject);
     }
 
+    @Override
+    public void generateJavaFXGroup() {
+        super.linkedJavaFXObject.getChildren().add(activationExpressionJFX(super.inObject));
+    }
 }

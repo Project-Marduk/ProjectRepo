@@ -1,14 +1,18 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
+import javafx.scene.Group;
+import javafx.scene.shape.Path;
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 //import
 //import DrawingObjects.ShapeSVGFunctions.rectToSVG;
 
 import static DrawingObjects.ShapeSVGFunctions.getLineElement;
 import static DrawingObjects.ShapeSVGFunctions.rectToSVG;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.rectToJavaFX;
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.addLinetoPath;
+
 
 /**
  * @author David Lindeman
@@ -50,5 +54,23 @@ public class IFMLContainer extends DrawingObject {
 
         //this could be refactored for the second text box to just be a line 15% down the top of the input rectangle however this doesnt work because our lines have set x,y cords
         return headerLine + "\n" + containerBox; //the shape SVG should be the combination of the two boxes, this may need to be changed depending on how we have to format the text
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        //update the text position
+        super.getTextBox(0).setYCord(super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 2);
+        super.getTextBox(0).setXCord(super.inObject.getXCord() + super.getTextBox(0).getFontSize() + 2);
+
+        super.linkedJavaFXObject.getChildren().add(rectToJavaFX(super.inObject));
+
+        super.linkedJavaFXObject.getChildren().add(addLinetoPath(
+                (super.inObject.getXCord()),
+                (super.inObject.getXCord() + super.inObject.getParams()[0]),
+                (super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 4),
+                (super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 4),
+                new Path()
+        ));
+
     }
 }

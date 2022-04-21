@@ -1,8 +1,9 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import org.javalite.activejdbc.annotations.Table;
+import javafx.scene.Group;
 
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.hexagonToJavaFX;
 import static DrawingObjects.ShapeSVGFunctions.hexagonToSvg;
 
 /**
@@ -28,5 +29,10 @@ public class IFMLAction extends DrawingObject {
 
     public String generateShape(){
         return hexagonToSvg(super.inObject);
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        super.linkedJavaFXObject.getChildren().add(hexagonToJavaFX(super.inObject));
     }
 }

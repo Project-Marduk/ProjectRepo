@@ -2,10 +2,10 @@ package DrawingObjects;
 
 import FactoryElements.InputObject;
 import static DrawingObjects.ShapeSVGFunctions.rectToSVG;
-
+import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.rectToJavaFX;
+import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
 /**
  * @author David Lindeman
@@ -30,5 +30,10 @@ public class IFMLViewComponent extends DrawingObject {
     public String generateShape(){
         //TODO: Create a rounded edge rectangle shape
         return rectToSVG(super.inObject);
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        super.linkedJavaFXObject.getChildren().addAll(rectToJavaFX(super.inObject));
     }
 }

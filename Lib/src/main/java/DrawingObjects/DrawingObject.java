@@ -1,7 +1,10 @@
 package DrawingObjects;
 
+import DrawingObjects.JavaFXConversion.JavaFXDrawingObject;
 import FactoryElements.InputObject;
 import FactoryElements.Interfaces.ComplexShape;
+import FactoryElements.Interfaces.JavaFXGroupShape;
+import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,24 +17,39 @@ import java.io.Serializable;
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
 @Getter @Setter
-public abstract class DrawingObject implements ComplexShape, Serializable { // extends Model
+public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, Serializable { // extends Model
     String id;
     double x;
     double y;
     InputObject inObject;
     TextBox[] textBoxes;
+    protected JavaFXDrawingObject linkedJavaFXObject;
 
-    public DrawingObject(){}
+    public DrawingObject(){
+        linkedJavaFXObject = null;
+    }
     public DrawingObject(String newId, InputObject inObj){
         id = newId;
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
+        linkedJavaFXObject = null;
+    }
+
+    public Group getUpdateLinkedJavaFX(){
+        if (linkedJavaFXObject == null){
+            linkedJavaFXObject = new JavaFXDrawingObject(this);
+        }
+        linkedJavaFXObject.getChildren().clear();
+        this.generateJavaFXGroup();
+        updateTextBoxesToJavaFXGroup();
+        return linkedJavaFXObject;
     }
 
     public String getSVGData(){
         return generateShape();
     }
+
 
     //This will be the translation of text to SVG data
     //This may be unnecessary depending on how we convert text to SVG
@@ -44,18 +62,6 @@ public abstract class DrawingObject implements ComplexShape, Serializable { // e
         return svgTextData;
     }
 
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 5
-     *
-     * This is the individual path without edges.
-     *
-     * @author Traae
-     * @return SVG example path string
-     */
-    public String TYLERgetSVGEdgeless(){
-        String svgData = generateShape().replaceAll("[<>]", " ");
-        return svgData;
-    }
 
     public TextBox getTextBox(int pos){
 //        TextBox outBox = null;
@@ -83,7 +89,13 @@ public abstract class DrawingObject implements ComplexShape, Serializable { // e
         }
     }
 
-//    public <T> decodeType(DrawingObject dwObj){
+    protected void updateTextBoxesToJavaFXGroup(){
+        for (TextBox tb: textBoxes) {
+            linkedJavaFXObject.getChildren().add(tb.getJavaFXText());
+        }
+    }
+
+    //    public <T> decodeType(DrawingObject dwObj){
 //
 //    }
 }
