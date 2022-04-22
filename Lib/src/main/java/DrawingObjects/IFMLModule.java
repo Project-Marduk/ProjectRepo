@@ -48,8 +48,8 @@ public class IFMLModule extends DrawingObject {
     }
 
     @Override
-    public void generateJavaFXGroup() {
-        super.linkedJavaFXObject.getChildren().addAll(
+    public Group generateJavaFXGroup() {
+        return new Group(
         squareToJavaFX(new InputObject("Square",
                 new double[]{super.inObject.getParams()[1]*.15}, //2nd dim could be font size however there needs to be a font size to dimension conversion
                 "#OOOOOO", //hex code for black
@@ -65,7 +65,5 @@ public class IFMLModule extends DrawingObject {
                 super.y - super.inObject.getParams()[1]) //move the y axis of the box to halfway down the height of the larger square
         ),
         squareToJavaFX(super.getInObject()));
-
-
     }
 }

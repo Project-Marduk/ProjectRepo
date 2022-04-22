@@ -28,9 +28,7 @@ public class Line extends LineObject {
     }
 
     @Override
-    public void generateJavaFXGroup() {
-        Path p = new Path();
-        addLinetoPath(super.getX(), super.getY(), getSecondXCord(), getSecondYCord(), p);
-        super.linkedJavaFXObject.getChildren().add(p);
+    public Group generateJavaFXGroup() {
+        return new Group(addLinetoPath(super.getX(), super.getY(), getSecondXCord(), getSecondYCord(), new Path()));
     }
 }

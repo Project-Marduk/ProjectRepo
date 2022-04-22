@@ -20,39 +20,39 @@ public class DrawingObjectFactory {
 
     public DrawingObject create(InputObject input, String id){
         String shapeIdHandle = "";
-        if(input.getShapeType().equals("Rectangle") ||
-                input.getShapeType().equals("Square") ||
-                input.getShapeType().equals("Circle") ||
-                input.getShapeType().equals("Hexagon") ||
-                input.getShapeType().equals("Parallelogram")){
-            shapeIdHandle = "Wireframe_Object";
+        if(ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.rectangle) ||
+                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.square) ||
+                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.circle)||
+                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.hexagon) ||
+                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.parrallelogram)){
+            shapeIdHandle = ShapeTypes.Wireframe_Object.string();
         }
         else{
             shapeIdHandle = input.getShapeType();
         }
 
-        switch (shapeIdHandle) {
-            case "IFML_Action":
+        switch (ShapeTypes.valueOf(shapeIdHandle)) {
+            case IFML_Action:
                 return new IFMLAction(id, input);
-            case "IFML_Activation_Expression":
+            case IFML_Activation_Expression:
                 return new IFMLActivationExpression(id, input);
-            case "IFML_Container":
-                return new IFMLAction(id, input);
-            case "IFML_Event":
+            case IFML_Container:
+                return new IFMLContainer(id, input);
+            case IFML_Event:
                 return new IFMLEvent(id, input);
-            case "IFML_Module":
+            case IFML_Module:
                 return new IFMLModule(id, input);
-            case "IFML_Parameter":
+            case IFML_Parameter:
                 return new IFMLParameterParallelogram(id, input);
-            case "IFML_View_Component":
+            case IFML_View_Component:
                 return new IFMLViewComponent(id, input);
-            case "IFML_View_Component_Part":
+            case IFML_View_Component_Part:
                 return new IFMLViewComponentPart(id, input);
-            case "IFML_Line":
+            case IFML_Line:
                 return new IFMLLine(id, input);
-            case "Wireframe_Object":
+            case Wireframe_Object:
                 return new WireframeObject(id, input);
-            case "Line":
+            case Line:
                 return new Line(id, input);
             default:
                 return null;

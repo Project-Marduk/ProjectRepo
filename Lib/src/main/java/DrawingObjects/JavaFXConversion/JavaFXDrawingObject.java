@@ -2,20 +2,24 @@ package DrawingObjects.JavaFXConversion;
 
 
 import DrawingObjects.DrawingObject;
-import FactoryElements.InputObject;
 import javafx.scene.Group;
 
 public class JavaFXDrawingObject extends Group {
-    public DrawingObject linkedDrawingObject;
+    private DrawingObject linkedDrawing;
 
     public JavaFXDrawingObject(DrawingObject parent){
         //saying its null here as well?
-        super(parent.getLinkedJavaFXObject());
-        this.linkedDrawingObject = parent;
+        super();
+        this.getChildren().addAll(linkedDrawing.generateJavaFXGroup().getChildren());
+        this.linkedDrawing = parent;
     }
 
+    public void update(){
+        getChildren().clear();
+        getChildren().addAll(linkedDrawing.generateJavaFXGroup().getChildren());
+    }
 
-
-
-
+    public DrawingObject getParentDrawing() {
+        return linkedDrawing;
+    }
 }

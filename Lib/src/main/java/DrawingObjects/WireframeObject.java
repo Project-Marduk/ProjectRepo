@@ -60,25 +60,27 @@ public class WireframeObject extends DrawingObject {
     }
 
     @Override
-    public void generateJavaFXGroup() {
+    public Group generateJavaFXGroup() {
+        Group g = new Group();
         switch (super.getInObject().getShapeType()) {
             case "Rectangle":
-                super.linkedJavaFXObject.getChildren().add(rectToJavaFX(super.getInObject()));
+                g.getChildren().add(rectToJavaFX(super.getInObject()));
                 break;
             case "Square":
-                super.linkedJavaFXObject.getChildren().add(squareToJavaFX(super.getInObject()));
+                g.getChildren().add(squareToJavaFX(super.getInObject()));
                 break;
             case "Circle":
-                super.linkedJavaFXObject.getChildren().add(circleToJavaFX(super.getInObject()));
+                g.getChildren().add(circleToJavaFX(super.getInObject()));
                 break;
             case "Hexagon":
-                super.linkedJavaFXObject.getChildren().add(hexagonToJavaFX(super.getInObject()));
+                g.getChildren().add(hexagonToJavaFX(super.getInObject()));
                 break;
             case "Parallelogram":
-                super.linkedJavaFXObject.getChildren().add(parallelogramToJAVAFX(super.getInObject()));
+                g.getChildren().add(parallelogramToJAVAFX(super.getInObject()));
                 break;
             default:
                 break;
         }
+        return g;
     }
 }

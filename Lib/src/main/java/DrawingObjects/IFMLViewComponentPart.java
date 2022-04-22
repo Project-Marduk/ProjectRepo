@@ -111,8 +111,7 @@ public class IFMLViewComponentPart extends DrawingObject {
     }
 
     @Override
-    public void generateJavaFXGroup() {
-
+    public Group generateJavaFXGroup() {
         double largeBoxYPosScalar;
         double smallBoxYPosScalar;
         double smallBoxSizeScalar = .3;
@@ -128,9 +127,6 @@ public class IFMLViewComponentPart extends DrawingObject {
             smallBoxYPosScalar = largeBoxHeight;
         }
 
-        //outlineShape will be entirely transparent
-        super.linkedJavaFXObject.getChildren().addAll(rectToJavaFX(super.inObject));
-
         //Large text box
         super.getTextBox(0).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * smallBoxSizeScalar + 2);
         //header text inside larger text box
@@ -138,7 +134,8 @@ public class IFMLViewComponentPart extends DrawingObject {
         //text box inside larger text box
         super.getTextBox(2).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * largeBoxYPosScalar + 2);
 
-        super.linkedJavaFXObject.getChildren().addAll(
+        return new Group(
+                rectToJavaFX(super.inObject),
                 rectToJavaFX(
                 new InputObject(
                         "Rectangle",
@@ -149,7 +146,6 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getXCord(),
                         super.inObject.getYCord() + smallBoxYPosScalar
                 )),
-
         //large text box
         rectToJavaFX(
                 new InputObject(
@@ -162,7 +158,6 @@ public class IFMLViewComponentPart extends DrawingObject {
                         super.inObject.getXCord(),
                         super.inObject.getYCord() + largeBoxYPosScalar + 2
                 )),
-
         rectToJavaFX(
                 new InputObject(
                         "Rectangle",

@@ -25,6 +25,9 @@ public class DrawingBoard implements Serializable {
     private ArrayList<String> users;
 
     Map<String, DrawingObject> objects = new HashMap<>();
+
+    // This is Obsolete, I'm leaving it for David to take care of.
+    // All object types can be referenced using the DrawingObjectTypes Enum
     String[] objectTypes = new String[]{
         "IFML_Action",
         "IFML_Activation_Expression",
@@ -38,6 +41,7 @@ public class DrawingBoard implements Serializable {
         "Line",
         "Wireframe_Object"
     };
+
     double xMax;
     double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
@@ -65,9 +69,19 @@ public class DrawingBoard implements Serializable {
         return id;
     }
 
-    public void addObject(InputObject inObj){
-        objects.put(Integer.toString(idIndex), drawingObjectFactory.create(inObj, Integer.toString(idIndex)));
+    /**
+     * The function adds a Drawing object to the Hashmap and provides it an ID.
+     *
+     *
+     *
+     * @param inObj the input object for the thing you want to make.
+     * @return The Index assigned as the new Objects id.
+     */
+    public String addObject(InputObject inObj){
         idIndex++;
+        String id = Integer.toString(idIndex);
+        objects.put(id, drawingObjectFactory.create(inObj, Integer.toString(idIndex)));
+        return id;
     }
 
     public void removeObject(String id){
@@ -86,80 +100,6 @@ public class DrawingBoard implements Serializable {
         return objects.get(id).getSVGData();
     }
 
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 1
-     *
-     * This is the plain SVG path example from the tutorial as a control test.
-     *
-     * @author Traae
-     * @return SVG example path string
-     */
-    public String TYLERreturnSVGPathExample(){
-       return  "M 100 100 L 300 100 L 200 300 z";
-    }
-
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 2
-     *
-     * This a simple svg rectangle, god I hope SVGPATH doesn't just mean draw paths.
-     *
-     * @author Traae
-     * @return SVG example rectangle path string
-     */
-    public String TYLERreturnSVGRectExample(){
-        return "M 20 -30 L 120 -30 L 120 -130 M 20 -130 L 120 -130 L 20 -30";             //x=\"20.0\" width=\"100.0\" height=\"100.0\" y=\"30.0\" stroke=\"#000000\"/";
-    }
-
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 3
-     *
-     * This is the compiled path minus all the edge symbols
-     *
-     * @author Traae
-     * @return SVG example path string
-     */
-    public String TYLERreturnSVGPathEdgeless(){
-        String svgData = "";
-        for(String key : objects.keySet()){
-            svgData += "\n" + objects.get(key).getSVGData();
-            svgData += "\n" + objects.get(key).txtToSVG();
-        }
-        svgData.replaceAll("[<>]", " ");
-        return svgData;
-    }
-
-    /**
-     * EXPERIMENT FUNCTION FOR TYLER 4
-     *
-     * This is the compiled path with all the edge symbols
-     *
-     * @author Traae
-     * @return SVG example path string
-     */
-    public String TYLERreturnSVGPath(){
-        String svgData = "";
-        for(String key : objects.keySet()){
-            svgData += "\n" + objects.get(key).getSVGData();
-            svgData += "\n" + objects.get(key).txtToSVG();
-        }
-
-        return svgData;
-    }
-
-    public String returnSVGData(){
-        String svgData = "";
-        for(String key : objects.keySet()){
-            svgData += "\n" + objects.get(key).getSVGData();
-            svgData += "\n" + objects.get(key).txtToSVG();
-        }
-
-        return "<svg contentScriptType=\"text/ecmascript\" width=\"" + Double.toString(xMax) + "px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full \"\n" +
-                "    zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"" + Double.toString(yMax) + "px\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\"\n" +
-                "    version=\"1.0\">"
-                + svgData
-                + "\n"
-                + "</svg>";
-    }
 
     /**
      * @author

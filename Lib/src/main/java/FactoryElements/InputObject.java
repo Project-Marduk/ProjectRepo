@@ -30,6 +30,15 @@ public class InputObject implements Serializable {
     public InputObject(){
         fill = fill = "#FFFFFF";
     }
+
+    /**
+     * @param sType Type: Discrete Type Variable, reference the ShapeType enum.
+     * @param p parameters array of double, different behavior per shape type. usually width and height.
+     * @param c color in ??? form;
+     * @param s Style in ??? form;
+     * @param x X coordinate
+     * @param y Y Coordinate
+     */
     public InputObject(String sType, double[] p, String c, String s, double x, double y){ //TODO: Look up default values in Java
         shapeType = sType;
         params = p;

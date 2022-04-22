@@ -62,7 +62,7 @@ public class IFMLLine extends LineObject {
     }
 
     @Override
-    public void generateJavaFXGroup() {
+    public Group generateJavaFXGroup() {
         if(super.getSecondXCord() >= super.getX()){
             headIsVert = true;
         }
@@ -70,7 +70,7 @@ public class IFMLLine extends LineObject {
             headIsVert = false;
         }
 
-        super.linkedJavaFXObject.getChildren().addAll(
+        return new Group(
                 addLinetoPath(super.getX(), super.getSecondXCord(), super.getY(), super.getSecondYCord(), new Path()),
                 headTriangleToJavaFX(super.getX(), super.getY(), headIsLeft, headIsVert));
 

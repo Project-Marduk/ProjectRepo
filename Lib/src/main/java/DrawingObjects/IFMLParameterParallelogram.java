@@ -32,7 +32,7 @@ public class IFMLParameterParallelogram extends DrawingObject {
     }
 
     @Override
-    public void generateJavaFXGroup() {
-        super.linkedJavaFXObject.getChildren().addAll(parallelogramToJAVAFX(super.inObject));
+    public Group generateJavaFXGroup() {
+        return new Group(parallelogramToJAVAFX(super.inObject));
     }
 }

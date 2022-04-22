@@ -3,8 +3,7 @@ package DrawingObjects;
 import DrawingObjects.JavaFXConversion.JavaFXDrawingObject;
 import FactoryElements.InputObject;
 import FactoryElements.Interfaces.ComplexShape;
-import FactoryElements.Interfaces.JavaFXGroupShape;
-import javafx.scene.Group;
+import DrawingObjects.JavaFXConversion.JavaFXGroupShape;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,29 +22,22 @@ public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, S
     double y;
     InputObject inObject;
     TextBox[] textBoxes;
-    protected JavaFXDrawingObject linkedJavaFXObject;
+    protected JavaFXDrawingObject linkedJavaFX;
 
     public DrawingObject(){
-        linkedJavaFXObject = null;
+        linkedJavaFX = new JavaFXDrawingObject(this);
     }
     public DrawingObject(String newId, InputObject inObj){
         id = newId;
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
-        linkedJavaFXObject = null;
+        linkedJavaFX = new JavaFXDrawingObject(this);
     }
 
-    public JavaFXDrawingObject getUpdateLinkedJavaFX(){
-        if (linkedJavaFXObject == null){
-            //saying its null here?
-            linkedJavaFXObject = new JavaFXDrawingObject(this);
-        }
-        linkedJavaFXObject.getChildren().clear();
-        this.generateJavaFXGroup();
-        updateTextBoxesToJavaFXGroup();
-        System.out.println(linkedJavaFXObject);
-        return linkedJavaFXObject;
+    public JavaFXDrawingObject getLinkedJavaFX() {
+        linkedJavaFX.update();
+        return linkedJavaFX;
     }
 
     public String getSVGData(){
@@ -93,7 +85,7 @@ public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, S
 
     protected void updateTextBoxesToJavaFXGroup(){
         for (TextBox tb: textBoxes) {
-            linkedJavaFXObject.getChildren().add(tb.getJavaFXText());
+            linkedJavaFX.getChildren().add(tb.getJavaFXText());
         }
     }
 
