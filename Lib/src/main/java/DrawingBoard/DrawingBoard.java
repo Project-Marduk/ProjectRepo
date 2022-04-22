@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import com.google.gson.reflect.TypeToken;
+import org.javalite.activejdbc.Model;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -26,22 +27,6 @@ public class DrawingBoard implements Serializable {
 
     Map<String, DrawingObject> objects = new HashMap<>();
 
-    // This is Obsolete, I'm leaving it for David to take care of.
-    // All object types can be referenced using the DrawingObjectTypes Enum
-    String[] objectTypes = new String[]{
-        "IFML_Action",
-        "IFML_Activation_Expression",
-        "IFML_Container",
-        "IFML_Event",
-        "IFML_Module",
-        "IFML_Parameter",
-        "IFML_View_Component",
-        "IFML_View_Component_Part",
-        "IFML_Line",
-        "Line",
-        "Wireframe_Object"
-    };
-
     double xMax;
     double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
@@ -51,6 +36,7 @@ public class DrawingBoard implements Serializable {
         yMax = SIZE_DEFAULT;
         xMax = SIZE_DEFAULT;
     }
+
     public DrawingBoard(double xMax, double yMax){
         this.xMax = xMax;
         this.yMax = yMax;
@@ -65,7 +51,7 @@ public class DrawingBoard implements Serializable {
 
     public void setId(String id) {
         if (id == null){
-            this.id = id;
+            this.id = "0";
         }
     }
     public String getId() {

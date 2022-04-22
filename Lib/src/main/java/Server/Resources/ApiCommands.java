@@ -24,12 +24,24 @@ public enum ApiCommands {
     registerUser("/api/post/register/user"),
     loginUser("/api/post/login/user"),
     logoutUser("api/get/login/user"),
+
     getUserData("/api/post/diagram/list"),
-
-
+    saveDiagram("/api/post/save/Diagram"),
     getDiagram("/api/get/diagram"),
 
-    saveDiagram("/api/post/save/Diagram");
+    createDrawingObject("/api/post/create/drawingobject"),
+    deleteDrawingObject("/api/post/delete/drawingobject"),
+    updateDrawingObject("/api/post/update/drawingobject"),
+    createDrawingBoard("/api/post/create/drawingboard"),
+    deleteDrawingBoard("/api/post/delete/drawingboard"),
+
+    validateDatabaseConnection("/api/post/validate/databaseconnection"),
+    updateDrawingBoard("/api/post/update/drawingboard"),
+    getSVGFileData("/api/get/svgfiledata"),
+
+    getDrawingObjectData("api/get/drawingobjectdata");
+
+
 
 
     private final String address;
