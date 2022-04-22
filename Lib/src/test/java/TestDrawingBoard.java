@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 
+import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,10 +72,25 @@ public class TestDrawingBoard {
     void testCreateDrawingObject(){
         InputObject rectInObj = makeTwoDInputObject("Rectangle", 100, 50, 100, 100);
         rectInObj.setParent_id(1);
+        rectInObj.setId(1);
         String inObjJSON = rectInObj.toJSON();
+        InputObject inObjTwo = inputObjectFromJSON(inObjJSON);
+//        inObjTwo = inputObjectFromJSON("{\"id\":1,\"parent_id\":1,\"shapeType\":\"Rectangle\",\"xCord\":100.0,\"yCord\":100.0,\"params\":[100.0,50.0],\"color\":\"000000\",\"style\":\"bold\",\"fill\":\"#FFFFFF\",\"text\":[\"\"]}");
         System.out.println(inObjJSON);
-        assertTrue(true);
+        System.out.println(inObjTwo.getShapeType());
+        assertTrue(inObjTwo != null);
     }
+
+//    @Test
+//    void canMakeDrawingBoard(){
+//        ActiveJDBCObjecs.DrawingBoard drawingB = new ActiveJDBCObjecs.DrawingBoard();
+//        drawingB.set("id", 1);
+//        drawingB.set("x_size", 1000);
+//        drawingB.set("y_size", 1000);
+//
+//        System.out.println(drawingB.serializeDrawingBoardToJSON());
+//        assertTrue(true);
+//    }
 
     @Test
     void canAddRect(){

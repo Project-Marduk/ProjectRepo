@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class JSONHandler {
 
@@ -19,10 +20,12 @@ public class JSONHandler {
             //create Gson instance
             Gson gson = new Gson();
 
-            //set type for scoreboard
+//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//            System.out.println(jsonStr);
+            //set type for input object
             Type inObjType = new TypeToken<InputObject>(){}.getType();
 
-            //convert JSON string to scoreboard obj
+            //convert JSON string to input obj
             InputObject inObj = gson.fromJson(jsonStr, inObjType);
 
             return inObj;
@@ -30,5 +33,36 @@ public class JSONHandler {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public static DrawingBoard drawingBoardFromJSON(String jsonStr){
+        try {
+            //create Gson instance
+            Gson gson = new Gson();
+
+//            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//            System.out.println(jsonStr);
+            //set type for input object
+            Type objType = new TypeToken<DrawingBoard>(){}.getType();
+
+            //convert JSON string to input obj
+            DrawingBoard obj = gson.fromJson(jsonStr, objType);
+
+            return obj;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @author David Lindeman
+     * @param inList
+     * @return
+     * takes in an array list of strings and returns it as a JSON string
+     */
+    public static String arrayListToJSON(ArrayList<String> inList){
+        Gson gson = new Gson();
+        return gson.toJson(inList);
     }
 }

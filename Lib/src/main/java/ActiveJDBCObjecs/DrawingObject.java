@@ -2,6 +2,7 @@ package ActiveJDBCObjecs;
 
 
 
+import FactoryElements.InputObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.javalite.activejdbc.Model;
@@ -43,14 +44,29 @@ public class DrawingObject extends Model {
 
     /**
      * @author David Lindeman
-     * Converts a drawing object to a JSON string using GSON
+     * Converts a drawing object tabel to an InputObject for the JavaFX front end
      */
-    //reference for reading JSON files to java: https://attacomsian.com/blog/gson-read-json-file
-    public String toJSON() {
+    public String toInputObjectJSON() {
         //create Gson instance
         Gson gson = new Gson();
+
+        InputObject inObj = new InputObject(
+                this.getString("shape_type"),
+                new double[]{this.getDouble("param_one"), this.getDouble("param_two")},
+                this.getString("color"),
+                this.getString("style"),
+                this.getDouble("x_cord"),
+                this.getDouble("y_cord"),
+                new String[]{
+                        this.getString("text_one"), this.getString("text_two"), this.getString("text_three")
+                });
+
+        inObj.setId(this.getInteger("id"));
+        inObj.setParent_id(this.getInteger("drawing_board_id"));
+        inObj.setFill(this.getString("fill"));
+
         //create json string to hold data
-        String jsonString = gson.toJson(this);
+        String jsonString = gson.toJson(inObj);
         return jsonString;
     }
 

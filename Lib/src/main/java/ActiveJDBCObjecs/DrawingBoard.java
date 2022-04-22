@@ -17,40 +17,12 @@ import java.util.Map;
 import java.util.Set;
 
 @Table("drawing_board")
-@Getter @Setter
+//@Getter @Setter
 public class DrawingBoard extends Model {
-    private final double SIZE_DEFAULT = 1000;
-
-    String name;
-    private int id;
-
-    double xMax;
-    double yMax;
-    static int idIndex = 1;
+//    private final double SIZE_DEFAULT = 1000;
 
     public DrawingBoard(){}
 
-    public String getId() {
-        return "";
-    }
-
-    public void addObject(InputObject inObj){
-    }
-
-    public void removeObject(String id){
-    }
-
-    public void getObject(String id){
-
-    }
-
-    public void getIds(){
-
-    }
-
-    public String getSVGDataFromId(String id){
-        return "";
-    }
 
     /**
      * @author

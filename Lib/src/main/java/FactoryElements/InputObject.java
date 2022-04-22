@@ -35,7 +35,6 @@ public class InputObject implements Serializable {
         fill = fill = "#FFFFFF";
     }
     public InputObject(String sType, double[] p, String c, String s, double x, double y, String[] t){ //TODO: Look up default values in Java
-
         shapeType = sType;
         params = p;
         color = c;
