@@ -77,11 +77,10 @@ public class DrawingBoard implements Serializable {
      * @param inObj the input object for the thing you want to make.
      * @return The Index assigned as the new Objects id.
      */
-    public String addObject(InputObject inObj){
-        idIndex++;
+    public DrawingObject addObject(InputObject inObj){
         String id = Integer.toString(idIndex);
-        objects.put(id, drawingObjectFactory.create(inObj, Integer.toString(idIndex)));
-        return id;
+        idIndex++;
+        return objects.put(id, drawingObjectFactory.create(inObj, id));
     }
 
     public void removeObject(String id){

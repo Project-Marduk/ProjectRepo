@@ -173,18 +173,11 @@ public class FXController {
      */
     @FXML
     public void testAddCircle(){
-        /**
-         * TYLER I CHANGED THIS to test it, your code is copied and commented out below
-         */
-        String IDofTheThingIJustMade = testBoard.addObject(inputObject3);
 
+        javaShape = ShapeJavaFXFunctions.circleToJavaFX(inputObject3);
+        javaShape.setFill(colorPicker.getValue());
         makeShapeMove(javaShape);
-        designCenter.getChildren().add(testBoard.getObject(IDofTheThingIJustMade).getLinkedJavaFX());
-
-//        javaShape = ShapeJavaFXFunctions.circleToJavaFX(inputObject3);
-//        javaShape.setFill(colorPicker.getValue());
-//        makeShapeMove(javaShape);
-//        designCenter.getChildren().add(javaShape);
+        designCenter.getChildren().add(javaShape);
     }
 
     /**
@@ -217,9 +210,15 @@ public class FXController {
     @FXML
     public void testSVGPathMethods(){
 
-        testBoard.addObject(inputObject);
+        /**
+         * TYLER I CHANGED THIS to test it, your code is copied and commented out below
+         */
+        JavaFXDrawingObject myTestObject = testBoard.addObject(inputObject3).getLinkedJavaFX();
 
-        Group group = new Group();
+        makeShapeMove(javaShape);
+        designCenter.getChildren().add(myTestObject);
+
+
 
         //This is where it's returning a null value linked object is never set
         System.out.println(testBoard.getObject("1").getLinkedJavaFX());
@@ -235,13 +234,10 @@ public class FXController {
         //javaShape = ShapeJavaFXFunctions.rectToJavaFX(inputObject);
         javaShape.setFill(colorPicker.getValue());
 
-        group.getChildren().add(group);
 
-        makeShapeMove(javaShape);
+        makeShapeMove(myTestObject);
 
-        designCenter.getChildren().add(group);
-        //makeSelectable(example);
-        //getSVGData();
+
 
     }
 
@@ -257,7 +253,7 @@ public class FXController {
         System.out.println(svgData);
     }
 
-    public void makeShapeMove(Shape shape){
+    public void makeShapeMove(Node shape){
         shape.setCursor(Cursor.MOVE);
         shape.setTranslateX(insertX);
         shape.setTranslateY(insertY);

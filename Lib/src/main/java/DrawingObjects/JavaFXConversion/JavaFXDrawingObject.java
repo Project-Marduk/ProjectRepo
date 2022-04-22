@@ -7,6 +7,7 @@ import javafx.scene.Group;
 public class JavaFXDrawingObject extends Group {
     private DrawingObject linkedDrawing;
 
+
     public JavaFXDrawingObject(DrawingObject parent){
         //saying its null here as well?
         super();
@@ -19,7 +20,7 @@ public class JavaFXDrawingObject extends Group {
         getChildren().addAll(linkedDrawing.generateJavaFXGroup().getChildren());
     }
 
-    public DrawingObject getParentDrawing() {
+    public DrawingObject getLinkedDrawing() {
         return linkedDrawing;
     }
 }
