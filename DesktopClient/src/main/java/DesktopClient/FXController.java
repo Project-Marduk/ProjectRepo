@@ -6,25 +6,16 @@
  */
 package DesktopClient;
 
+import DrawingObjects.DrawingObject;
 import FactoryElements.*;
 import DrawingBoard.*;
 import DrawingObjects.JavaFXConversion.*;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.scene.*;
 import javafx.scene.Cursor;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.control.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.web.WebView;
 import javafx.scene.web.WebEngine;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,16 +24,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import lombok.Getter;
 
-import javafx.event.ActionEvent;
-
-import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import javafx.scene.image.WritableImage;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -56,7 +38,7 @@ public class FXController {
     DrawingBoard testBoard = new DrawingBoard(3000,3000);
     InputObject inputObject = new InputObject("Square", new double[]{100, 100},"black","solid",20.0,20.0);
     InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
-    InputObject inputObject3 = new InputObject("Circle", new double[]{100, 200},"black","solid",600.0,400.0);
+    InputObject inputObject3 = new InputObject("Circle", new double[]{100, 200},"black","solid",60.0,40.0);
     InputObject inputObject4 = new InputObject("Hexagon",new double[]{100,200}, "black","solid",50.0,50.0);
 
 
@@ -78,6 +60,8 @@ public class FXController {
     @FXML BorderPane Design;
     @FXML Pane designCenter;
     @FXML ColorPicker colorPicker;
+    @FXML TreeView<String> treeViewBasicShapes;
+    @FXML TreeItem<String> treeRectangle;
 
 
     /**
@@ -91,11 +75,8 @@ public class FXController {
     private Node selectedNode;
 
     String svgData = "";
-    WebEngine engine;
     Shape javaShape;
     SVGPath path;
-    TextArea textArea;
-    Text textHolder = new Text();
 
 
     /**
@@ -184,23 +165,42 @@ public class FXController {
         mainStage.setMaximized(true);
         mainStage.setTitle("Design");
         mainStage.show();
+
+        edit();
     }
 
+    /**
+     * Generate a circle from input object
+     */
     @FXML
-    public void testAddText(){
-    }
-
-    @FXML
-    public void testAdd(){
-        Rectangle test = new Rectangle(200,200);
-        path = new SVGPath();
-        javaShape = path;
+    public void testAddCircle(){
+        javaShape = ShapeJavaFXFunctions.circleToJavaFX(inputObject3);
         javaShape.setFill(colorPicker.getValue());
-        javaShape.setTranslateX(insertX);
-        javaShape.setTranslateY(insertY);
-        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
-        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        makeShapeMove(javaShape);
         designCenter.getChildren().add(javaShape);
+    }
+
+    /**
+     * Generate a square from input object
+     */
+    @FXML
+    public void testAddSquare(){
+        javaShape = ShapeJavaFXFunctions.squareToJavaFX(inputObject);
+        javaShape.setFill(colorPicker.getValue());
+        makeShapeMove(javaShape);
+        designCenter.getChildren().add(javaShape);
+
+
+
+
+        //hashmap of all stuff and mirror that has all the input objects and then update using the hash map update the shapes
+        //to insert and delte objects
+
+        //just create a method that has switch function that takes in inputs object and translate that into javafx representation
+        //post man tests apis %23 to pound symbol
+        //parameters are always passed in as strings for api
+        //1-3 text boxes on new input objects
+        
     }
 
     /**
@@ -209,83 +209,33 @@ public class FXController {
      */
     @FXML
     public void testSVGPathMethods(){
-        /**
-        Circle testcirc = new Circle(30);
-        testcirc.setFill(colorPicker.getValue());
-        Image testImgae = testcirc.snapshot(new SnapshotParameters(),null);
-
-        Rectangle test = new Rectangle(200,200);
-        test.setFill(new ImagePattern(testImgae));
-         **/
 
         testBoard.addObject(inputObject);
 
-        JavaFXDrawingObject example = testBoard.getObjects().get(0).getUpdateLinkedJavaFX();//testBoard.getList().get(0).getUpdateLinkedJavaFX();
+        Group group = new Group();
 
-        javaShape = ShapeJavaFXFunctions.rectToJavaFX(inputObject);
+        //This is where it's returning a null value linked object is never set
+        System.out.println(testBoard.getObject("1").getLinkedJavaFXObject());
+
+        //Caused by: java.lang.NullPointerException: Children: child node is null: parent = JavaFXDrawingObject@64effbbc
+        //JavaFXDrawingObject is never instantiated as a group so it has no children to add to the design page
+        System.out.println(testBoard.getObject("1").getUpdateLinkedJavaFX());
+
+        //Not null
+        System.out.println(testBoard.getObject("1"));
+
+
+        //javaShape = ShapeJavaFXFunctions.rectToJavaFX(inputObject);
         javaShape.setFill(colorPicker.getValue());
 
-        javaShape.setCursor(Cursor.MOVE);
-        javaShape.setTranslateX(insertX);
-        javaShape.setTranslateY(insertY);
-        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
-        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+        group.getChildren().add(group);
 
-        designCenter.getChildren().add(example);
-        designCenter.getChildren().add(example);
-        makeSelectable(example);
-        getSVGData();
+        makeShapeMove(javaShape);
 
-        //Method 2 failed
-        /**
-         * WARNING: Failed to configure svg path "rect fill="none" x="131.0" width="222.0"
-         * height="146.0" y="79.0" stroke="#000000"/": invalid command (r) in SVG path at pos=1
-         */
-        /**
-        path = new SVGPath();
-        //path.setContent(testBoard.TYLERreturnSVGRectExample());
-        javaShape = path;
-        javaShape.setTranslateX(insertX);
-        javaShape.setTranslateY(insertY);
-        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
-        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
-        designCenter.getChildren().add(javaShape);
+        designCenter.getChildren().add(group);
+        //makeSelectable(example);
+        //getSVGData();
 
-        //Method 3 failed
-        /**
-         * WARNING: Failed to configure svg path "
-         * <rect x="20.0" y="20.0" fill="#FFFFFF" fill-opacity=".25" width="100.0" stroke-linejoin="round" height="100.0" stroke="#000000"/>
-         * <text x="20.0" y="20.0" font-family="Verdana" font-size="12.0" fill="black"></text>
-         * ": invalid command (<) in SVG path at pos=2
-         */
-        /**
-        testBoard.addObject(inputObject);
-        path = new SVGPath();
-        //path.setContent(testBoard.TYLERreturnSVGPathEdgeless());
-        javaShape = path;
-        javaShape.setTranslateX(insertX);
-        javaShape.setTranslateY(insertY);
-        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
-        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
-        designCenter.getChildren().add(javaShape);
-
-        //Method 4 failed
-        /**
-         * WARNING: Failed to configure svg path "
-         * <rect x="20.0" y="20.0" fill="#FFFFFF" fill-opacity=".25" width="100.0" stroke-linejoin="round" height="100.0" stroke="#000000"/>
-         * <text x="20.0" y="20.0" font-family="Verdana" font-size="12.0" fill="black"></text>
-         * ": invalid command (<) in SVG path at pos=2
-         */
-        /**
-        path = new SVGPath();
-        //path.setContent(testBoard.TYLERreturnSVGPath());
-        javaShape = path;
-        javaShape.setTranslateX(insertX);
-        javaShape.setTranslateY(insertY);
-        javaShape.setOnMousePressed(shapeOnMousePressedEventHandler);
-        javaShape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
-        designCenter.getChildren().add(javaShape);
-         **/
     }
 
     /**
@@ -300,10 +250,21 @@ public class FXController {
         System.out.println(svgData);
     }
 
+    public void makeShapeMove(Shape shape){
+        shape.setCursor(Cursor.MOVE);
+        shape.setTranslateX(insertX);
+        shape.setTranslateY(insertY);
+        shape.setOnMousePressed(shapeOnMousePressedEventHandler);
+        shape.setOnMouseDragged(shapeOnMouseDraggedEventHandler);
+    }
+
     /**
      * Open source code from http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
      * This allows for the java shapes to be moved around freely inside of the design center
      * I need to add bounds on this somehow so you cant drag all over the screen
+     */
+    /**
+     *
      */
     EventHandler<MouseEvent> shapeOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
@@ -339,6 +300,54 @@ public class FXController {
             };
 
     /**
+     * Allows for the tree view to be selectable and insert the shapes wanted
+     */
+    public void edit() {
+        treeViewBasicShapes.setCellFactory(tree -> {
+            TreeCell<String> cell = new TreeCell<String>() {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty) ;
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            };
+            /**
+             * Determines which cell is clicked on and inserts the designated shape
+             */
+            cell.setOnMouseClicked(event -> {
+                if (! cell.isEmpty()) {
+                    TreeItem<String> treeItem = cell.getTreeItem();
+                    // do whatever you need with the treeItem...
+                    System.out.println(treeItem.getValue());
+                    if (treeItem.getValue().equals("Rectangle")) {testAddSquare();}
+                    if (treeItem.getValue().equals("Circle")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Hexagon")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Line")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Parallelogram")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Square")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Action")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Activation Expression")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Container")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Data Flow")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Event")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Module")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Navigation Flow")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Object")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Parameter")) {testAddCircle();}
+                    if (treeItem.getValue().equals("View Component")) {testAddCircle();}
+                    if (treeItem.getValue().equals("View Component Part")) {testAddCircle();}
+                }
+            });
+            return cell ;
+        });
+    }
+
+
+    /**
      * make selectable allows for basic shapes inside of javafx to be dragged and resized such as a rectangle.
      * Sadly this is hella bugged with our svg shape paths
      * @param nodes
@@ -368,6 +377,7 @@ public class FXController {
     }
 }
 
+// Make shapes be able to be resized with a rectangle around them
 class ResizingControl extends Group {
     private Node targetNode = null;
     private final Rectangle boundary = new Rectangle();
@@ -565,11 +575,12 @@ class ResizingControl extends Group {
     }
 }
 
+// Handles the dragging of the border around the shape desired to resize
 interface DragHandler {
     void handle(double oldX, double oldY, double newX, double newY);
 }
 
-// a draggable anchor displayed around a point.
+// A draggable anchor displayed around a point.
 class Anchor extends Circle {
     Anchor(Color color, boolean canDragX, boolean canDragY, DragHandler dragHandler) {
         super(0, 0, 5);
@@ -582,6 +593,7 @@ class Anchor extends Circle {
     }
 }
 
+// Utilities with x y width height etc. that all need to be updated on drag eventes
 class Util {
     // make a targetNode movable by dragging it around with the mouse.
     static void enableDrag(Circle node, boolean canDragX, boolean canDragY, DragHandler dragHandler) {

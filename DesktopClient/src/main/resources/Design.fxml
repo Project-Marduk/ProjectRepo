@@ -47,7 +47,7 @@
                                         <TreeItem fx:id="treeHexagon" value="Hexagon"></TreeItem>
                                         <TreeItem fx:id="treeLine" value="Line"></TreeItem>
                                         <TreeItem fx:id="treeParallelogram" value="Parallelogram" ></TreeItem>
-                                        <TreeItem fx:id="treeRectangle" value="Rectangle" expanded="true"></TreeItem>
+                                        <TreeItem fx:id="treeRectangle" value="Rectangle"></TreeItem>
                                         <TreeItem fx:id="treeSquare" value="Square"></TreeItem>
                                     </children>
                                 </TreeItem>
@@ -70,15 +70,12 @@
                         </TreeItem>
                     </TreeView>
                     <Button VBox.vgrow="ALWAYS" fx:id="yeet" mnemonicParsing="false" onAction="#testSVGPathMethods" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Circle.png); -fx-border-color: #f3f3f3" />
-                    <Button VBox.vgrow="ALWAYS" fx:id="yert" mnemonicParsing="false" onAction="#testAdd" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Rectangle.png); -fx-border-color: #f3f3f3" />
                     <ColorPicker fx:id="colorPicker">
                         <value>
                             <Color blue="0.0" green="0.0" red="1.0" />
                         </value>
                     </ColorPicker>
                     <TextField fx:id="userText"  maxWidth="20" maxHeight="20"/>
-                    <Button VBox.vgrow="ALWAYS" fx:id="testSVG" mnemonicParsing="false" onAction="#testAddText" minHeight="75" minWidth="75" text="Test" style="-fx-background-color: white" />
-
                 </children>
             </VBox>
     </left>
