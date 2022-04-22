@@ -1,6 +1,7 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
+import FactoryElements.ShapeTypes;
 import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,20 +36,21 @@ public class WireframeObject extends DrawingObject {
      */
     public String generateShape(){
         String shapeSVG;
-        switch (super.getInObject().getShapeType()) {
-            case "Rectangle":
+        ShapeTypes type = ShapeTypes.enumOfString(super.getInObject().getShapeType());
+        switch (type) {
+            case rectangle:
                 shapeSVG = rectToSVG(super.getInObject());
                 break;
-            case "Square":
+            case square:
                 shapeSVG = squareToSVG(super.getInObject());
                 break;
-            case "Circle":
+            case circle:
                 shapeSVG = circleToSVG(super.getInObject());
                 break;
-            case "Hexagon":
+            case hexagon:
                 shapeSVG = hexagonToSvg(super.getInObject());
                 break;
-            case "Parallelogram":
+            case parallelogram:
                 shapeSVG = parallelogramToSVG(super.getInObject());
                 break;
             default:
@@ -62,20 +64,21 @@ public class WireframeObject extends DrawingObject {
     @Override
     public Group generateJavaFXGroup() {
         Group g = new Group();
-        switch (super.getInObject().getShapeType()) {
-            case "Rectangle":
+        ShapeTypes type = ShapeTypes.enumOfString(super.getInObject().getShapeType());
+        switch (type) {
+            case rectangle:
                 g.getChildren().add(rectToJavaFX(super.getInObject()));
                 break;
-            case "Square":
+            case square:
                 g.getChildren().add(squareToJavaFX(super.getInObject()));
                 break;
-            case "Circle":
+            case circle:
                 g.getChildren().add(circleToJavaFX(super.getInObject()));
                 break;
-            case "Hexagon":
+            case hexagon:
                 g.getChildren().add(hexagonToJavaFX(super.getInObject()));
                 break;
-            case "Parallelogram":
+            case parallelogram:
                 g.getChildren().add(parallelogramToJAVAFX(super.getInObject()));
                 break;
             default:
