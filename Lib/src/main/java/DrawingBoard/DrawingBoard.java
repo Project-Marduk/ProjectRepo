@@ -47,7 +47,10 @@ public class DrawingBoard implements Serializable {
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 1;
 
-    public DrawingBoard(){}
+    public DrawingBoard(){
+        yMax = SIZE_DEFAULT;
+        xMax = SIZE_DEFAULT;
+    }
     public DrawingBoard(double xMax, double yMax){
         this.xMax = xMax;
         this.yMax = yMax;
@@ -80,7 +83,13 @@ public class DrawingBoard implements Serializable {
     public DrawingObject addObject(InputObject inObj){
         String id = Integer.toString(idIndex);
         idIndex++;
-        return objects.put(id, drawingObjectFactory.create(inObj, id));
+        DrawingObject d = drawingObjectFactory.create(inObj, id);
+        if (d == null){
+            System.out.println("INVALID OBJECT, Factory returned Null");
+
+        }
+        objects.put(id, d);
+        return objects.get(id);
     }
 
     public void removeObject(String id){

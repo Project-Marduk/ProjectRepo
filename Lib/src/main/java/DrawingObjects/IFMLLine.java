@@ -31,6 +31,7 @@ public class IFMLLine extends LineObject {
                         super.getX(),
                         super.getY())
         });
+        linkedJavaFX = getLinkedJavaFX();
     }
 
     /**
@@ -69,7 +70,6 @@ public class IFMLLine extends LineObject {
         else{
             headIsVert = false;
         }
-
         return new Group(
                 addLinetoPath(super.getX(), super.getSecondXCord(), super.getY(), super.getSecondYCord(), new Path()),
                 headTriangleToJavaFX(super.getX(), super.getY(), headIsLeft, headIsVert));

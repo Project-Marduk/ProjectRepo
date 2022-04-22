@@ -9,10 +9,10 @@ public class JavaFXDrawingObject extends Group {
 
 
     public JavaFXDrawingObject(DrawingObject parent){
-        //saying its null here as well?
         super();
-        this.getChildren().addAll(linkedDrawing.generateJavaFXGroup().getChildren());
         this.linkedDrawing = parent;
+
+        update();
     }
 
     public void update(){
