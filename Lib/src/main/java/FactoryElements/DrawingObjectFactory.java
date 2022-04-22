@@ -17,7 +17,13 @@ public class DrawingObjectFactory {
             { "Default" , "Default View Container"}
     }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
-
+    /**
+     * TODO this is a new version of the code using the Enum I made,  original code is comment out below - Traae;
+     *
+     * @param input the InputObject of what you mant to make
+     * @param id The new Drawing Obejcts Id
+     * @return the New Drawing Object
+     */
     public DrawingObject create(InputObject input, String id){
 
         String shapeIdHandle = "";
@@ -60,4 +66,6 @@ public class DrawingObjectFactory {
 
         }
     }
+
+
 }
