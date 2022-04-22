@@ -11,8 +11,6 @@ public class JavaFXDrawingObject extends Group {
     public JavaFXDrawingObject(DrawingObject parent){
         super();
         this.linkedDrawing = parent;
-
-        update();
     }
 
     public void update(){

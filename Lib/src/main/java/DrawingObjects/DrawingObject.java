@@ -26,13 +26,17 @@ public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, S
 
     public DrawingObject(){
         linkedJavaFX = new JavaFXDrawingObject(this);
+
     }
     public DrawingObject(String newId, InputObject inObj){
         id = newId;
         inObject = inObj;
         x = inObj.getXCord();
         y = inObj.getYCord();
+
+        System.out.println("Drawing was made");
         linkedJavaFX = new JavaFXDrawingObject(this);
+
     }
 
     public JavaFXDrawingObject getLinkedJavaFX() {

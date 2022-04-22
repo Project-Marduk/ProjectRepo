@@ -73,12 +73,10 @@ public class DrawingBoard implements Serializable {
     }
 
     /**
-     * The function adds a Drawing object to the Hashmap and provides it an ID.
-     *
-     *
+     * The function adds a Drawing object to the Hashmap and provides in IF
      *
      * @param inObj the input object for the thing you want to make.
-     * @return The Index assigned as the new Objects id.
+     * @return The Drawing object just created
      */
     public DrawingObject addObject(InputObject inObj){
         String id = Integer.toString(idIndex);
@@ -86,9 +84,9 @@ public class DrawingBoard implements Serializable {
         DrawingObject d = drawingObjectFactory.create(inObj, id);
         if (d == null){
             System.out.println("INVALID OBJECT, Factory returned Null");
-
         }
         objects.put(id, d);
+        System.out.println("");
         return objects.get(id);
     }
 

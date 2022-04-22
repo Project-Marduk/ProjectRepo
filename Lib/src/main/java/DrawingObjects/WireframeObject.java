@@ -66,21 +66,22 @@ public class WireframeObject extends DrawingObject {
         ShapeTypes type = ShapeTypes.enumOfString(super.getInObject().getShapeType());
         switch (type) {
             case rectangle:
-                linkedJavaFX.getChildren().addAll(rectToJavaFX(super.getInObject()));
+                super.linkedJavaFX.getChildren().addAll(rectToJavaFX(super.getInObject()));
                 break;
             case square:
-                linkedJavaFX.getChildren().addAll(squareToJavaFX(super.getInObject()));
+                super.linkedJavaFX.getChildren().addAll(squareToJavaFX(super.getInObject()));
                 break;
             case circle:
-                linkedJavaFX.getChildren().addAll(circleToJavaFX(super.getInObject()));
+                super.linkedJavaFX.getChildren().addAll(circleToJavaFX(super.getInObject()));
                 break;
             case hexagon:
-                linkedJavaFX.getChildren().addAll(hexagonToJavaFX(super.getInObject()));
+                super.linkedJavaFX.getChildren().addAll(hexagonToJavaFX(super.getInObject()));
                 break;
             case parallelogram:
-                linkedJavaFX.getChildren().addAll(parallelogramToJAVAFX(super.getInObject()));
+                super.linkedJavaFX.getChildren().addAll(parallelogramToJAVAFX(super.getInObject()));
                 break;
             default:
+                super.linkedJavaFX.getChildren().addAll(circleToJavaFX(super.getInObject()));
                 break;
         }
     }
