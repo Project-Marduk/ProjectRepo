@@ -10,7 +10,7 @@ import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
 
 public class CreateSVGFromDatabase {
 
-    public static String CreateSVGFileFromInputObjectJSON(String inObjJSON){
+    public static String CreateSVGStringFromInputObjectJSON(String inObjJSON){
 
         ArrayList<String> inputJSONs = arrayListFromJSON(inObjJSON);
         ArrayList<InputObject> inputObjects = new ArrayList<>();
