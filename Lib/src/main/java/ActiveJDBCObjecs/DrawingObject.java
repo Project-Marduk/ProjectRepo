@@ -4,15 +4,12 @@ package ActiveJDBCObjecs;
 
 import FactoryElements.InputObject;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.BelongsTo;
 import org.javalite.activejdbc.annotations.Table;
 
-import java.lang.reflect.Type;
-
 @Table ("drawing_object")
-@BelongsTo(parent = DrawingBoard.class,
+@BelongsTo(parent = DrawingBoardAJDBC.class,
         foreignKeyName = "drawing_board_id")
 public class DrawingObject extends Model {
 

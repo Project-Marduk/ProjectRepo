@@ -35,7 +35,7 @@ public class JSONHandler {
         return null;
     }
 
-    public static DrawingBoard drawingBoardFromJSON(String jsonStr){
+    public static DrawingBoardAJDBC drawingBoardFromJSON(String jsonStr){
         try {
             //create Gson instance
             Gson gson = new Gson();
@@ -43,10 +43,10 @@ public class JSONHandler {
 //            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //            System.out.println(jsonStr);
             //set type for input object
-            Type objType = new TypeToken<DrawingBoard>(){}.getType();
+            Type objType = new TypeToken<DrawingBoardAJDBC>(){}.getType();
 
             //convert JSON string to input obj
-            DrawingBoard obj = gson.fromJson(jsonStr, objType);
+            DrawingBoardAJDBC obj = gson.fromJson(jsonStr, objType);
 
             return obj;
         } catch (Exception ex) {
@@ -64,5 +64,27 @@ public class JSONHandler {
     public static String arrayListToJSON(ArrayList<String> inList){
         Gson gson = new Gson();
         return gson.toJson(inList);
+    }
+
+    /**
+     * This should get refactored using generics
+     * @param jsonStr
+     * @return
+     */
+    public static ArrayList<String> arrayListFromJSON(String jsonStr){
+        try {
+            //create Gson instance
+            Gson gson = new Gson();
+            //set type for input object
+            Type objType = new TypeToken<ArrayList<String>>(){}.getType();
+
+            //convert JSON string to input obj
+            ArrayList<String> obj = gson.fromJson(jsonStr, objType);
+
+            return obj;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

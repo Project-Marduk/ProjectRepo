@@ -3,7 +3,7 @@
  */
 package Marduk.Javalin.Server;
 
-import ActiveJDBCObjecs.DrawingBoard;
+import ActiveJDBCObjecs.DrawingBoardAJDBC;
 import ActiveJDBCObjecs.DrawingObject;
 import FactoryElements.InputObject;
 import Marduk.Javalin.Server.DataManager.DataManagerDriver;
@@ -14,7 +14,6 @@ import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.javalite.activejdbc.Base;
-import org.javalite.activejdbc.DB;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.connection_config.DBConfiguration;
 
@@ -106,7 +105,7 @@ public class MardukServer {
                 String param =  ctx.queryParam("drawing_board_id");
                 String outString = "";
 
-                DrawingBoard dwgb = DrawingBoard.findById(Integer.parseInt(param));
+                DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.parseInt(param));
                 ArrayList<String> outList = new ArrayList<>();
 
                 if(dwgb != null){
@@ -171,7 +170,7 @@ public class MardukServer {
             app.post(ApiCommands.renderSVG.path(), ctx -> {
                 String param = ctx.queryParam("drawing_board_id");
 
-                DrawingBoard db = DrawingBoard.findById(Integer.parseInt(param));
+                DrawingBoardAJDBC db = DrawingBoardAJDBC.findById(Integer.parseInt(param));
                 LazyList<DrawingObject> lzDwgObj =  db.getAll(DrawingObject.class); //pulls a lazy list
                 String outString = "";
 
@@ -365,7 +364,7 @@ public class MardukServer {
 
             //We are setting all of our drawing boards to a default size so we dont need any inputs
             app.post(ApiCommands.createDrawingBoard.path(), ctx ->{
-               DrawingBoard dwgb = new DrawingBoard();
+               DrawingBoardAJDBC dwgb = new DrawingBoardAJDBC();
                dwgb.set("x_size", 1000);
                dwgb.set("y_size", 1000);
                dwgb.saveIt();
@@ -377,7 +376,7 @@ public class MardukServer {
 
                 String param = ctx.queryParam("drawing_board_id");
 //                System.out.println(param);
-                DrawingBoard dwgb = DrawingBoard.findById(Integer.parseInt(param));
+                DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.parseInt(param));
 //                System.out.println(dwgb.get("x_cord"));
                 //catches entry cannot be found
                 if(dwgb != null){

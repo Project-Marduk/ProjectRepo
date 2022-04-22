@@ -18,10 +18,10 @@ import java.util.Set;
 
 @Table("drawing_board")
 //@Getter @Setter
-public class DrawingBoard extends Model {
+public class DrawingBoardAJDBC extends Model {
 //    private final double SIZE_DEFAULT = 1000;
 
-    public DrawingBoard(){}
+    public DrawingBoardAJDBC(){}
 
 
     /**

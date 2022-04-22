@@ -44,7 +44,6 @@ public class DrawingBoard implements Serializable {
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
     static int idIndex = 1;
 
-    public DrawingBoard(){}
     public DrawingBoard(double xMax, double yMax){
         this.xMax = xMax;
         this.yMax = yMax;
