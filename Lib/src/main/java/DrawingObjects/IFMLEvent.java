@@ -41,6 +41,6 @@ public class IFMLEvent extends DrawingObject {
         if(isFilled){
             super.inObject.setColor("#000000"); //sets the fill color to the hex code for black
         }
-        super.linkedJavaFXObject.getChildren().add(circleToJavaFX(super.inObject));
+        linkedJavaFX.getChildren().addAll(circleToJavaFX(super.inObject));
     }
 }

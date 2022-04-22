@@ -6,7 +6,6 @@
  */
 package DesktopClient;
 
-import DrawingObjects.DrawingObject;
 import FactoryElements.*;
 import DrawingBoard.*;
 import DrawingObjects.JavaFXConversion.*;
@@ -16,7 +15,6 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.web.WebEngine;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseButton;
@@ -30,15 +28,16 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.scene.text.Text;
 
 
 public class FXController {
 
     DrawingBoard testBoard = new DrawingBoard(3000,3000);
-    InputObject inputObject = new InputObject("Square", new double[]{100, 100},"black","solid",20.0,20.0);
+                                            // ENUM for Reference and Dev security
+    InputObject inputObject = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0);
+                                            // I didn't change these ones os you could chekc it out
     InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
-    InputObject inputObject3 = new InputObject("Circle", new double[]{100, 200},"black","solid",60.0,40.0);
+    InputObject inputObject3 = new InputObject(ShapeTypes.circle.getValue(), new double[]{100, 200},"black","solid",60.0,40.0);
     InputObject inputObject4 = new InputObject("Hexagon",new double[]{100,200}, "black","solid",50.0,50.0);
 
 
@@ -174,6 +173,7 @@ public class FXController {
      */
     @FXML
     public void testAddCircle(){
+
         javaShape = ShapeJavaFXFunctions.circleToJavaFX(inputObject3);
         javaShape.setFill(colorPicker.getValue());
         makeShapeMove(javaShape);
@@ -210,31 +210,24 @@ public class FXController {
     @FXML
     public void testSVGPathMethods(){
 
-        testBoard.addObject(inputObject);
+        /**
+         * TYLER I CHANGED THIS to test it, your code is copied and commented out below
+         */
+        testBoard = new DrawingBoard();
+        JavaFXDrawingObject myTestObject = testBoard.addObject(inputObject3).getLinkedJavaFX();
 
-        Group group = new Group();
+        if (myTestObject == null){
+            System.out.println("The JavaFxDrawingObject is screwed\n");
+        }
+        else if (myTestObject.getLinkedDrawing() == null){
+            System.out.println("The Linked DrawingObject is screwed\n");
+        }
 
-        //This is where it's returning a null value linked object is never set
-        System.out.println(testBoard.getObject("1").getLinkedJavaFXObject());
-
-        //Caused by: java.lang.NullPointerException: Children: child node is null: parent = JavaFXDrawingObject@64effbbc
-        //JavaFXDrawingObject is never instantiated as a group so it has no children to add to the design page
-        System.out.println(testBoard.getObject("1").getUpdateLinkedJavaFX());
-
-        //Not null
-        System.out.println(testBoard.getObject("1"));
+        makeShapeMove(myTestObject);
+        designCenter.getChildren().add(myTestObject);
 
 
-        //javaShape = ShapeJavaFXFunctions.rectToJavaFX(inputObject);
-        javaShape.setFill(colorPicker.getValue());
 
-        group.getChildren().add(group);
-
-        makeShapeMove(javaShape);
-
-        designCenter.getChildren().add(group);
-        //makeSelectable(example);
-        //getSVGData();
 
     }
 
@@ -250,7 +243,7 @@ public class FXController {
         System.out.println(svgData);
     }
 
-    public void makeShapeMove(Shape shape){
+    public void makeShapeMove(Node shape){
         shape.setCursor(Cursor.MOVE);
         shape.setTranslateX(insertX);
         shape.setTranslateY(insertY);

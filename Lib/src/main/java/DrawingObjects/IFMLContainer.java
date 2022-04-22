@@ -58,19 +58,21 @@ public class IFMLContainer extends DrawingObject {
 
     @Override
     public void generateJavaFXGroup() {
+
         //update the text position
         super.getTextBox(0).setYCord(super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 2);
         super.getTextBox(0).setXCord(super.inObject.getXCord() + super.getTextBox(0).getFontSize() + 2);
 
-        super.linkedJavaFXObject.getChildren().add(rectToJavaFX(super.inObject));
 
-        super.linkedJavaFXObject.getChildren().add(addLinetoPath(
+        linkedJavaFX.getChildren().addAll(
+                rectToJavaFX(super.inObject),
+                addLinetoPath(
                 (super.inObject.getXCord()),
                 (super.inObject.getXCord() + super.inObject.getParams()[0]),
                 (super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 4),
                 (super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 4),
-                new Path()
-        ));
+                new Path())
+        );
 
     }
 }

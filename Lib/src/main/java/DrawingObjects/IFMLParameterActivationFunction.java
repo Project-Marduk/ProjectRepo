@@ -31,6 +31,6 @@ public class IFMLParameterActivationFunction extends DrawingObject{
 
     @Override
     public void generateJavaFXGroup() {
-        super.linkedJavaFXObject.getChildren().addAll(activationExpressionJFX(super.inObject));
+        linkedJavaFX.getChildren().addAll(activationExpressionJFX(super.inObject));
     }
 }
