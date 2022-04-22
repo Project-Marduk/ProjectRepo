@@ -34,10 +34,10 @@ public class FXController {
 
     DrawingBoard testBoard = new DrawingBoard(3000,3000);
                                             // ENUM for Reference and Dev security
-    InputObject inputObject = new InputObject(ShapeTypes.square.string(), new double[]{100, 100},"black","solid",20.0,20.0);
+    InputObject inputObject = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0);
                                             // I didn't change these ones os you could chekc it out
     InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
-    InputObject inputObject3 = new InputObject(ShapeTypes.circle.string(), new double[]{100, 200},"black","solid",60.0,40.0);
+    InputObject inputObject3 = new InputObject(ShapeTypes.circle.getValue(), new double[]{100, 200},"black","solid",60.0,40.0);
     InputObject inputObject4 = new InputObject("Hexagon",new double[]{100,200}, "black","solid",50.0,50.0);
 
 

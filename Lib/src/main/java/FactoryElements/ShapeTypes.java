@@ -16,7 +16,7 @@ public enum ShapeTypes {
     square("Square"),
     circle("Circle"),
     hexagon("Hexagon"),
-    parrallelogram("Parallelogram");
+    parallelogram("Parallelogram");
 
     private final String value;
     private ShapeTypes(String v) {this.value = v;}
@@ -24,7 +24,24 @@ public enum ShapeTypes {
     /**
      * @return the string value associated with the enum.
      */
-    public String string(){
+    public String getValue(){
         return value;
     }
+
+    /**
+     *
+     * @param value the string of the enum input using
+     * @return returns corresponding ShapeType, or null if no match.
+     */
+    public static ShapeTypes enumOfString(String value){
+        ShapeTypes t = null;
+        for (ShapeTypes s : ShapeTypes.values()){
+            if (value == s.value){
+                t = s;
+            }
+        }
+        return t;
+    }
+
+
 }

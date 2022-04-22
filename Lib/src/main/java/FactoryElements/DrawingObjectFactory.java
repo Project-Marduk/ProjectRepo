@@ -19,19 +19,20 @@ public class DrawingObjectFactory {
 
 
     public DrawingObject create(InputObject input, String id){
+
         String shapeIdHandle = "";
-        if(ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.rectangle) ||
-                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.square) ||
-                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.circle)||
-                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.hexagon) ||
-                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.parrallelogram)){
-            shapeIdHandle = ShapeTypes.Wireframe_Object.string();
+        if(ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.rectangle.getValue()) ||
+                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.square.getValue()) ||
+                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.circle.getValue())||
+                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.hexagon.getValue()) ||
+                ShapeTypes.valueOf(input.getShapeType()).equals(ShapeTypes.parallelogram.getValue())){
+            shapeIdHandle = ShapeTypes.Wireframe_Object.getValue();
         }
         else{
             shapeIdHandle = input.getShapeType();
         }
 
-        switch (ShapeTypes.valueOf(shapeIdHandle)) {
+        switch (ShapeTypes.enumOfString(shapeIdHandle)) {
             case IFML_Action:
                 return new IFMLAction(id, input);
             case IFML_Activation_Expression:
