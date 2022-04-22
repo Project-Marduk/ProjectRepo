@@ -7,11 +7,12 @@
  * in the user manual at https://docs.gradle.org/7.2/userguide/multi_project_builds.html
  */
 
-//For Isaacs activeJDBC to work in Docker you must put the zip file in the docker container then unzip it before running the below actions
+//For Isaacs activeJDBC to work in Docker you must put the zip file in the docker container then unzip via the procedure it before running the below actions
 //to get Isaacs activeJDBC to work you must do the the following steps
-//1: download his repo from https://github.com/grifisaa/activejdbc-example
-//2: navigate to the "activeJDBC" folder in the directory
-//3: run: gradle publishToMavenLocal
+//1: download the zip file of his repo from https://github.com/grifisaa/activejdbc-example
+//2: unizip the file
+//3: in the terminal(cmd) navigate to the "activeJDBC" folder in the directory
+//4: run: gradle publishToMavenLocal
 //
 //needed for the activeJDBC package
 pluginManagement{
