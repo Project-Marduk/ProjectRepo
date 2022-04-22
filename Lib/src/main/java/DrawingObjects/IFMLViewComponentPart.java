@@ -111,7 +111,7 @@ public class IFMLViewComponentPart extends DrawingObject {
     }
 
     @Override
-    public Group generateJavaFXGroup() {
+    public void generateJavaFXGroup() {
         double largeBoxYPosScalar;
         double smallBoxYPosScalar;
         double smallBoxSizeScalar = .3;
@@ -134,7 +134,7 @@ public class IFMLViewComponentPart extends DrawingObject {
         //text box inside larger text box
         super.getTextBox(2).setYCord(super.inObject.getYCord() + super.inObject.getParams()[1] * largeBoxYPosScalar + 2);
 
-        return new Group(
+        linkedJavaFX.getChildren().addAll(
                 rectToJavaFX(super.inObject),
                 rectToJavaFX(
                 new InputObject(

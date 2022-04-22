@@ -37,10 +37,10 @@ public class IFMLEvent extends DrawingObject {
     }
 
     @Override
-    public Group generateJavaFXGroup() {
+    public void generateJavaFXGroup() {
         if(isFilled){
             super.inObject.setColor("#000000"); //sets the fill color to the hex code for black
         }
-        return new Group(circleToJavaFX(super.inObject));
+        linkedJavaFX.getChildren().addAll(circleToJavaFX(super.inObject));
     }
 }

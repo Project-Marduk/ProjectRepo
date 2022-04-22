@@ -216,27 +216,16 @@ public class FXController {
         testBoard = new DrawingBoard();
         JavaFXDrawingObject myTestObject = testBoard.addObject(inputObject3).getLinkedJavaFX();
 
-        makeShapeMove(javaShape);
-        designCenter.getChildren().add(myTestObject);
-
-
-
-        //This is where it's returning a null value linked object is never set
-        System.out.println(myTestObject.getLinkedDrawing());
-
-        //Caused by: java.lang.NullPointerException: Children: child node is null: parent = JavaFXDrawingObject@64effbbc
-        //JavaFXDrawingObject is never instantiated as a group so it has no children to add to the design page
-        System.out.println(testBoard.getObject("1").getLinkedJavaFX());
-
-        //Not null
-        System.out.println(testBoard.getObject("1"));
-
-
-        //javaShape = ShapeJavaFXFunctions.rectToJavaFX(inputObject);
-        javaShape.setFill(colorPicker.getValue());
-
+        if (myTestObject == null){
+            System.out.println("The JavaFxDrawingObject is screwed\n");
+        }
+        else if (myTestObject.getLinkedDrawing() == null){
+            System.out.println("The Linked DrawingObject is screwed\n");
+        }
 
         makeShapeMove(myTestObject);
+        designCenter.getChildren().add(myTestObject);
+
 
 
 

@@ -17,7 +17,7 @@ public class JavaFXDrawingObject extends Group {
 
     public void update(){
         getChildren().clear();
-        getChildren().addAll(linkedDrawing.generateJavaFXGroup().getChildren());
+        linkedDrawing.generateJavaFXGroup();
     }
 
     public DrawingObject getLinkedDrawing() {

@@ -33,7 +33,7 @@ public class IFMLViewComponent extends DrawingObject {
     }
 
     @Override
-    public Group generateJavaFXGroup() {
-        return new Group(rectToJavaFX(super.inObject));
+    public void generateJavaFXGroup() {
+        linkedJavaFX.getChildren().addAll(rectToJavaFX(super.inObject));
     }
 }

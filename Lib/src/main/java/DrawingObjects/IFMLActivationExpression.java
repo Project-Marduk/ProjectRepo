@@ -33,7 +33,7 @@ public class IFMLActivationExpression extends DrawingObject {
     }
 
     @Override
-    public Group generateJavaFXGroup() {
-        return new Group(activationExpressionJFX(super.inObject));
+    public void generateJavaFXGroup() {
+        linkedJavaFX.getChildren().addAll(activationExpressionJFX(super.inObject));
     }
 }
