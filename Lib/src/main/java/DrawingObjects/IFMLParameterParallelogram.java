@@ -14,8 +14,8 @@ import static DrawingObjects.Functions.ShapeJavaFXFunctions.parallelogramToJAVAF
 //@Table("IFML_Parameter")
 public class IFMLParameterParallelogram extends DrawingObject {
 
-    public IFMLParameterParallelogram(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLParameterParallelogram(InputObject inObj){
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
             new TextBox("",
                 super.inObject.getXCord() + super.inObject.getParams()[0]*.5,

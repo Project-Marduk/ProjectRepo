@@ -20,15 +20,8 @@ public abstract class DrawingObject extends Group implements ComplexShape, JavaF
     InputObject inObject;
     TextBox[] textBoxes;
 
-    public DrawingObject(){
-
-    }
     public DrawingObject(InputObject in){
         inObject = in;
-    }
-    public DrawingObject(String newId, InputObject inObj){
-        inObject = inObj;
-        inObject.setId(Integer.valueOf(newId));
     }
 
     public String getSVGData(){

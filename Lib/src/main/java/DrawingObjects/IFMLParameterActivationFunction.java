@@ -12,8 +12,8 @@ import static DrawingObjects.Functions.ShapeJavaFXFunctions.activationExpression
  */
 public class IFMLParameterActivationFunction extends DrawingObject{
 
-    public IFMLParameterActivationFunction(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLParameterActivationFunction(InputObject inObj){
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
                         super.inObject.getXCord() + super.inObject.getParams()[0]*.5,

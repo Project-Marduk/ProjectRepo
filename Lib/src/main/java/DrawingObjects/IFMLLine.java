@@ -21,8 +21,8 @@ public class IFMLLine extends LineObject {
     boolean headIsLeft;
     boolean headIsVert;
 
-    public IFMLLine(String id, InputObject inObj) {
-        super(id, inObj);
+    public IFMLLine(InputObject inObj) {
+        super(inObj);
         headIsLeft = true;
         headIsVert = true;
         super.setTextBoxes(new TextBox[]{

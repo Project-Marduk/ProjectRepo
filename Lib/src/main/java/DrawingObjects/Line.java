@@ -8,8 +8,8 @@ import static DrawingObjects.Functions.ShapeJavaFXFunctions.addLinetoPath;
 
 //@Table("Line")
 public class Line extends LineObject {
-    public Line(String id, InputObject inObj) {
-        super(id, inObj);
+    public Line(InputObject inObj) {
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
                         inObject.getXCord(),

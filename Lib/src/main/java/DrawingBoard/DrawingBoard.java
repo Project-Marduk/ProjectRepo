@@ -10,17 +10,17 @@ import java.util.Set;
 
 public class DrawingBoard {
     private final double SIZE_DEFAULT = 1000;
-    private inputBoard inputBoard;
-
+    private InputBoard inputBoard;
+    private int indexes = 150000;
     Map<String, DrawingObject> objects = new HashMap<>();
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
 
 
-    public DrawingBoard(inputBoard d){
+    public DrawingBoard(InputBoard d){
         inputBoard = d;
     }
 
-    public inputBoard getDiagram(){
+    public InputBoard getDiagram(){
         return getDiagram();
     }
 
@@ -31,19 +31,21 @@ public class DrawingBoard {
      * @return The Drawing object just created
      */
     public DrawingObject addObject(InputObject inObj){
-        //TODO the index system is flawed.
-        // How does the system reconcile between the client and the server?
-        int b = 5;
-        String id = String.valueOf(inputBoard.idIndex);
-        inputBoard.idIndex = inputBoard.idIndex+1;
-
-        DrawingObject d = drawingObjectFactory.create(inObj, id);
-        if (d == null){
-            System.out.println("INVALID OBJECT, Factory returned Null");
+        if (!isFinilizedInputObject(inObj)){
+            inObj.setId(indexes);
+            indexes = indexes - 1;
         }
-        objects.put(id, d);
-        System.out.println("");
-        return objects.get(id);
+        DrawingObject d = drawingObjectFactory.create(inObj);
+        objects.put(String.valueOf(d.getInObject().getId()), d);
+        return objects.get(d.getInObject().getId());
+    }
+
+    public boolean isFinilizedInputObject(InputObject i){
+        Boolean result = true;
+        if (i.getId() == null){
+            result = false;
+        }
+        return result;
     }
 
     public void removeObject(String id){

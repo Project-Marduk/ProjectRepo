@@ -18,8 +18,8 @@ import lombok.Setter;
 public class IFMLViewComponent extends DrawingObject {
     String fillColor = "#B7BDBB"; //Hex for light blue grey
 
-    public IFMLViewComponent(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLViewComponent(InputObject inObj){
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
             new TextBox("",
                     super.inObject.getXCord() + inObject.getParams()[0]*.5,

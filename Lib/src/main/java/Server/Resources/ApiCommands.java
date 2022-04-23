@@ -1,6 +1,5 @@
 package Server.Resources;
 
-import static Server.Resources.routeBranches.*;
 
 /**
  * General Api Paths

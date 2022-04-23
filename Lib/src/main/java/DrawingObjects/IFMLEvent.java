@@ -18,8 +18,8 @@ import lombok.Setter;
 public class IFMLEvent extends DrawingObject {
     boolean isFilled; //default value is false
 
-    public IFMLEvent(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLEvent(InputObject inObj){
+        super(inObj);
         isFilled = false;
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",

@@ -21,10 +21,9 @@ public class DrawingObjectFactory {
      * TODO this is a new version of the code using the Enum I made,  original code is comment out below - Traae;
      *
      * @param input the InputObject of what you mant to make
-     * @param id The new Drawing Obejcts Id
      * @return the New Drawing Object
      */
-    public DrawingObject create(InputObject input, String id){
+    public DrawingObject create(InputObject input){
         ShapeTypes type = ShapeTypes.enumOfString(input.getShapeType());
 
         if(type == ShapeTypes.rectangle ||
@@ -38,27 +37,27 @@ public class DrawingObjectFactory {
 
         switch (type) {
             case IFML_Action:
-                return new IFMLAction(id, input);
+                return new IFMLAction(input);
             case IFML_Activation_Expression:
-                return new IFMLActivationExpression(id, input);
+                return new IFMLActivationExpression(input);
             case IFML_Container:
-                return new IFMLContainer(id, input);
+                return new IFMLContainer(input);
             case IFML_Event:
-                return new IFMLEvent(id, input);
+                return new IFMLEvent(input);
             case IFML_Module:
-                return new IFMLModule(id, input);
+                return new IFMLModule(input);
             case IFML_Parameter:
-                return new IFMLParameterParallelogram(id, input);
+                return new IFMLParameterParallelogram(input);
             case IFML_View_Component:
-                return new IFMLViewComponent(id, input);
+                return new IFMLViewComponent(input);
             case IFML_View_Component_Part:
-                return new IFMLViewComponentPart(id, input);
+                return new IFMLViewComponentPart(input);
             case IFML_Line:
-                return new IFMLLine(id, input);
+                return new IFMLLine(input);
             case Wireframe_Object:
-                return new WireframeObject(id, input);
+                return new WireframeObject(input);
             case Line:
-                return new Line(id, input);
+                return new Line(input);
             default:
                 return null;
 

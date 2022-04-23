@@ -22,8 +22,8 @@ public class IFMLViewComponentPart extends DrawingObject {
     boolean floatUp; //default value is to float text1 above the second box
     double fontSize;
 
-    public IFMLViewComponentPart(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLViewComponentPart(InputObject inObj){
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
             new TextBox("",
                     super.inObject.getXCord() + super.inObject.getParams()[0] *.1,

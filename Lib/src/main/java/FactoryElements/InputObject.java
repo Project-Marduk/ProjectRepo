@@ -20,7 +20,7 @@ import java.io.Serializable;
 //@Table("Input_Object")
 @Getter @Setter
 public class InputObject implements Serializable {
-    Integer id;
+    Integer id = null;
     Integer parent_id;
     String shapeType;
     double xCord;

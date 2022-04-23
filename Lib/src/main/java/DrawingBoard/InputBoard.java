@@ -5,7 +5,7 @@ import FactoryElements.InputObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class inputBoard implements Serializable {
+public class InputBoard implements Serializable {
     public String name;
     public String id;
     public double xMax;
@@ -14,7 +14,7 @@ public class inputBoard implements Serializable {
 
     private ArrayList<InputObject> inputObjectsList;
 
-    public inputBoard(){
+    public InputBoard(){
         inputObjectsList = new ArrayList<>();
     }
     public ArrayList<InputObject> getInputObjectsList() {

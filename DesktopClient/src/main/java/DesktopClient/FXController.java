@@ -9,6 +9,8 @@ package DesktopClient;
 import DrawingObjects.DrawingObject;
 import DrawingObjects.Functions.ShapeJavaFXFunctions;
 import DrawingBoard.*;
+import DrawingObjects.ShapeTypes;
+import FactoryElements.InputObject;
 import javafx.geometry.Bounds;
 import javafx.scene.*;
 import javafx.scene.Cursor;
@@ -23,6 +25,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -32,14 +35,89 @@ import javafx.scene.shape.*;
 
 public class FXController {
 
-    inputBoard testBoardsInputBoard = new inputBoard();
-    DrawingBoard testBoard = new DrawingBoard();
-                                            // ENUM for Reference and Dev security
-    //InputObject inputObject = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0);
-                                            // I didn't change these ones os you could chekc it out
-    //InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
-    //InputObject inputObject3 = new InputObject(ShapeTypes.circle.getValue(), new double[]{100, 200},"black","solid",60.0,40.0);
-    //InputObject inputObject4 = new InputObject("Hexagon",new double[]{100,200}, "black","solid",50.0,50.0);
+    InputBoard testInputBoard;
+    InputObject testInObject;
+    DrawingBoard testBoard;
+
+
+    InputObject inputObject1;
+    InputObject inputObject3;
+
+    LinkedList<Group> thingsToRender;
+
+
+    public void testingGrouds(){
+        // Tyler here is the basic flow of the Data Structures
+
+        // There are 4 structure You care about.
+        /*
+        1. Input object = portable values of a shape.
+        2. Input Board = portable values of a board.
+        3. Drawing Board = the thing to make your stuff.
+        4. Drawing object = the thing you want to actually use.
+
+        InputObject -> DrawingObject
+        InputBoard -> DrawingBoard
+
+         */
+
+        // Here is an Input Board
+        testInputBoard = new InputBoard();
+        testInputBoard.id = "butts";
+        testInputBoard.idIndex = 3;
+        testInputBoard.name = "Test";
+        testInputBoard.xMax = 3000;
+        testInputBoard.yMax = 3000;
+        // In the final product you'll retrieve this from the server
+
+        // for testing you can just make them;
+
+
+        // Now lets plug it into our board.
+        // DrawingBoard the central thing that makes you DrawingObjects
+        testBoard = new DrawingBoard(testInputBoard);
+
+        // Now lets make our Input Objects
+
+        // HERE IS THE Current contsructor:
+        // public InputObject(String sType, double[] p, String c, String s, double x, double y, String[] t)
+        inputObject1 = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0, new String[]{"Bitches"});
+        // OR
+        inputObject3 = new InputObject();
+        inputObject3.setShapeType(ShapeTypes.circle.getValue());
+        inputObject3.setParams(new double[]{100, 200});
+        inputObject3.setColor("black");
+        inputObject3.setStyle("solid");
+        inputObject3.setXCord(60.0);
+        inputObject3.setYCord(40.0);
+
+        // IN the final build you will make an
+        // input object, send it to the server, and recieve a finalized inputObject.
+        // for right now you can just test using your own.
+        // this is important to remember tho.
+
+
+        // Now for the Good part:
+        DrawingObject drawing1 = testBoard.addObject(inputObject1);
+        DrawingObject drawing2 = testBoard.addObject(inputObject3);
+
+        //DrawingObjects are now JavaFX Groups & Drawing Objects.
+        drawing1.update();// it is now ready to draw to the screen.
+
+        drawing1.getInObject().setYCord(500);
+        drawing1.getInObject().setXCord(412);
+
+        drawing1.update(); // the JAVA FX shapes the group is made of have been updated.
+
+        // Works with you functions:
+        makeSelectable(drawing1);
+        makeShapeMove(drawing1);
+
+
+    }
+
+
+
 
 
 
@@ -190,9 +268,6 @@ public class FXController {
         makeShapeMove(javaShape);
         designCenter.getChildren().add(javaShape);
 
-
-
-
         //hashmap of all stuff and mirror that has all the input objects and then update using the hash map update the shapes
         //to insert and delte objects
 
@@ -212,7 +287,7 @@ public class FXController {
 
 
 
-        inputBoard d = new inputBoard();
+        InputBoard d = new InputBoard();
         d.id = "23";
         d.name = "Test Diagram";
         d.xMax = 800;

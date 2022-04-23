@@ -16,8 +16,8 @@ import static DrawingObjects.Functions.ShapeJavaFXFunctions.squareToJavaFX;
 //@Table("IFML_Module")
 public class IFMLModule extends DrawingObject {
 
-    public IFMLModule(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLModule(InputObject inObj){
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
             new TextBox( "",
             inObject.getXCord()+inObject.getParams()[0],

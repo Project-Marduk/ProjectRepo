@@ -49,47 +49,50 @@ public class MardukServer {
                 config.server(() ->
                         new Server(queuedThreadPool))).start(ServerPorts.Server.port());
 
-        // Server Handlers
-        // Basic info calls
-        app.addHandler(
-                HandlerType.GET,
-                ApiCommands.root,
-                ctx -> ctx.result(ServerResponses.startingServerResponse.getMessage())
-        );
-        app.addHandler(HandlerType.GET,
-                ApiCommands.up,
-                ctx -> {}
-        );
-        app.addHandler(
-                HandlerType.GET,
-                ApiCommands.getResponseCode,
-                ctx -> ctx.result(String.valueOf(responseManager.getCode()))
-        );
-        app.addHandler(
-                HandlerType.GET,
-                ApiCommands.getResponseMessage,
-                ctx -> ctx.result(responseManager.getMessage())
-        );
-        app.addHandler(
-                HandlerType.GET,
-                ApiCommands.getResponseBoolean,
-                ctx -> ctx.result(String.valueOf(responseManager.isSuccess()))
-        );
 
-
-        // Check status and Error message
-        app.get(ApiCommands.getOperationStatus.path(), ctx -> {
-            //STATUS UPDATE FUNCTION
-            ctx.result(String.valueOf(currentStatus));
-        });
-        app.get(ApiCommands.getError.path(), ctx -> {
-            // ERROR UPDATING FUNCTION
-            ctx.result(errorMessage);
-        });
 
 
         // DATA MANAGER CALLS
         app.routes(() -> {
+
+            // Server Handlers
+            // Basic info calls
+            app.addHandler(
+                    HandlerType.GET,
+                    ApiCommands.root,
+                    ctx -> ctx.result(ServerResponses.startingServerResponse.getMessage())
+            );
+            app.get,
+                    ApiCommands.up,
+                    ctx -> {}
+            );
+            app.addHandler(
+                    HandlerType.GET,
+                    ApiCommands.getResponseCode,
+                    ctx -> ctx.result(String.valueOf(responseManager.getCode()))
+            );
+            app.addHandler(
+                    HandlerType.GET,
+                    ApiCommands.getResponseMessage,
+                    ctx -> ctx.result(responseManager.getMessage())
+            );
+            app.addHandler(
+                    HandlerType.GET,
+                    ApiCommands.getResponseBoolean,
+                    ctx -> ctx.result(String.valueOf(responseManager.isSuccess()))
+            );
+
+
+            // Check status and Error message
+            app.get(ApiCommands.getOperationStatus.path(), ctx -> {
+                //STATUS UPDATE FUNCTION
+                ctx.result(String.valueOf(currentStatus));
+            });
+            app.get(ApiCommands.getError.path(), ctx -> {
+                // ERROR UPDATING FUNCTION
+                ctx.result(errorMessage);
+            });
+
             app.before(ctx -> {
                 responseManager.operationInitiated();
                 //dataManager.openDatabase();
