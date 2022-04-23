@@ -1,10 +1,9 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import javafx.scene.Group;
 
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.hexagonToJavaFX;
-import static DrawingObjects.ShapeSVGFunctions.hexagonToSvg;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.hexagonToJavaFX;
+import static DrawingObjects.Functions.ShapeSVGFunctions.hexagonToSvg;
 
 /**
  * @author David Lindeman
@@ -33,6 +32,6 @@ public class IFMLAction extends DrawingObject {
 
     @Override
     public void generateJavaFXGroup() {
-        linkedJavaFX.getChildren().addAll(hexagonToJavaFX(super.inObject));
+        getChildren().addAll(hexagonToJavaFX(super.inObject));
     }
 }

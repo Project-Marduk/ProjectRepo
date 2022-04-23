@@ -34,7 +34,7 @@ public class MardukServer {
         String errorMessage = "No current error.";
         String defaultMessage = ServerReturns.serverMessage.message();
 
-        DataManagerDriver dataManager = DataManagerDriver.getInstance();
+        //DataManagerDriver dataManager = DataManagerDriver.getInstance();
         FileExporterDriver fileExporter = FileExporterDriver.getInstance();
 
 
@@ -48,11 +48,12 @@ public class MardukServer {
         app.routes(() -> {
             //Runs before each request handler
             //ensures database is properly opened and closed
+            // TODO I think the datamanager should handle this.
             app.before(ctx -> {
-                dataManager.openDatabase();
+                //dataManager.openDatabase();
             });
             app.after(ctx -> {
-                dataManager.closeDatabase();
+                //dataManager.closeDatabase();
             });
 
             // Basic info calls

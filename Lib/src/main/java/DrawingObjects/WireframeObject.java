@@ -1,13 +1,11 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import FactoryElements.ShapeTypes;
-import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 
-import static DrawingObjects.ShapeSVGFunctions.*;
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.*;
+import static DrawingObjects.Functions.ShapeSVGFunctions.*;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.*;
 
 @Getter @Setter
 /**
@@ -66,23 +64,24 @@ public class WireframeObject extends DrawingObject {
         ShapeTypes type = ShapeTypes.enumOfString(super.getInObject().getShapeType());
         switch (type) {
             case rectangle:
-                super.linkedJavaFX.getChildren().addAll(rectToJavaFX(super.getInObject()));
+                getChildren().addAll(rectToJavaFX(super.getInObject()));
                 break;
             case square:
-                super.linkedJavaFX.getChildren().addAll(squareToJavaFX(super.getInObject()));
+                getChildren().addAll(squareToJavaFX(super.getInObject()));
                 break;
             case circle:
-                super.linkedJavaFX.getChildren().addAll(circleToJavaFX(super.getInObject()));
+                getChildren().addAll(circleToJavaFX(super.getInObject()));
                 break;
             case hexagon:
-                super.linkedJavaFX.getChildren().addAll(hexagonToJavaFX(super.getInObject()));
+                getChildren().addAll(hexagonToJavaFX(super.getInObject()));
                 break;
             case parallelogram:
-                super.linkedJavaFX.getChildren().addAll(parallelogramToJAVAFX(super.getInObject()));
+                getChildren().addAll(parallelogramToJAVAFX(super.getInObject()));
                 break;
             default:
-                super.linkedJavaFX.getChildren().addAll(circleToJavaFX(super.getInObject()));
+                getChildren().addAll(circleToJavaFX(super.getInObject()));
                 break;
         }
+        addTextBoxesToJavaFXGroup();
     }
 }

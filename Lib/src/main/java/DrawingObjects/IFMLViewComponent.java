@@ -1,9 +1,9 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import static DrawingObjects.ShapeSVGFunctions.rectToSVG;
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.rectToJavaFX;
-import javafx.scene.Group;
+import static DrawingObjects.Functions.ShapeSVGFunctions.rectToSVG;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.rectToJavaFX;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +34,7 @@ public class IFMLViewComponent extends DrawingObject {
 
     @Override
     public void generateJavaFXGroup() {
-        linkedJavaFX.getChildren().addAll(rectToJavaFX(super.inObject));
+        getChildren().addAll(rectToJavaFX(super.inObject));
+        addTextBoxesToJavaFXGroup();
     }
 }

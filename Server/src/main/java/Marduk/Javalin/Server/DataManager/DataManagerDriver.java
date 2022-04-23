@@ -9,197 +9,216 @@ import Server.Resources.ApiCommands;
 
 import java.util.ArrayList;
 
-import static ActiveJDBCObjecs.CreateSVGFromDatabase.CreateSVGStringFromInputObjectJSON;
-import static ActiveJDBCObjecs.JSONHandler.arrayListToJSON;
-import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
 
-import org.javalite.activejdbc.Base;
-import org.javalite.activejdbc.LazyList;
-import org.javalite.activejdbc.connection_config.DBConfiguration;
+/**
+ * Because of the AJDBC plugin issuse, this file prevent compiling.
+ *
+ * It is temporarrily commented out to be able to test other stuff.
+ */
 
-
+// (Intellij highlighted area comment/uncomment shortcut: (ctrl + /)
+// uncomment From here:
+//
+//import static ActiveJDBCObjecs.CreateSVGFromDatabase.CreateSVGStringFromInputObjectJSON;
+//import static ActiveJDBCObjecs.JSONHandler.arrayListToJSON;
+//import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
+//
+//import org.javalite.activejdbc.Base;
+//import org.javalite.activejdbc.LazyList;
+//import org.javalite.activejdbc.connection_config.DBConfiguration;
+//
+//
 public class DataManagerDriver {
-    private static DataManagerDriver instance = null;
+//    private static DataManagerDriver instance = null;
+//
+//    private DataManagerDriver() {
+//    }
+//
+//    public static DataManagerDriver getInstance() {
+//        if (instance == null) {
+//            instance = new DataManagerDriver();
+//        }
+//        return instance;
+//    }
+//
+//    // TODO You sure you want to open and close with every command?
+//    // TODO I've got it set up but just wanted to check, - Traae.
+//    public void openDatabase() {
+//        DBConfiguration.loadConfiguration("/database.properties");
+//        Base.open();
+//    }
+//
+//    public void closeDatabase() {
+//        Base.close();
+//    }
+//
+//    /**
+//     * TODO  this
+//     *
+//     * @return true is connection is validated
+//     */
+//    public boolean validateDatabaseConnection() {
+//        // CODE THAT VALIDATE THE CONNECTION;
+//        return true;
+//    }
+//
+//    // TODO populate toReturn with the values of dwgb & the appropriate Drawing Objects
+//    public DrawingBoard getDrawingBoard(String id) {
+//
+//        DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(id);
+//
+//        DrawingBoard toReturn = new DrawingBoard();
+//
+//        return toReturn;
+//    }
+//
+//    // TODO save the board and objects in toSave
+//    public void saveDrawingBoard(DrawingBoard toSave) {
+//
+//
+//    }
+//
+//    // TODO the client can simultaneously create their own and send it here
+//    // for now this just creates and save it to the database, assuming
+//    // assuming the client will keep and continue to use their copy.
+//    public void createDrawingObject(InputObject inObj) {
+//        if (inObj != null) {
+//
+//            Double p1;
+//            Double p2 = null;
+//            String t1;
+//            String t2 = null;
+//            String t3 = null;
+//
+//            if (inObj.getParams().length == 1) {
+//                p1 = inObj.getParams()[0];
+//            } else {
+//                p1 = inObj.getParams()[0];
+//                p2 = inObj.getParams()[1];
+//            }
+//
+//            if (inObj.getText().length == 1) {
+//                t1 = inObj.getText()[0];
+//            } else if (inObj.getText().length == 2) {
+//                t1 = inObj.getText()[0];
+//                t2 = inObj.getText()[1];
+//            } else {
+//                t1 = inObj.getText()[0];
+//                t2 = inObj.getText()[1];
+//                t3 = inObj.getText()[2];
+//            }
+//
+//            //explicity way to set variables
+//            DrawingObjectAJDBC dwgObj = new DrawingObjectAJDBC();
+////                    dwgObj.set("id", inObj.getId());
+//            dwgObj.set("drawing_board_id", inObj.getParent_id());
+//            dwgObj.set("shape_type", inObj.getShapeType());
+//            dwgObj.set("x_cord", inObj.getXCord());
+//            dwgObj.set("y_cord", inObj.getYCord());
+//            dwgObj.set("param_one", p1);
+//            dwgObj.set("param_two", p2);
+//            dwgObj.set("color", inObj.getColor());
+//            dwgObj.set("style", inObj.getStyle());
+//            dwgObj.set("fill", inObj.getFill());
+//            dwgObj.set("text_one", t1);
+//            dwgObj.set("text_two", t2);
+//            dwgObj.set("text_three", t3);
+//            dwgObj.saveIt();
+//        }
+//
+//    }
+//
+//    public boolean deleteDrawingObject(String id) {
+//        boolean result = false;
+//        DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(Integer.parseInt(param));
+//        //catches entry cannot be found
+//        if (dwgObj != null) {
+//            dwgObj.delete();
+//            result = true;
+//        }
+//        return result;
+//    }
+//
+//
+//    public boolean updateDrawingObject(InputObject inObj) {
+//        boolean result = false;
+//
+//        if (inObj != null) {
+//            Double p1;
+//            Double p2 = null;
+//            String t1;
+//            String t2 = null;
+//            String t3 = null;
+//
+//            if (inObj.getParams().length == 1) {
+//                p1 = inObj.getParams()[0];
+//            } else {
+//                p1 = inObj.getParams()[0];
+//                p2 = inObj.getParams()[1];
+//            }
+//
+//            if (inObj.getText().length == 1) {
+//                t1 = inObj.getText()[0];
+//            } else if (inObj.getText().length == 2) {
+//                t1 = inObj.getText()[0];
+//                t2 = inObj.getText()[1];
+//            } else {
+//                t1 = inObj.getText()[0];
+//                t2 = inObj.getText()[1];
+//                t3 = inObj.getText()[2];
+//            }
+//
+//            //updates the drawing object and saves it
+//            DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(inObj.getId());
+//
+//            if (dwgObj != null) {
+//                dwgObj.set("drawing_board_id", inObj.getParent_id());
+//                dwgObj.set("shape_type", inObj.getShapeType());
+//                dwgObj.set("x_cord", inObj.getXCord());
+//                dwgObj.set("y_cord", inObj.getYCord());
+//                dwgObj.set("param_one", p1);
+//                dwgObj.set("param_two", p2);
+//                dwgObj.set("color", inObj.getColor());
+//                dwgObj.set("style", inObj.getStyle());
+//                dwgObj.set("fill", inObj.getFill());
+//                dwgObj.set("text_one", t1);
+//                dwgObj.set("text_two", t2);
+//                dwgObj.set("text_three", t3);
+//                dwgObj.saveIt();
+//                result = true;
+//            }
+//        }
+//        return result;
+//    }
+//
+//    public DrawingBoard createDrawingBoard() {
+//        DrawingBoardAJDBC dwgb = new DrawingBoardAJDBC();
+//        dwgb.set("x_size", 1000);
+//        dwgb.set("y_size", 1000);
+//        dwgb.saveIt();
+//
+//        return new DrawingBoard();
+//    }
+//
+//    public boolean deleteDrawingBoard(String id) {
+//        boolean result = false;
+//        DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.valueOf(id));
+//        if (dwgb != null) {
+//            dwgb.delete();
+//            result = true;
+//        }
+//        return result;
+//    }
+//
+}
+// To Here
 
-    private DataManagerDriver() {
-    }
-
-    public static DataManagerDriver getInstance() {
-        if (instance == null) {
-            instance = new DataManagerDriver();
-        }
-        return instance;
-    }
-
-    // TODO You sure you want to open and close with every command?
-    // TODO I've got it set up but just wanted to check, - Traae.
-    public void openDatabase() {
-        DBConfiguration.loadConfiguration("/database.properties");
-        Base.open();
-    }
-
-    public void closeDatabase() {
-        Base.close();
-    }
-
-    /**
-     * TODO  this
-     *
-     * @return true is connection is validated
-     */
-    public boolean validateDatabaseConnection() {
-        // CODE THAT VALIDATE THE CONNECTION;
-        return true;
-    }
-
-    // TODO populate toReturn with the values of dwgb & the appropriate Drawing Objects
-    public DrawingBoard getDrawingBoard(String id) {
-
-        DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(id);
-
-        DrawingBoard toReturn = new DrawingBoard();
-
-        return toReturn;
-    }
-
-    // TODO save the board and objects in toSave
-    public void saveDrawingBoard(DrawingBoard toSave) {
 
 
-    }
-
-    // TODO the client can simultaneously create their own and send it here
-    // for now this just creates and save it to the database, assuming
-    // assuming the client will keep and continue to use their copy.
-    public void createDrawingObject(InputObject inObj) {
-        if (inObj != null) {
-
-            Double p1;
-            Double p2 = null;
-            String t1;
-            String t2 = null;
-            String t3 = null;
-
-            if (inObj.getParams().length == 1) {
-                p1 = inObj.getParams()[0];
-            } else {
-                p1 = inObj.getParams()[0];
-                p2 = inObj.getParams()[1];
-            }
-
-            if (inObj.getText().length == 1) {
-                t1 = inObj.getText()[0];
-            } else if (inObj.getText().length == 2) {
-                t1 = inObj.getText()[0];
-                t2 = inObj.getText()[1];
-            } else {
-                t1 = inObj.getText()[0];
-                t2 = inObj.getText()[1];
-                t3 = inObj.getText()[2];
-            }
-
-            //explicity way to set variables
-            DrawingObjectAJDBC dwgObj = new DrawingObjectAJDBC();
-//                    dwgObj.set("id", inObj.getId());
-            dwgObj.set("drawing_board_id", inObj.getParent_id());
-            dwgObj.set("shape_type", inObj.getShapeType());
-            dwgObj.set("x_cord", inObj.getXCord());
-            dwgObj.set("y_cord", inObj.getYCord());
-            dwgObj.set("param_one", p1);
-            dwgObj.set("param_two", p2);
-            dwgObj.set("color", inObj.getColor());
-            dwgObj.set("style", inObj.getStyle());
-            dwgObj.set("fill", inObj.getFill());
-            dwgObj.set("text_one", t1);
-            dwgObj.set("text_two", t2);
-            dwgObj.set("text_three", t3);
-            dwgObj.saveIt();
-        }
-
-    }
-
-    public boolean deleteDrawingObject(String id) {
-        boolean result = false;
-        DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(Integer.parseInt(param));
-        //catches entry cannot be found
-        if (dwgObj != null) {
-            dwgObj.delete();
-            result = true;
-        }
-        return result;
-    }
 
 
-    public boolean updateDrawingObject(InputObject inObj) {
-        boolean result = false;
 
-        if (inObj != null) {
-            Double p1;
-            Double p2 = null;
-            String t1;
-            String t2 = null;
-            String t3 = null;
-
-            if (inObj.getParams().length == 1) {
-                p1 = inObj.getParams()[0];
-            } else {
-                p1 = inObj.getParams()[0];
-                p2 = inObj.getParams()[1];
-            }
-
-            if (inObj.getText().length == 1) {
-                t1 = inObj.getText()[0];
-            } else if (inObj.getText().length == 2) {
-                t1 = inObj.getText()[0];
-                t2 = inObj.getText()[1];
-            } else {
-                t1 = inObj.getText()[0];
-                t2 = inObj.getText()[1];
-                t3 = inObj.getText()[2];
-            }
-
-            //updates the drawing object and saves it
-            DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(inObj.getId());
-
-            if (dwgObj != null) {
-                dwgObj.set("drawing_board_id", inObj.getParent_id());
-                dwgObj.set("shape_type", inObj.getShapeType());
-                dwgObj.set("x_cord", inObj.getXCord());
-                dwgObj.set("y_cord", inObj.getYCord());
-                dwgObj.set("param_one", p1);
-                dwgObj.set("param_two", p2);
-                dwgObj.set("color", inObj.getColor());
-                dwgObj.set("style", inObj.getStyle());
-                dwgObj.set("fill", inObj.getFill());
-                dwgObj.set("text_one", t1);
-                dwgObj.set("text_two", t2);
-                dwgObj.set("text_three", t3);
-                dwgObj.saveIt();
-                result = true;
-            }
-        }
-        return result;
-    }
-
-    public DrawingBoard createDrawingBoard() {
-        DrawingBoardAJDBC dwgb = new DrawingBoardAJDBC();
-        dwgb.set("x_size", 1000);
-        dwgb.set("y_size", 1000);
-        dwgb.saveIt();
-
-        return new DrawingBoard();
-    }
-
-    public boolean deleteDrawingBoard(String id) {
-        boolean result = false;
-        DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.valueOf(id));
-        if (dwgb != null) {
-            dwgb.delete();
-            result = true;
-        }
-        return result;
-    }
-
+// LEAVE THIS COMMENTED OUT
 
 //    //Takes in a drawing board id and returns a string of svg data
 //            app.get(ApiCommands.getSVGFileData.path(),ctx ->
@@ -269,5 +288,3 @@ public class DataManagerDriver {
 //
 //            });
 
-
-}

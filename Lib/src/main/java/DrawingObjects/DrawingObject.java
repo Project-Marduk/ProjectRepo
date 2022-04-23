@@ -1,9 +1,9 @@
 package DrawingObjects;
 
-import DrawingObjects.JavaFXConversion.JavaFXDrawingObject;
 import FactoryElements.InputObject;
-import FactoryElements.Interfaces.ComplexShape;
-import DrawingObjects.JavaFXConversion.JavaFXGroupShape;
+import DrawingObjects.Interfaces.ComplexShape;
+import DrawingObjects.Interfaces.JavaFXGroupShape;
+import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,30 +16,28 @@ import java.io.Serializable;
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
 @Getter @Setter
-public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, Serializable{ // extends Model
+public abstract class DrawingObject extends Group implements ComplexShape, JavaFXGroupShape, Serializable{ // extends Model
     InputObject inObject;
     TextBox[] textBoxes;
-    protected JavaFXDrawingObject linkedJavaFX;
 
     public DrawingObject(){
-        linkedJavaFX = new JavaFXDrawingObject(this);
 
+    }
+    public DrawingObject(InputObject in){
+        inObject = in;
     }
     public DrawingObject(String newId, InputObject inObj){
         inObject = inObj;
         inObject.setId(Integer.valueOf(newId));
-
-        linkedJavaFX = new JavaFXDrawingObject(this);
-
-    }
-
-    public JavaFXDrawingObject getLinkedJavaFX() {
-        linkedJavaFX.update();
-        return linkedJavaFX;
     }
 
     public String getSVGData(){
         return generateShape();
+    }
+
+    public void update(){
+        getChildren().clear();
+        generateJavaFXGroup();
     }
 
 
@@ -55,10 +53,10 @@ public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, S
     }
 
 
-    public TextBox getTextBox(int pos){
+    public TextBox getTextBox(int position){
 //        TextBox outBox = null;
         try{
-            return textBoxes[pos];
+            return textBoxes[position];
         }
         catch(IndexOutOfBoundsException e){
             //return the last entry of the list
@@ -69,9 +67,9 @@ public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, S
         }
     }
 
-    public void setTextBox(int pos, TextBox tb){
+    public void setTextBox(int position, TextBox tb){
         try{
-            textBoxes[pos] = tb;
+            textBoxes[position] = tb;
         }
         catch(IndexOutOfBoundsException e){
             textBoxes[textBoxes.length-1] = tb;
@@ -81,11 +79,12 @@ public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, S
         }
     }
 
-    protected void updateTextBoxesToJavaFXGroup(){
+    protected void addTextBoxesToJavaFXGroup(){
         for (TextBox tb: textBoxes) {
-            linkedJavaFX.getChildren().add(tb.getJavaFXText());
+            getChildren().add(tb.getJavaFXText());
         }
     }
+
 
     //    public <T> decodeType(DrawingObject dwObj){
 //

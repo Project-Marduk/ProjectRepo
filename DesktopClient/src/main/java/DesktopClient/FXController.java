@@ -6,9 +6,10 @@
  */
 package DesktopClient;
 
+import DrawingObjects.Functions.ShapeJavaFXFunctions;
+import DrawingObjects.ShapeTypes;
 import FactoryElements.*;
 import DrawingBoard.*;
-import DrawingObjects.JavaFXConversion.*;
 import javafx.geometry.Bounds;
 import javafx.scene.*;
 import javafx.scene.Cursor;

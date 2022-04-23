@@ -1,10 +1,9 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import javafx.scene.Group;
 
-import static DrawingObjects.ShapeSVGFunctions.parallelogramToSVG;
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.parallelogramToJAVAFX;
+import static DrawingObjects.Functions.ShapeSVGFunctions.parallelogramToSVG;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.parallelogramToJAVAFX;
 
 /**
  * @author David Lindeman
@@ -33,6 +32,7 @@ public class IFMLParameterParallelogram extends DrawingObject {
 
     @Override
     public void generateJavaFXGroup() {
-        linkedJavaFX.getChildren().addAll(parallelogramToJAVAFX(super.inObject));
+        getChildren().addAll(parallelogramToJAVAFX(super.inObject));
+        addTextBoxesToJavaFXGroup();
     }
 }

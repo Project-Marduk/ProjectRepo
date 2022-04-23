@@ -1,4 +1,4 @@
-package FactoryElements;
+package DrawingObjects;
 
 public enum ShapeTypes {
     IFML_Action("IFML_Action"),
