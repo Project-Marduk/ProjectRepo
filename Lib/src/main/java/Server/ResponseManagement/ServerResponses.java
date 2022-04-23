@@ -1,6 +1,8 @@
 package Server.ResponseManagement;
 
 
+import DrawingObjects.ShapeTypes;
+
 /**
  * An enumeration of server statuses.
  *
@@ -25,9 +27,13 @@ public enum ServerResponses {
     // Great for returning a Exception message to the server or client.
     custom("Check the server's Message for a special response.", false),
 
+    // Connection
+    exceptionInConnection("An exception was throw trying to reach sever.", false),
+
     // Server
     startingServerResponse("This is the Marduk Server", true),
-    upResponse("up", true);
+    upResponse("up", true),
+    inValidRequest("Http request is inValid for this service", false);
 
     // DataManager unique responses
 
@@ -48,4 +54,19 @@ public enum ServerResponses {
     public int getCode() {return code;}
     public String getMessage(){return message;}
     public Boolean isSuccess() {return success;}
+
+    /**
+     *
+     * @param code the integer code of the enum.
+     * @return returns corresponding ShapeType, or null if no match.
+     */
+    public static ServerResponses enumOfCode(int code){
+        ServerResponses t = failure;
+        for (ServerResponses s : ServerResponses.values()){
+            if (code == s.code){
+                t = s;
+            }
+        }
+        return t;
+    }
 }

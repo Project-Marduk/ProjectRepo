@@ -119,8 +119,6 @@ public class FXController {
 
 
 
-
-
     /**
      * FXML files located in the resource folder. This allows for variables to be called instead
      * of path strings in order to create a new scene

@@ -3,6 +3,8 @@
  */
 package Marduk.Javalin.Server;
 
+import DrawingBoard.InputBoard;
+import FactoryElements.InputObject;
 import Marduk.Javalin.Server.DataManager.DataManagerDriver;
 import Marduk.Javalin.Server.FileExporter.FileExporterDriver;
 import Server.Connection.serverRequestHeader;
@@ -49,117 +51,188 @@ public class MardukServer {
                 config.server(() ->
                         new Server(queuedThreadPool))).start(ServerPorts.Server.port());
 
+        // Server Handlers
+        // Basic info calls
+        app.addHandler(
+                HandlerType.GET,
+                ApiCommands.root,
+                ctx -> ctx.result(ServerResponses.startingServerResponse.getMessage())
+        );
+        app.addHandler(HandlerType.GET,
+                ApiCommands.up,
+                ctx -> ctx.result(ServerResponses.upResponse.getMessage())
+        );
+        app.addHandler(
+                HandlerType.GET,
+                ApiCommands.getResponseCode,
+                ctx -> ctx.result(String.valueOf(responseManager.getCode()))
+        );
+        app.addHandler(
+                HandlerType.GET,
+                ApiCommands.getResponseMessage,
+                ctx -> ctx.result(responseManager.getMessage())
+        );
+        app.addHandler(
+                HandlerType.GET,
+                ApiCommands.getResponseBoolean,
+                ctx -> ctx.result(String.valueOf(responseManager.isSuccess()))
+        );
 
 
 
         // DATA MANAGER CALLS
-        app.routes(() -> {
 
-            // Server Handlers
-            // Basic info calls
-            app.addHandler(
-                    HandlerType.GET,
-                    ApiCommands.root,
-                    ctx -> ctx.result(ServerResponses.startingServerResponse.getMessage())
-            );
-            app.get,
-                    ApiCommands.up,
-                    ctx -> {}
-            );
-            app.addHandler(
-                    HandlerType.GET,
-                    ApiCommands.getResponseCode,
-                    ctx -> ctx.result(String.valueOf(responseManager.getCode()))
-            );
-            app.addHandler(
-                    HandlerType.GET,
-                    ApiCommands.getResponseMessage,
-                    ctx -> ctx.result(responseManager.getMessage())
-            );
-            app.addHandler(
-                    HandlerType.GET,
-                    ApiCommands.getResponseBoolean,
-                    ctx -> ctx.result(String.valueOf(responseManager.isSuccess()))
-            );
+        // Before and After Data manager
+        app.addHandler(HandlerType.BEFORE, ApiCommands.dataManager+"/*",
+                ctx -> {
+            responseManager.operationInitiated();
+            dataManager.openDatabase();
+        });
+        app.addHandler(HandlerType.AFTER,ApiCommands.dataManager+"/*",
+                ctx -> {
+            dataManager.closeDatabase();
+        });
+
+        // DrawingBoard Commands
+        app.addHandler(HandlerType.POST, ApiCommands.saveDrawingBoard, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                InputBoard input = ctx.bodyAsClass(InputBoard.class);
+                // TODO plugin the seve function here
+
+                responseManager.setResponseBySuccess(false);
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            }// TODO return the return
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
 
 
-            // Check status and Error message
-            app.get(ApiCommands.getOperationStatus.path(), ctx -> {
-                //STATUS UPDATE FUNCTION
-                ctx.result(String.valueOf(currentStatus));
-            });
-            app.get(ApiCommands.getError.path(), ctx -> {
-                // ERROR UPDATING FUNCTION
-                ctx.result(errorMessage);
-            });
+        app.addHandler(HandlerType.POST, ApiCommands.getDrawingBoard, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                String drawingboardID = ctx.body();
+                // TODO plugin the the get function here
+                // TODO return the return
+                responseManager.setResponseBySuccess(false);
 
-            app.before(ctx -> {
-                responseManager.operationInitiated();
-                //dataManager.openDatabase();
-            });
-            app.after(ctx -> {
-                //dataManager.closeDatabase();
-            });
-
-                });
-        app.routes(() -> {
-
-            app.before(ctx -> {
-                responseManager.operationInitiated();
-                //dataManager.openDatabase();
-            });
-            app.after(ctx -> {
-                //dataManager.closeDatabase();
-            });
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
 
 
+        // - Drawing Object Commands
+        app.addHandler(HandlerType.POST, ApiCommands.createDrawingObject, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                InputObject input = ctx.bodyAsClass(InputObject.class);
+                // TODO plugin the create function here
+                // TODO return the return
+                responseManager.setResponseBySuccess(false);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
+
+        app.addHandler(HandlerType.POST, ApiCommands.deleteDrawingObject, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                // TODO plugin the function here we using the Input of just the ID?
+                //InputObject input = ctx.bodyAsClass(InputObject.class);
+                //String id = ctx.body();
+
+                // TODO return the return
+                responseManager.setResponseBySuccess(false);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
+
+        app.addHandler(HandlerType.POST, ApiCommands.updateDrawingObject, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                InputObject input = ctx.bodyAsClass(InputObject.class);
+                // TODO plugin the input function here
+                // TODO return the return
+                responseManager.setResponseBySuccess(false);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
+
+        // - User info Commands
+
+        app.addHandler(HandlerType.POST, ApiCommands.registerUser, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                String username = ctx.body();
+                // TODO plugin the register function here
+                // TODO return the return
+                responseManager.setResponseBySuccess(false);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
+
+        app.addHandler(HandlerType.POST, ApiCommands.loginUser, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                String username = ctx.body();
+                // TODO plugin the login function here
+                // TODO return the return
+                responseManager.setResponseBySuccess(false);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
+
+        app.addHandler(HandlerType.GET, ApiCommands.logoutUser, ctx -> {
+            String toLogout = ctx.body();
+            // TODO plugin the logout function
+            responseManager.setResponseBySuccess(false);
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
+
+        app.addHandler(HandlerType.GET, ApiCommands.validateDatabaseConnection, ctx->{
+            dataManager.validateDatabaseConnection();
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
 
 
-            app.post(ApiCommands.registerUser.path(), ctx -> {
-                // [Database User Register and Save Function](ctx.body());
-                ctx.result("Register Successful");
-            });
-            app.get(ApiCommands.loginUser.path(), ctx -> {
-                // toLogin = [Database User Load](ctx.body());
-                // InfoManager UserLogin( toLogin );
-                // ctx.result("Login Succefull");
-            });
-            app.get(ApiCommands.logoutUser.path(), ctx -> {
-                // toLogin = [Database User Load](ctx.body());
-                // InfoManager UserLogin( toLogin );
-                // ctx.result("Login Succefull");
-            });
-
-            app.post(ApiCommands.validateDatabaseConnection.path(), ctx->{
-                ctx.result("connection success");
-            });
-
-
-
-            /**
-             * Receive a diagram for rendering.
-             *
-             * TODO change toRender to the final Datastructure
-             */
-            app.post(ApiCommands.renderPNG.path(), ctx -> {
-                if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
-                    Object toRender = ctx.bodyAsClass(Object.class);
-                    ctx.json(fileExporter.renderPNG(toRender));
-                }
-            });
-
-            /**
-             * Receive a diagram for rendering.
-             *
-             * TODO change toRender to the final Datastructure
-             */
-            app.post(ApiCommands.renderSVG.path(), ctx -> {
-                if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
-                    Object toRender = ctx.bodyAsClass(Object.class);
-                    ctx.json(fileExporter.renderSVG(toRender));
-                }
-            });
-
+        // FILE EXPORTER
+        app.before(ApiCommands.fileExporter+"/*",
+                ctx -> {responseManager.operationInitiated();
+        });
+        /**
+         * Receive a diagram for rendering.
+         *
+         * TODO change toRender to the final Datastructure
+         */
+        app.addHandler(HandlerType.POST, ApiCommands.renderPNG, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                InputBoard toRender = ctx.bodyAsClass(InputBoard.class);
+                ctx.json(fileExporter.renderPNG(toRender));
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            }
+        });
+        /**
+         * Receive a diagram for rendering.
+         *
+         * TODO change toRender to the final Datastructure
+         */
+        app.addHandler(HandlerType.POST, ApiCommands.renderSVG, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+                Object toRender = ctx.bodyAsClass(Object.class);
+                ctx.json(fileExporter.renderSVG(toRender));
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            }
         });
     }
 }

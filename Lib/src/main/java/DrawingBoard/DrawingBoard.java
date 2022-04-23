@@ -11,7 +11,9 @@ import java.util.Set;
 public class DrawingBoard {
     private final double SIZE_DEFAULT = 1000;
     private InputBoard inputBoard;
+
     private int indexes = 150000;
+
     Map<String, DrawingObject> objects = new HashMap<>();
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
 

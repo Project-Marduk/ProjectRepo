@@ -28,8 +28,6 @@ public class ApiCommands {
     public static final String dataManager = "/DataManager";
     public static final String server = "/server";
 
-
-
     // Server Responses
     public static final String getResponseCode = server + "/api/get/response/code";
     public static final String getResponseMessage = server + "/api/gets/response/message";
