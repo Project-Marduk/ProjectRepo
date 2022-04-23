@@ -9,25 +9,31 @@ import static ActiveJDBCObjecs.CreateSVGFromDatabase.CreateSVGStringFromInputObj
 import static ActiveJDBCObjecs.JSONHandler.arrayListToJSON;
 import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
 
+import Server.ResponseManagement.RespondingClass;
+import Server.ResponseManagement.ResponseManager;
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.connection_config.DBConfiguration;
 
 
-public class DataManagerDriver {
+public class DataManagerDriver implements RespondingClass {
     private static DataManagerDriver instance = null;
+    ResponseManager responseManager;
 
-    private DataManagerDriver() {
-    }
-
+    private DataManagerDriver() {}
     public static DataManagerDriver getInstance() {
         if (instance == null) {
             instance = new DataManagerDriver();
         }
         return instance;
     }
+    @Override
+    public void setResponseManager(ResponseManager r) {
+        responseManager = r;
+    }
 
     // TODO You sure you want to open and close with every command?
+    // TODO I can set that up sever side, just want to make sure.
     public void openDatabase() {
         DBConfiguration.loadConfiguration("/database.properties");
         Base.open();
@@ -42,12 +48,13 @@ public class DataManagerDriver {
      *
      * @return true is connection is validated
      */
-    public boolean validateDatabaseConnection() {
+    public void validateDatabaseConnection() {
         // CODE THAT VALIDATE THE CONNECTION;
-        return true;
+        responseManager.setResponseBySuccess(true);
     }
 
     // TODO populate toReturn with the values of dwgb & the appropriate Drawing Objects
+    // TODO responseManager.setResponse
     public inputBoard getDrawingBoard(String id) {
 
         DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(id);
@@ -58,14 +65,16 @@ public class DataManagerDriver {
     }
 
     // TODO save the board and objects in toSave
+    // TODO responseManager.setResponse
     public void saveDrawingBoard(inputBoard toSave) {
 
     }
 
     // TODO the client can simultaneously create their own and send it here
+    // TODO responseManager.setResponse
     // for now this just creates and save it to the database, assuming
     // assuming the client will keep and continue to use their copy.
-    public void createDrawingObject(InputObject inObj) {
+    public InputObject createDrawingObject(InputObject inObj) {
         if (inObj != null) {
 
             Double p1;
@@ -193,6 +202,7 @@ public class DataManagerDriver {
         }
         return result;
     }
+
 
 
 }

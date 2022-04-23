@@ -7,9 +7,11 @@ import Marduk.Javalin.Server.DataManager.DataManagerDriver;
 import Marduk.Javalin.Server.FileExporter.FileExporterDriver;
 import Server.Connection.serverRequestHeader;
 import Server.Resources.ServerPorts;
-import Server.Resources.ServerReturns;
+import Server.ResponseManagement.ResponseManager;
+import Server.ResponseManagement.ServerResponses;
 import Server.Resources.ApiCommands;
 import io.javalin.Javalin;
+import io.javalin.http.HandlerType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
@@ -30,12 +32,15 @@ public class MardukServer {
 
     public static void main(String[] args) {
 
-        ServerReturns currentStatus = ServerReturns.allGood;
-        String errorMessage = "No current error.";
-        String defaultMessage = ServerReturns.serverMessage.message();
+        ResponseManager responseManager = ResponseManager.instance(ServerResponses.startingServerResponse);
 
-        //DataManagerDriver dataManager = DataManagerDriver.getInstance();
+        DataManagerDriver dataManager = DataManagerDriver.getInstance();
+        dataManager.setResponseManager(responseManager);
+
         FileExporterDriver fileExporter = FileExporterDriver.getInstance();
+        fileExporter.setResponseManager(responseManager);
+
+
 
 
         QueuedThreadPool queuedThreadPool = new QueuedThreadPool(MAX_THREADS, MIN_THREADS,TIMEOUT);
@@ -43,30 +48,64 @@ public class MardukServer {
                 config.server(() ->
                         new Server(queuedThreadPool))).start(ServerPorts.Server.port());
 
+        // Server Handlers
+        // Basic info calls
+        app.addHandler(
+                HandlerType.GET,
+                ApiCommands.root.path(),
+                ctx -> {}
+        );
+        app.addHandler(HandlerType.GET,
+                ApiCommands.up.path(),
+                ctx -> {}
+        );
+        app.addHandler(
+                HandlerType.GET,
+                ApiCommands.getResponseCode.path(),
+                ctx -> ctx.result(String.valueOf(responseManager.getCode()))
+        );
+        app.addHandler(
+                HandlerType.GET,
+                ApiCommands.getResponseMessage.path(),
+                ctx -> ctx.result(responseManager.getMessage())
+        );
+        app.addHandler(
+                HandlerType.GET,
+                ApiCommands.getResponseBoolean.path(),
+                ctx -> ctx.result(String.valueOf(responseManager.isSuccess()))
+        );
 
 
+        // Check status and Error message
+        app.get(ApiCommands.getOperationStatus.path(), ctx -> {
+            //STATUS UPDATE FUNCTION
+            ctx.result(String.valueOf(currentStatus));
+        });
+        app.get(ApiCommands.getError.path(), ctx -> {
+            // ERROR UPDATING FUNCTION
+            ctx.result(errorMessage);
+        });
+
+
+        // DATA MANAGER CALLS
         app.routes(() -> {
-            //Runs before each request handler
-            //ensures database is properly opened and closed
-            // TODO I think the datamanager should handle this.
             app.before(ctx -> {
+                responseManager.operationInitiated();
                 //dataManager.openDatabase();
             });
             app.after(ctx -> {
                 //dataManager.closeDatabase();
             });
 
-            // Basic info calls
-            app.get(ApiCommands.root.path(), ctx -> ctx.result(defaultMessage));
+                });
+        app.routes(() -> {
 
-            // Check status and Error message
-            app.get(ApiCommands.getStatus.path(), ctx -> {
-                //STATUS UPDATE FUNCTION
-                ctx.result(String.valueOf(currentStatus));
+            app.before(ctx -> {
+                responseManager.operationInitiated();
+                //dataManager.openDatabase();
             });
-            app.get(ApiCommands.getError.path(), ctx -> {
-                // ERROR UPDATING FUNCTION
-                ctx.result(errorMessage);
+            app.after(ctx -> {
+                //dataManager.closeDatabase();
             });
 
 

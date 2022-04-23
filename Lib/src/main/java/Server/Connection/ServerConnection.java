@@ -2,7 +2,7 @@ package Server.Connection;
 
 import Server.Files.PNGformatData;
 import Server.Files.SVGformatData;
-import Server.Resources.ServerReturns;
+import Server.ResponseManagement.ServerResponses;
 import Server.Resources.ApiCommands;
 import com.google.gson.Gson;
 
@@ -38,7 +38,7 @@ import java.time.Duration;
 public class ServerConnection {
     private static final String httpSuffix = "http://%s:%s";
     private static final String ROOT_CALL = httpSuffix + ApiCommands.root.path();
-    private static final String STATUS_CALL = httpSuffix + ApiCommands.getStatus.path();
+    private static final String STATUS_CALL = httpSuffix + ApiCommands.getOperationStatus.path();
     private static final String ERROR_CALL = httpSuffix + ApiCommands.getError.path();
     private static final String PNG_CALL = httpSuffix + ApiCommands.renderPNG.path();
     private static final String SVG_CALL = httpSuffix + ApiCommands.renderSVG.path();
@@ -60,7 +60,7 @@ public class ServerConnection {
 
     // CLASS FUNCTIONS
     private ServerConnection(){
-        expectedMessage = ServerReturns.serverMessage.message();
+        expectedMessage = ServerResponses.serverMessage.message();
         gson = new Gson();
     }
 
@@ -177,11 +177,11 @@ public class ServerConnection {
      *
      * @return an ServerStatuses enum representing the server's status. Null is the call fails.
      */
-    public ServerReturns getStatus(){
+    public ServerResponses getStatus(){
         try {
             HttpRequest request = createGet(STATUS_CALL);
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            ServerReturns status = Enum.valueOf(ServerReturns.class, response.body());
+            ServerResponses status = Enum.valueOf(ServerResponses.class, response.body());
             return status;
         } catch (Exception e){
             System.out.println("Error caught in Connection.getStatus(): " + e.getMessage());
