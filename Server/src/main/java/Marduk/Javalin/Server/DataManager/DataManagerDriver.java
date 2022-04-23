@@ -2,7 +2,7 @@ package Marduk.Javalin.Server.DataManager;
 
 import ActiveJDBCObjecs.DrawingBoardAJDBC;
 import ActiveJDBCObjecs.DrawingObjectAJDBC;
-import DrawingBoard.inputBoard;
+import DrawingBoard.InputBoard;
 import FactoryElements.InputObject;
 
 import static ActiveJDBCObjecs.CreateSVGFromDatabase.CreateSVGStringFromInputObjectJSON;
@@ -55,18 +55,18 @@ public class DataManagerDriver implements RespondingClass {
 
     // TODO populate toReturn with the values of dwgb & the appropriate Drawing Objects
     // TODO responseManager.setResponse
-    public inputBoard getDrawingBoard(String id) {
+    public InputBoard getDrawingBoard(String id) {
 
         DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(id);
 
 
-        inputBoard toReturn = new inputBoard();
+        InputBoard toReturn = new InputBoard();
         return toReturn;
     }
 
     // TODO save the board and objects in toSave
     // TODO responseManager.setResponse
-    public void saveDrawingBoard(inputBoard toSave) {
+    public void saveDrawingBoard(InputBoard toSave) {
 
     }
 

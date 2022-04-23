@@ -32,7 +32,7 @@ import javafx.scene.shape.*;
 
 public class FXController {
 
-    inputBoard testBoardsInputBoard = new inputBoard();
+    InputBoard testBoardsInputBoard = new InputBoard();
     DrawingBoard testBoard = new DrawingBoard();
                                             // ENUM for Reference and Dev security
     //InputObject inputObject = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0);
@@ -212,7 +212,7 @@ public class FXController {
 
 
 
-        inputBoard d = new inputBoard();
+        InputBoard d = new InputBoard();
         d.id = "23";
         d.name = "Test Diagram";
         d.xMax = 800;

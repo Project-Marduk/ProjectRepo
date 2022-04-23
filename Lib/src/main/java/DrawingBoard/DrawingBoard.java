@@ -10,17 +10,17 @@ import java.util.Set;
 
 public class DrawingBoard {
     private final double SIZE_DEFAULT = 1000;
-    private inputBoard inputBoard;
+    private InputBoard inputBoard;
 
     Map<String, DrawingObject> objects = new HashMap<>();
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
 
 
-    public DrawingBoard(inputBoard d){
+    public DrawingBoard(InputBoard d){
         inputBoard = d;
     }
 
-    public inputBoard getDiagram(){
+    public InputBoard getDiagram(){
         return getDiagram();
     }
 

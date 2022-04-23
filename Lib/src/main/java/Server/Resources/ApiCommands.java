@@ -1,6 +1,5 @@
 package Server.Resources;
 
-import static Server.Resources.routeBranches.*;
 
 /**
  * General Api Paths
@@ -28,8 +27,6 @@ public class ApiCommands {
     public static final String fileExporter = "/fileExporter";
     public static final String dataManager = "/DataManager";
     public static final String server = "/server";
-
-
 
     // Server Responses
     public static final String getResponseCode = server + "/api/get/response/code";
