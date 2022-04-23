@@ -6,7 +6,12 @@ package Server.Resources;
  * An Enumeration of Api Paths
  * Corresponding to the command that they call from the server.
  *
- * Use: "GeneralApi.[enum].path()" in place of the string you need.
+ * Use: "ApiCommands.[enum].path()" in place of the string you need.
+ *
+ * All path string are formatted as:
+ * /api /[REST Command] /[Target Service/module] /[method Intention] /[method target]
+ *
+ * Except for root(/) and up(/up), which are just connection checkers.
  *
  * @author Traae
  * @version 0.1.0
@@ -15,18 +20,18 @@ public enum ApiCommands {
     root("/"),
     up("/up"),
 
-    getStatus("/get/server/status"),
-    getError("/get/server/error"),
+    getStatus("/api/get/server/status"),
+    getError("/api/get/server/error"),
 
-    renderPNG("/post/fileExporter/render/png"),
-    renderSVG("/post/fileExporter/render/svg"),
+    renderPNG("/api/post/fileExporter/render/png"),
+    renderSVG("/api/post/fileExporter/render/svg"),
 
-    registerUser("/api/post/register/user"),
-    loginUser("/api/post/login/user"),
-    logoutUser("api/get/login/user"),
+    registerUser("/api/post/dataManager/user/register"),
+    loginUser("/api/post/dataManager/post/user/login"),
+    logoutUser("/api/post/dataManager/user/logout/"),
 
-    getUserData("/api/post/diagram/list"),
-    saveDiagram("/api/post/save/Diagram"),
+    getUserData("/api/post/dataManager/user/files/list"),
+    saveDrawingBoard("/api/post/save/Diagram"),
     getDiagram("/api/get/diagram"),
 
     createDrawingObject("/api/post/create/drawingobject"),

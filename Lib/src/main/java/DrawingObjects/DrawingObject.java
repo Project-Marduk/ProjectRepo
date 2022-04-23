@@ -16,7 +16,7 @@ import java.io.Serializable;
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
 @Getter @Setter
-public abstract class DrawingObject extends Group implements ComplexShape, JavaFXGroupShape, Serializable{ // extends Model
+public abstract class DrawingObject extends Group implements ComplexShape, JavaFXGroupShape { // extends Model
     InputObject inObject;
     TextBox[] textBoxes;
 

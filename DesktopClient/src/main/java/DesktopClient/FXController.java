@@ -6,9 +6,8 @@
  */
 package DesktopClient;
 
+import DrawingObjects.DrawingObject;
 import DrawingObjects.Functions.ShapeJavaFXFunctions;
-import DrawingObjects.ShapeTypes;
-import FactoryElements.*;
 import DrawingBoard.*;
 import javafx.geometry.Bounds;
 import javafx.scene.*;
@@ -33,14 +32,14 @@ import javafx.scene.shape.*;
 
 public class FXController {
 
-    DrawingBoard testBoard = new DrawingBoard(3000,3000);
+    inputBoard testBoardsInputBoard = new inputBoard();
+    DrawingBoard testBoard = new DrawingBoard();
                                             // ENUM for Reference and Dev security
-    InputObject inputObject = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0);
+    //InputObject inputObject = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0);
                                             // I didn't change these ones os you could chekc it out
-    InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
-    InputObject inputObject3 = new InputObject(ShapeTypes.circle.getValue(), new double[]{100, 200},"black","solid",60.0,40.0);
-    InputObject inputObject4 = new InputObject("Hexagon",new double[]{100,200}, "black","solid",50.0,50.0);
-
+    //InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
+    //InputObject inputObject3 = new InputObject(ShapeTypes.circle.getValue(), new double[]{100, 200},"black","solid",60.0,40.0);
+    //InputObject inputObject4 = new InputObject("Hexagon",new double[]{100,200}, "black","solid",50.0,50.0);
 
 
 
@@ -211,16 +210,23 @@ public class FXController {
     @FXML
     public void testSVGPathMethods(){
 
-        /**
-         * TYLER I CHANGED THIS to test it, your code is copied and commented out below
-         */
-        testBoard = new DrawingBoard();
-        JavaFXDrawingObject myTestObject = testBoard.addObject(inputObject3).getLinkedJavaFX();
+
+
+        inputBoard d = new inputBoard();
+        d.id = "23";
+        d.name = "Test Diagram";
+        d.xMax = 800;
+        d.yMax = 450;
+        d.idIndex = 53;
+
+        testBoard = new DrawingBoard(d);
+
+        DrawingObject myTestObject = testBoard.addObject(inputObject3);
 
         if (myTestObject == null){
             System.out.println("The JavaFxDrawingObject is screwed\n");
         }
-        else if (myTestObject.getLinkedDrawing() == null){
+        else if (myTestObject == null){
             System.out.println("The Linked DrawingObject is screwed\n");
         }
 

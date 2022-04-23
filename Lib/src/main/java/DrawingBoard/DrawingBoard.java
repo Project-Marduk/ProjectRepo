@@ -3,60 +3,25 @@ package DrawingBoard;
 import FactoryElements.InputObject;
 import DrawingObjects.DrawingObject;
 import FactoryElements.DrawingObjectFactory;
-import com.google.gson.Gson;
-import lombok.Getter;
-import lombok.Setter;
-import com.google.gson.reflect.TypeToken;
-import org.javalite.activejdbc.Model;
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-//@Table("Drawing_Board")
-public class DrawingBoard implements Serializable {
+public class DrawingBoard {
     private final double SIZE_DEFAULT = 1000;
-
-    String name;
-    private String id;
-    private ArrayList<String> users;
+    private inputBoard inputBoard;
 
     Map<String, DrawingObject> objects = new HashMap<>();
-
-    double xMax;
-    double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
-    int idIndex;
 
-    public DrawingBoard(){
-        yMax = SIZE_DEFAULT;
-        xMax = SIZE_DEFAULT;
-        idIndex = 1;
+
+    public DrawingBoard(inputBoard d){
+        inputBoard = d;
     }
 
-    public DrawingBoard(double xMax, double yMax){
-        this.xMax = xMax;
-        this.yMax = yMax;
-        name = "diagram name";
-        id = null;
-        idIndex = 1;
-    }
-
-    public ArrayList<DrawingObject> getList(){
-        return new ArrayList<DrawingObject>(objects.values());
-    }
-
-
-    public void setId(String id) {
-        if (id == null){
-            this.id = "0";
-        }
-    }
-    public String getId() {
-        return id;
+    public inputBoard getDiagram(){
+        return getDiagram();
     }
 
     /**
@@ -68,9 +33,9 @@ public class DrawingBoard implements Serializable {
     public DrawingObject addObject(InputObject inObj){
         //TODO the index system is flawed.
         // How does the system reconcile between the client and the server?
-        String id = Integer.toString(idIndex);
-        idIndex++;
-
+        int b = 5;
+        String id = String.valueOf(inputBoard.idIndex);
+        inputBoard.idIndex = inputBoard.idIndex+1;
 
         DrawingObject d = drawingObjectFactory.create(inObj, id);
         if (d == null){
@@ -104,8 +69,8 @@ public class DrawingBoard implements Serializable {
             svgData += "\n" + objects.get(key).txtToSVG();
         }
 
-        return "<svg contentScriptType=\"text/ecmascript\" width=\"" + Double.toString(xMax) + "px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full \"\n" +
-                "    zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"" + Double.toString(yMax) + "px\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\"\n" +
+        return "<svg contentScriptType=\"text/ecmascript\" width=\"" + Double.toString(inputBoard.xMax) + "px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full \"\n" +
+                "    zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"" + Double.toString(inputBoard.yMax) + "px\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\"\n" +
                 "    version=\"1.0\">"
                 + svgData
                 + "\n"
