@@ -33,6 +33,6 @@ public class IFMLAction extends DrawingObject {
 
     @Override
     public void generateJavaFXGroup() {
-        super.linkedJavaFXObject.getChildren().add(hexagonToJavaFX(super.inObject));
+        linkedJavaFX.getChildren().addAll(hexagonToJavaFX(super.inObject));
     }
 }
