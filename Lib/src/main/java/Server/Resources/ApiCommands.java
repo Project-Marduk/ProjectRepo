@@ -1,5 +1,7 @@
 package Server.Resources;
 
+import static Server.Resources.routeBranches.*;
+
 /**
  * General Api Paths
  *
@@ -16,45 +18,44 @@ package Server.Resources;
  * @author Traae
  * @version 0.1.0
  */
-public enum ApiCommands {
+
+public class ApiCommands {
     // Server Basics
-    root("/"),
-    up("/up"),
-    // Server Responses TODO finish this system;
-    getResponseCode("/api/get/server/response/code"),
-    getResponseMessage("/api/gets/server/response/message"),
-    getResponseBoolean("/api/get/server/response/boolean"),
+    public static final String root = "/";
+    public static final String up = "/up";
+
+    // Route Branches
+    public static final String fileExporter = "/fileExporter";
+    public static final String dataManager = "/DataManager";
+    public static final String server = "/server";
+
+
+
+    // Server Responses
+    public static final String getResponseCode = server + "/api/get/response/code";
+    public static final String getResponseMessage = server + "/api/gets/response/message";
+    public static final String getResponseBoolean = server + "/api/get/response/boolean";
     // File Exporter
-    renderPNG("/api/post/fileExporter/render/png"),
-    renderSVG("/api/post/fileExporter/render/svg"),
+    public static final String renderPNG = fileExporter + "/api/post/render/png";
+    public static final String renderSVG = fileExporter + "/fileExporter/api/post/render/svg";
 
     // Data Manager
     // - User commands
-    registerUser("/api/post/dataManager/user/register"),
-    loginUser("/api/post/dataManager/post/user/login"),
-    logoutUser("/api/post/dataManager/user/logout/"),
-    getUserData("/api/post/dataManager/user/files/"),
+    public static final String registerUser = dataManager  + "/api/post/user/register";
+    public static final String loginUser = dataManager  + "/api/post/post/user/login";
+    public static final String logoutUser = dataManager  + "/api/post/user/logout";
+    public static final String getUserData = dataManager  + "/api/post/user/files";
     // - Drawing Board Commands
-    saveDrawingBoard("/api/post/dataManager/DrawingBoard/save"),
-    getDrawingBoard("/api/post/dataManager/DrawingBoard/load"),
+    public static final String saveDrawingBoard=dataManager  + "/api/post/dataManager/DrawingBoard/save";
+    public static final String  getDrawingBoard=dataManager  + "/api/post/dataManager/DrawingBoard/load";
     // - Drawing Object Commands
-    createDrawingObject("/api/post/dataManager/create/drawingObject"),
-    deleteDrawingObject("/api/post/dataManager/delete/drawingObject"),
-    updateDrawingObject("/api/post/dataManager/update/drawingObject"),
-    createDrawingBoard("/api/post/dataManager/create/drawingBoard"),
-    deleteDrawingBoard("/api/post/delete/drawingBoard"),
+    public static final String createDrawingObject=dataManager  + "/api/post/create/drawingObject";
+    public static final String deleteDrawingObject=dataManager  + "/api/post/delete/drawingObject";
+    public static final String updateDrawingObject=dataManager  + "/api/post/update/drawingObject";
+    public static final String createDrawingBoard=dataManager  + "/api/post/create/drawingBoard";
+    public static final String deleteDrawingBoard=dataManager  + "/api/post/delete/drawingBoard";
     // - Database Commands
-    validateDatabaseConnection("/api/get/DataManager/databaseconnection/validate");
+    public static final String validateDatabaseConnection = dataManager  + "/api/get/DBconnection/validate";
 
 
-
-
-
-    private final String address;
-    private ApiCommands(String s) {
-        this.address = s;
-    }
-    public String path(){
-        return address;
-    };
 }

@@ -37,30 +37,29 @@ import java.time.Duration;
  */
 public class ServerConnection {
     private static final String httpSuffix = "http://%s:%s";
-    private static final String ROOT_CALL = httpSuffix + ApiCommands.root.path();
-    private static final String STATUS_CALL = httpSuffix + ApiCommands.getOperationStatus.path();
-    private static final String ERROR_CALL = httpSuffix + ApiCommands.getError.path();
-    private static final String PNG_CALL = httpSuffix + ApiCommands.renderPNG.path();
-    private static final String SVG_CALL = httpSuffix + ApiCommands.renderSVG.path();
+    private static final String ROOT_CALL = httpSuffix + ApiCommands.root;
+    private static final String CODE_CALL = httpSuffix + ApiCommands.getResponseCode;
+    private static final String MESSAGE_CALL = httpSuffix + ApiCommands.getResponseMessage;
 
-    private static final String REGISTER_CALL = httpSuffix + ApiCommands.registerUser.path();
-    private static final String LOGIN_CALL = httpSuffix + ApiCommands.loginUser.path();
-    private static final String USER_CALL = httpSuffix + ApiCommands.getUserData.path();
-    private static final String LOAD_CALL = httpSuffix + ApiCommands.getDiagram.path();
-    private static final String SAVE_CALL = httpSuffix + ApiCommands.saveDiagram.path();
+    private static final String PNG_CALL = httpSuffix + ApiCommands.renderPNG;
+    private static final String SVG_CALL = httpSuffix + ApiCommands.renderSVG;
+
+    private static final String REGISTER_CALL = httpSuffix + ApiCommands.registerUser;
+    private static final String LOGIN_CALL = httpSuffix + ApiCommands.loginUser;
+    private static final String USER_CALL = httpSuffix + ApiCommands.getUserData;
+    private static final String LOAD_CALL = httpSuffix + ApiCommands.createDrawingBoard;
+    private static final String SAVE_CALL = httpSuffix + ApiCommands.saveDrawingBoard;
 
 
     private static ServerConnection INSTANCE = null;
     private String address;
     private String port;
-    private String expectedMessage;
     private boolean initialized = false;
     private HttpClient client;
     private Gson gson;
 
     // CLASS FUNCTIONS
     private ServerConnection(){
-        expectedMessage = ServerResponses.serverMessage.message();
         gson = new Gson();
     }
 

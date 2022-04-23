@@ -11,6 +11,7 @@ import Server.ResponseManagement.ResponseManager;
 import Server.ResponseManagement.ServerResponses;
 import Server.Resources.ApiCommands;
 import io.javalin.Javalin;
+import io.javalin.http.Handler;
 import io.javalin.http.HandlerType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -52,26 +53,26 @@ public class MardukServer {
         // Basic info calls
         app.addHandler(
                 HandlerType.GET,
-                ApiCommands.root.path(),
-                ctx -> {}
+                ApiCommands.root,
+                ctx -> ctx.result(ServerResponses.startingServerResponse.getMessage())
         );
         app.addHandler(HandlerType.GET,
-                ApiCommands.up.path(),
+                ApiCommands.up,
                 ctx -> {}
         );
         app.addHandler(
                 HandlerType.GET,
-                ApiCommands.getResponseCode.path(),
+                ApiCommands.getResponseCode,
                 ctx -> ctx.result(String.valueOf(responseManager.getCode()))
         );
         app.addHandler(
                 HandlerType.GET,
-                ApiCommands.getResponseMessage.path(),
+                ApiCommands.getResponseMessage,
                 ctx -> ctx.result(responseManager.getMessage())
         );
         app.addHandler(
                 HandlerType.GET,
-                ApiCommands.getResponseBoolean.path(),
+                ApiCommands.getResponseBoolean,
                 ctx -> ctx.result(String.valueOf(responseManager.isSuccess()))
         );
 
