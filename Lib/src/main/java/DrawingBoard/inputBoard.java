@@ -10,7 +10,7 @@ public class inputBoard implements Serializable {
     public String id;
     public double xMax;
     public double yMax;
-    public int idIndex;
+    public int folderId;
 
     private ArrayList<InputObject> inputObjectsList;
 
@@ -19,5 +19,8 @@ public class inputBoard implements Serializable {
     }
     public ArrayList<InputObject> getInputObjectsList() {
         return inputObjectsList;
+    }
+    public void setInObjects(ArrayList<InputObject> inObjs){
+        inputObjectsList = inObjs;
     }
 }

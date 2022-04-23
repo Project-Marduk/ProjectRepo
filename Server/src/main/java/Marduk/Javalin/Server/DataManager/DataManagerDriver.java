@@ -2,18 +2,17 @@ package Marduk.Javalin.Server.DataManager;
 
 import ActiveJDBCObjecs.DrawingBoardAJDBC;
 import ActiveJDBCObjecs.DrawingObjectAJDBC;
+import DrawingBoard.DrawingBoard;
 import DrawingBoard.inputBoard;
 import FactoryElements.InputObject;
-
-import static ActiveJDBCObjecs.CreateSVGFromDatabase.CreateSVGStringFromInputObjectJSON;
-import static ActiveJDBCObjecs.JSONHandler.arrayListToJSON;
-import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
 
 import Server.ResponseManagement.RespondingClass;
 import Server.ResponseManagement.ResponseManager;
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.connection_config.DBConfiguration;
+
+import java.util.ArrayList;
 
 
 public class DataManagerDriver implements RespondingClass {
@@ -53,21 +52,46 @@ public class DataManagerDriver implements RespondingClass {
         responseManager.setResponseBySuccess(true);
     }
 
-    // TODO populate toReturn with the values of dwgb & the appropriate Drawing Objects
-    // TODO responseManager.setResponse
+    /**
+     * @author David Lindeman
+     * @param id
+     * @return
+     * finds all drawing objects of drawing board based on input id
+     */
     public inputBoard getDrawingBoard(String id) {
-
-        DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(id);
-
-
-        inputBoard toReturn = new inputBoard();
-        return toReturn;
+        boolean result = false;
+        DrawingBoardAJDBC dwBoardAJDBC = DrawingBoardAJDBC.findById(id);
+        inputBoard inBoard = new inputBoard();
+        if(dwBoardAJDBC != null){
+            inBoard = dwBoardAJDBC.toInputBoard();
+            result = true;
+        }
+        responseManager.setResponseBySuccess(result);
+        return inBoard;
     }
 
     // TODO save the board and objects in toSave
     // TODO responseManager.setResponse
     public void saveDrawingBoard(inputBoard toSave) {
-
+        boolean result = false;
+        DrawingBoardAJDBC dwBoard = DrawingBoardAJDBC.findById(toSave.id);
+        DrawingObjectAJDBC dwObj;
+        InputObject tempObj;
+        //if the drawing board exists iterates through all items and checks if they exist in the db if so they update else it creates new
+        if(dwBoard != null){
+            for (InputObject inObj : toSave.getInputObjectsList()) {
+                dwObj = DrawingObjectAJDBC.findById(inObj.getId());
+                if(dwObj != null){
+                    updateDrawingObject(inObj);
+                }
+                else{
+                    //create drawing objects returns an InputObject but we dont need it for the purpose of saving the board
+                    tempObj = createDrawingObject(inObj);
+                }
+            }
+            result = true;
+        }
+        responseManager.setResponseBySuccess(result);
     }
 
     // TODO the client can simultaneously create their own and send it here
@@ -103,7 +127,6 @@ public class DataManagerDriver implements RespondingClass {
 
             //explicity way to set variables
             DrawingObjectAJDBC dwgObj = new DrawingObjectAJDBC();
-//                    dwgObj.set("id", inObj.getId());
             dwgObj.set("drawing_board_id", inObj.getParent_id());
             dwgObj.set("shape_type", inObj.getShapeType());
             dwgObj.set("x_cord", inObj.getXCord());
@@ -117,23 +140,29 @@ public class DataManagerDriver implements RespondingClass {
             dwgObj.set("text_two", t2);
             dwgObj.set("text_three", t3);
             dwgObj.saveIt();
-        }
 
+            responseManager.setResponseBySuccess(true);
+            return dwgObj.getInputObject();
+        }
+        else{
+            responseManager.setResponseBySuccess(false);
+            return null;
+        }
     }
 
-    public boolean deleteDrawingObject(String id) {
+    public void deleteDrawingObject(String id) {
         boolean result = false;
-        DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(Integer.parseInt(param));
+        DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(Integer.parseInt(id));
         //catches entry cannot be found
         if (dwgObj != null) {
             dwgObj.delete();
             result = true;
         }
-        return result;
+        responseManager.setResponseBySuccess(result);
     }
 
 
-    public boolean updateDrawingObject(InputObject inObj) {
+    public void updateDrawingObject(InputObject inObj) {
         boolean result = false;
 
         if (inObj != null) {
@@ -181,26 +210,41 @@ public class DataManagerDriver implements RespondingClass {
                 result = true;
             }
         }
-        return result;
+
+        responseManager.setResponseBySuccess(result);
     }
 
-    public DrawingBoard createDrawingBoard() {
+    /**
+     * @author David Lindeman
+     * @param inBoard
+     * @return
+     * requires inBoard to have a folder id
+     */
+    public DrawingBoard createDrawingBoard(inputBoard inBoard) {
         DrawingBoardAJDBC dwgb = new DrawingBoardAJDBC();
-        dwgb.set("x_size", 1000);
-        dwgb.set("y_size", 1000);
+        double xSize;
+        double ySize;
+
+        //set sizes
+        if(inBoard.xMax > 0){xSize = inBoard.xMax;}else{xSize = 1000;}
+        if(inBoard.yMax > 0){ySize = inBoard.yMax;}else{ySize = 1000;}
+
+        dwgb.set("x_size", xSize);
+        dwgb.set("y_size", ySize);
+        dwgb.set("folder_id", inBoard.folderId);
         dwgb.saveIt();
 
-        return new DrawingBoard();
+        return dwgb.toDrawingBoard();
     }
 
-    public boolean deleteDrawingBoard(String id) {
+    public void deleteDrawingBoard(String id) {
         boolean result = false;
         DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.valueOf(id));
         if (dwgb != null) {
             dwgb.delete();
             result = true;
         }
-        return result;
+        responseManager.setResponseBySuccess(result);
     }
 
 

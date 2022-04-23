@@ -3,14 +3,19 @@ package DrawingBoard;
 import FactoryElements.InputObject;
 import DrawingObjects.DrawingObject;
 import FactoryElements.DrawingObjectFactory;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Getter @Setter
 public class DrawingBoard {
     private final double SIZE_DEFAULT = 1000;
     private inputBoard inputBoard;
+    public Integer id;
+    public Integer folder_id;
 
     Map<String, DrawingObject> objects = new HashMap<>();
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
@@ -34,8 +39,9 @@ public class DrawingBoard {
         //TODO the index system is flawed.
         // How does the system reconcile between the client and the server?
         int b = 5;
-        String id = String.valueOf(inputBoard.idIndex);
-        inputBoard.idIndex = inputBoard.idIndex+1;
+
+        String id = inObj.getId().toString();
+
 
         DrawingObject d = drawingObjectFactory.create(inObj, id);
         if (d == null){
