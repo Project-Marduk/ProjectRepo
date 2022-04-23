@@ -17,9 +17,6 @@ import java.io.Serializable;
  */
 @Getter @Setter
 public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, Serializable{ // extends Model
-    String id;
-    double x;
-    double y;
     InputObject inObject;
     TextBox[] textBoxes;
     protected JavaFXDrawingObject linkedJavaFX;
@@ -29,12 +26,9 @@ public abstract class DrawingObject implements ComplexShape, JavaFXGroupShape, S
 
     }
     public DrawingObject(String newId, InputObject inObj){
-        id = newId;
         inObject = inObj;
-        x = inObj.getXCord();
-        y = inObj.getYCord();
+        inObject.setId(Integer.valueOf(newId));
 
-        System.out.println("Drawing was made");
         linkedJavaFX = new JavaFXDrawingObject(this);
 
     }

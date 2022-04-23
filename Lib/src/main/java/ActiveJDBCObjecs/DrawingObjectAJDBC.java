@@ -2,6 +2,7 @@ package ActiveJDBCObjecs;
 
 
 
+import DrawingObjects.DrawingObject;
 import FactoryElements.InputObject;
 import com.google.gson.Gson;
 import org.javalite.activejdbc.Model;
@@ -11,9 +12,9 @@ import org.javalite.activejdbc.annotations.Table;
 @Table ("drawing_object")
 @BelongsTo(parent = DrawingBoardAJDBC.class,
         foreignKeyName = "drawing_board_id")
-public class DrawingObject extends Model {
+public class DrawingObjectAJDBC extends Model {
 
-    public DrawingObject(){
+    public DrawingObjectAJDBC(){
 
     }
 
@@ -38,14 +39,8 @@ public class DrawingObject extends Model {
         return "getSVGData";
     }
 
+    public InputObject getInputObject() {
 
-    /**
-     * @author David Lindeman
-     * Converts a drawing object tabel to an InputObject for the JavaFX front end
-     */
-    public String toInputObjectJSON() {
-        //create Gson instance
-        Gson gson = new Gson();
 
         InputObject inObj = new InputObject(
                 this.getString("shape_type"),
@@ -62,9 +57,7 @@ public class DrawingObject extends Model {
         inObj.setParent_id(this.getInteger("drawing_board_id"));
         inObj.setFill(this.getString("fill"));
 
-        //create json string to hold data
-        String jsonString = gson.toJson(inObj);
-        return jsonString;
+        return inObj;
     }
 
 

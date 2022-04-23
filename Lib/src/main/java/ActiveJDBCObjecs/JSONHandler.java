@@ -26,7 +26,7 @@ public class JSONHandler {
             Type inObjType = new TypeToken<InputObject>(){}.getType();
 
             //convert JSON string to input obj
-            InputObject inObj = gson.fromJson(jsonStr, inObjType);
+            InputObject inObj = gson.fromJson(jsonStr, inObjType.);
 
             return inObj;
         } catch (Exception ex) {

@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Set;
 
 //@Table("Drawing_Board")
-@Getter @Setter
 public class DrawingBoard implements Serializable {
     private final double SIZE_DEFAULT = 1000;
 
@@ -30,11 +29,12 @@ public class DrawingBoard implements Serializable {
     double xMax;
     double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
-    static int idIndex = 1;
+    int idIndex;
 
     public DrawingBoard(){
         yMax = SIZE_DEFAULT;
         xMax = SIZE_DEFAULT;
+        idIndex = 1;
     }
 
     public DrawingBoard(double xMax, double yMax){
@@ -42,6 +42,7 @@ public class DrawingBoard implements Serializable {
         this.yMax = yMax;
         name = "diagram name";
         id = null;
+        idIndex = 1;
     }
 
     public ArrayList<DrawingObject> getList(){
@@ -65,8 +66,12 @@ public class DrawingBoard implements Serializable {
      * @return The Drawing object just created
      */
     public DrawingObject addObject(InputObject inObj){
+        //TODO the index system is flawed.
+        // How does the system reconcile between the client and the server?
         String id = Integer.toString(idIndex);
         idIndex++;
+
+
         DrawingObject d = drawingObjectFactory.create(inObj, id);
         if (d == null){
             System.out.println("INVALID OBJECT, Factory returned Null");
@@ -92,51 +97,4 @@ public class DrawingBoard implements Serializable {
         return objects.get(id).getSVGData();
     }
 
-
-    /**
-     * @author
-     * @return
-     * Serializes all the objects in the map to JSON
-     */
-    public String serializeDrawingBoardToJSON(){
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
-
-    /**
-     * @author David Lindeman
-     * Converts a drawing object to a JSON string using GSON
-     */
-    //reference for reading JSON files to java: https://attacomsian.com/blog/gson-read-json-file
-    public String toJSON(DrawingObject dwObj) {
-        //create Gson instance
-        Gson gson = new Gson();
-        //create json string to hold data
-        String jsonString = gson.toJson(dwObj);
-        return null;
-    }
-
-    /**
-     * @author David Lindeman
-     * @param jsonStr
-     * @return
-     * Takes a JSON string and converts it into a drawing board object
-     */
-    public DrawingObject fromJSON(String jsonStr){
-        try {
-            //create Gson instance
-            Gson gson = new Gson();
-
-            //set type for scoreboard
-            Type drawingObjType = new TypeToken<DrawingObject>(){}.getType();
-
-            //convert JSON string to scoreboard obj
-            DrawingObject drawingObj = gson.fromJson(jsonStr, drawingObjType);
-
-            return drawingObj;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
 }

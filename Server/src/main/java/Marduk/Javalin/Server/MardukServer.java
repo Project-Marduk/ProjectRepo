@@ -3,9 +3,6 @@
  */
 package Marduk.Javalin.Server;
 
-import ActiveJDBCObjecs.DrawingBoardAJDBC;
-import ActiveJDBCObjecs.DrawingObject;
-import FactoryElements.InputObject;
 import Marduk.Javalin.Server.DataManager.DataManagerDriver;
 import Marduk.Javalin.Server.FileExporter.FileExporterDriver;
 import Server.Connection.serverRequestHeader;
@@ -15,14 +12,7 @@ import Server.Resources.ApiCommands;
 import io.javalin.Javalin;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import org.javalite.activejdbc.Base;
-import org.javalite.activejdbc.LazyList;
-import org.javalite.activejdbc.connection_config.DBConfiguration;
 
-import java.util.ArrayList;
-
-import static ActiveJDBCObjecs.CreateSVGFromDatabase.CreateSVGStringFromInputObjectJSON;
-import static ActiveJDBCObjecs.JSONHandler.*;
 
 import java.util.Objects;
 
@@ -39,16 +29,11 @@ public class MardukServer {
     private static final int DEFAULT_PORT = ServerPorts.Server.port();
 
     public static void main(String[] args) {
-        start();
-    }
-//    public MardukServer(){
-//
-//    }
 
-    public static void start(){
         ServerReturns currentStatus = ServerReturns.allGood;
         String errorMessage = "No current error.";
         String defaultMessage = ServerReturns.serverMessage.message();
+
         DataManagerDriver dataManager = DataManagerDriver.getInstance();
         FileExporterDriver fileExporter = FileExporterDriver.getInstance();
 
@@ -64,11 +49,10 @@ public class MardukServer {
             //Runs before each request handler
             //ensures database is properly opened and closed
             app.before(ctx -> {
-                DBConfiguration.loadConfiguration("/database.properties");
-                Base.open();
+                dataManager.openDatabase();
             });
             app.after(ctx -> {
-                Base.close();
+                dataManager.closeDatabase();
             });
 
             // Basic info calls
@@ -106,49 +90,7 @@ public class MardukServer {
                 ctx.result("connection success");
             });
 
-            //returns a JSON string of all drawing objects converted to InputObjects for the javaFX front end
-            app.get(ApiCommands.getDiagram.path(), ctx -> {
-                String param =  ctx.queryParam("drawing_board_id");
-                String outString = "";
 
-                DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.parseInt(param));
-                ArrayList<String> outList = new ArrayList<>();
-
-                if(dwgb != null){
-                    LazyList<DrawingObject> lzDwgObj =  dwgb.getAll(DrawingObject.class); //pulls a lazy list
-
-                    //serializes all the drawingobjects to json
-                    for (DrawingObject dw : lzDwgObj) {
-                        outList.add(dw.toInputObjectJSON());
-                    }
-                }
-                else{
-                    outString = "id not found";
-                }
-                outString = arrayListToJSON(outList);
-
-                //returns svg data with wrappers
-                ctx.result(outString);
-
-                //String diagramName = ctx.body();
-                // Diagram toLoad = [Database load Diagram](diagramName);
-                // ctx.json(toLoad);
-            });
-            // Receive a diagram for save.
-            app.post(ApiCommands.saveDiagram.path(), ctx -> {
-                /*
-                NOTE: I still do not full understand this conditional,
-                specificly "application/json"
-
-                if (Objects.equals(ctx.contentType(), "application/json")) {
-                    // we make a diagram out of the diagram json that was sent to us.
-                    // Diagram diagram = ctx.bodyAsClass(Diagram.class);
-
-                    // [Database Save Diagram Function](diagram);
-
-                    ctx.result("Save Successful");
-                }*/
-            });
 
             /**
              * Receive a diagram for rendering.
@@ -156,10 +98,8 @@ public class MardukServer {
              * TODO change toRender to the final Datastructure
              */
             app.post(ApiCommands.renderPNG.path(), ctx -> {
-                if (Objects.equals(ctx.contentType(), serverRequestHeader.value.get())) {
-
+                if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
                     Object toRender = ctx.bodyAsClass(Object.class);
-
                     ctx.json(fileExporter.renderPNG(toRender));
                 }
             });
@@ -170,249 +110,11 @@ public class MardukServer {
              * TODO change toRender to the final Datastructure
              */
             app.post(ApiCommands.renderSVG.path(), ctx -> {
-                if (Objects.equals(ctx.contentType(), serverRequestHeader.value.get())) {
-
+                if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
                     Object toRender = ctx.bodyAsClass(Object.class);
-
                     ctx.json(fileExporter.renderSVG(toRender));
                 }
-            })
-
-            app.post(ApiCommands.createDrawingObject.path(), ctx -> {
-                //adds a drawing object to the drawing object table
-                String param = ctx.queryParam("inputobjectjson");
-
-                InputObject inObj;
-
-                try{
-                    inObj = inputObjectFromJSON(param);
-                }
-                catch(Exception e){
-                    inObj = null;
-                }
-
-                //checks if JSON was correctly parsed
-                if(inObj != null){
-                    Double p1;
-                    Double p2 = null;
-                    String t1;
-                    String t2 = null;
-                    String t3 = null;
-
-                    if(inObj.getParams().length == 1){
-                        p1 = inObj.getParams()[0];
-                    }
-                    else{
-                        p1 = inObj.getParams()[0];
-                        p2 = inObj.getParams()[1];
-                    }
-
-                    if(inObj.getText().length == 1){
-                        t1 = inObj.getText()[0];
-                    }
-                    else if(inObj.getText().length == 2){
-                        t1 = inObj.getText()[0];
-                        t2 = inObj.getText()[1];
-                    }
-                    else{
-                        t1 = inObj.getText()[0];
-                        t2 = inObj.getText()[1];
-                        t3 = inObj.getText()[2];
-                    }
-
-                    //explicity way to set variables
-                    DrawingObject dwgObj = new DrawingObject();
-//                    dwgObj.set("id", inObj.getId());
-                    dwgObj.set("drawing_board_id", inObj.getParent_id());
-                    dwgObj.set("shape_type", inObj.getShapeType());
-                    dwgObj.set("x_cord", inObj.getXCord());
-                    dwgObj.set("y_cord", inObj.getYCord());
-                    dwgObj.set("param_one", p1);
-                    dwgObj.set("param_two", p2);
-                    dwgObj.set("color", inObj.getColor());
-                    dwgObj.set("style", inObj.getStyle());
-                    dwgObj.set("fill", inObj.getFill());
-                    dwgObj.set("text_one", t1);
-                    dwgObj.set("text_two", t2);
-                    dwgObj.set("text_three", t3);
-                    dwgObj.saveIt();
-                }
-                else{
-                    ctx.result("input object was unable to be correctly parsed from JSON");
-                }
             });
-
-            //deletes a drawing object from the drawing object table based on its unique id
-            app.post(ApiCommands.deleteDrawingObject.path(), ctx -> {
-                String param = ctx.queryParam("drawing_object_id");
-                DrawingObject dwgObj = DrawingObject.findById(Integer.parseInt(param));
-                //catches entry cannot be found
-                if(dwgObj != null){
-                    dwgObj.delete();
-                }
-                else{
-                    ctx.result("no drawing object with id " + Integer.parseInt(param));
-                }
-            });
-
-            //updates a drawing object with a new InputObject based on InputObjects id
-            app.post(ApiCommands.updateDrawingObject.path(), ctx ->{
-                String param = ctx.queryParam("inputobjectjson");
-
-                InputObject inObj;
-
-                try{
-                    inObj = inputObjectFromJSON(param);
-                }
-                catch(Exception e){
-                    inObj = null;
-                }
-
-                //checks if JSON was correctly parsed
-                if(inObj != null){
-                    Double p1;
-                    Double p2 = null;
-                    String t1;
-                    String t2 = null;
-                    String t3 = null;
-
-                    if(inObj.getParams().length == 1){
-                        p1 = inObj.getParams()[0];
-                    }
-                    else{
-                        p1 = inObj.getParams()[0];
-                        p2 = inObj.getParams()[1];
-                    }
-
-                    if(inObj.getText().length == 1){
-                        t1 = inObj.getText()[0];
-                    }
-                    else if(inObj.getText().length == 2){
-                        t1 = inObj.getText()[0];
-                        t2 = inObj.getText()[1];
-                    }
-                    else{
-                        t1 = inObj.getText()[0];
-                        t2 = inObj.getText()[1];
-                        t3 = inObj.getText()[2];
-                    }
-
-                    //updates the drawing object and saves it
-                    DrawingObject dwgObj = DrawingObject.findById(inObj.getId());
-
-                    if(dwgObj != null){
-                        dwgObj.set("drawing_board_id", inObj.getParent_id());
-                        dwgObj.set("shape_type", inObj.getShapeType());
-                        dwgObj.set("x_cord", inObj.getXCord());
-                        dwgObj.set("y_cord", inObj.getYCord());
-                        dwgObj.set("param_one", p1);
-                        dwgObj.set("param_two", p2);
-                        dwgObj.set("color", inObj.getColor());
-                        dwgObj.set("style", inObj.getStyle());
-                        dwgObj.set("fill", inObj.getFill());
-                        dwgObj.set("text_one", t1);
-                        dwgObj.set("text_two", t2);
-                        dwgObj.set("text_three", t3);
-                        dwgObj.saveIt();
-                    }
-                    else{
-                        ctx.result("no drawing object with given id found");
-                    }
-
-                }
-                else{
-                    ctx.result("input object was unable to be correctly parsed from JSON");
-                }
-            });
-
-            //We are setting all of our drawing boards to a default size so we dont need any inputs
-            app.post(ApiCommands.createDrawingBoard.path(), ctx ->{
-               DrawingBoardAJDBC dwgb = new DrawingBoardAJDBC();
-               dwgb.set("x_size", 1000);
-               dwgb.set("y_size", 1000);
-               dwgb.saveIt();
-            });
-
-            //Deletes drawing board based on input id
-            app.post(ApiCommands.deleteDrawingBoard.path(), ctx ->{
-                String param = ctx.queryParam("drawing_board_id");
-                DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.parseInt(param));
-                //catches entry cannot be found
-                if(dwgb != null){
-                    dwgb.delete();
-                }
-                else{
-                    ctx.result("no drawing board with id " + Integer.parseInt(param));
-                }
-            });
-
-            //Takes in a drawing board id and returns a string of svg data
-            app.get(ApiCommands.getSVGFileData.path(), ctx ->{
-                String param =  ctx.queryParam("drawing_board_id");
-                String outString = "";
-
-                DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.parseInt(param));
-                ArrayList<String> outList = new ArrayList<>();
-
-                if(dwgb != null){
-                    LazyList<DrawingObject> lzDwgObj =  dwgb.getAll(DrawingObject.class); //pulls a lazy list
-
-                    //serializes all the drawingobjects to json
-                    for (DrawingObject dw : lzDwgObj) {
-                        outList.add(dw.toInputObjectJSON());
-                    }
-                }
-                else{
-                    outString = "id not found";
-                }
-                outString = arrayListToJSON(outList);
-
-                ctx.result(CreateSVGStringFromInputObjectJSON(outString));
-            });
-
-            //returns the JSON string of a single drawing object as an input object
-            app.get(ApiCommands.getDrawingObjectData.path(), ctx ->{
-                String param = ctx.queryParam("drawing_object_id");
-                DrawingObject dwgObj = DrawingObject.findById(Integer.parseInt(param));
-                //catches entry cannot be found
-                if(dwgObj != null){
-                    ctx.result(dwgObj.toInputObjectJSON());
-                }
-                else{
-                    ctx.result("no drawing object with id " + Integer.parseInt(param));
-                }
-            });
-
-//            app.post(ApiCommands.updateDrawingBoard.path(), ctx -> {
-//                String param = ctx.queryParam("drawingboardjson");
-//                DrawingBoard inDwgBrd;//= DrawingBoard.findById(param);
-//                try{
-//                    inDwgBrd = drawingBoardFromJSON(param);
-//                }
-//                catch(Exception e){
-//                    inDwgBrd = null;
-//                }
-//
-//                if(inDwgBrd != null){
-//
-//                    DrawingBoard dwgb = DrawingBoard.findById(inDwgBrd.getInteger("id"));
-//                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
-//                    System.out.println(inDwgBrd.getInteger("id"));
-//                    System.out.println(inDwgBrd.toString());
-//                    if(dwgb != null){
-//                        dwgb.set("x_size", inDwgBrd.get("x_cord"));
-//                        dwgb.set("y_size", inDwgBrd.get("y_cord"));
-//                    }
-//                    else{
-//                        ctx.result("cannot find drawing board with same id");
-//                    }
-//                }
-//                else{
-//                    ctx.result("cannot parse object from JSON");
-//                }
-//
-//            });
-
 
         });
     }

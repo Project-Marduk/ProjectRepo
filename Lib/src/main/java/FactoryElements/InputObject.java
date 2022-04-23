@@ -17,8 +17,8 @@ import java.io.Serializable;
  * complex items will need to be passed as a list of input objects
  * All type checking will need to be done on the front end(s)
  */
-@Getter @Setter
 //@Table("Input_Object")
+@Getter @Setter
 public class InputObject implements Serializable {
     Integer id;
     Integer parent_id;
@@ -53,13 +53,5 @@ public class InputObject implements Serializable {
         yCord = y;
         fill = "#FFFFFF"; //set default value as white fill
         text = t;
-    }
-
-    public String toJSON() {
-        //create Gson instance
-        Gson gson = new Gson();
-        //create json string to hold data
-        String jsonString = gson.toJson(this);
-        return jsonString;
     }
 }
