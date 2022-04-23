@@ -2,18 +2,23 @@ CREATE DATABASE IF NOT EXISTS projectmarduk;
 
 USE projectmarduk;
 
+# DROP TABLE IF EXISTS users;
+
 CREATE TABLE IF NOT EXISTS users (
                                      id INTEGER NOT NULL AUTO_INCREMENT,
                                      userName varChar(15),
-                                     folder_id INTEGER NOT NULL,
                                      PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS folders (
-                                       user_id INTEGER NOT NULL,
-                                       folder_id INTEGER NOT NULL
+                                       id INTEGER NOT NULL AUTO_INCREMENT,
+                                       PRIMARY KEY(id)
 );
 
+CREATE TABLE IF NOT EXISTS users_folders(
+                                            user_id INTEGER NOT NULL,
+                                            folder_id INTEGER NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS drawing_board (
                                              id INTEGER NOT NULL AUTO_INCREMENT,

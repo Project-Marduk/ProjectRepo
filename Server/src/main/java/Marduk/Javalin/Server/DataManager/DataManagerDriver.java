@@ -247,8 +247,6 @@ public class DataManagerDriver implements RespondingClass {
         responseManager.setResponseBySuccess(result);
     }
 
-
-
 }
 // To Here
 
