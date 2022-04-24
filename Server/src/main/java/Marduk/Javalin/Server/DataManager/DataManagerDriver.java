@@ -68,11 +68,14 @@ public class DataManagerDriver implements RespondingClass {
         return inBoard;
     }
 
-    // TODO save the board and objects in toSave
-    // TODO responseManager.setResponse
+    /**
+     * @author David Lindeman
+     * @param toSave
+     * iterates through all InputObjects in an inputBoard and updates them in the DrawingBoard table
+     */
     public void saveDrawingBoard(inputBoard toSave) {
         boolean result = false;
-        DrawingBoardAJDBC dwBoard = DrawingBoardAJDBC.findById(toSave.id);
+        DrawingBoardAJDBC dwBoard = DrawingBoardAJDBC.findById(toSave.getId());
         DrawingObjectAJDBC dwObj;
         InputObject tempObj;
         //if the drawing board exists iterates through all items and checks if they exist in the db if so they update else it creates new
@@ -92,16 +95,25 @@ public class DataManagerDriver implements RespondingClass {
         responseManager.setResponseBySuccess(result);
     }
 
+    /**
+     * @author
+     * @param id
+     * @return
+     * returns the InputObject of a DrawingObject by id
+     */
     public InputObject getDrawingObject(String id){
         DrawingObjectAJDBC dwObj = DrawingObjectAJDBC.findById(Integer.parseInt(id));
         InputObject inObj = dwObj.getInputObject();
         return inObj;
     }
 
-    // TODO the client can simultaneously create their own and send it here
-    // TODO responseManager.setResponse
-    // for now this just creates and save it to the database, assuming
-    // assuming the client will keep and continue to use their copy.
+    /**
+     * @author David Lindeman
+     * @param inObj
+     * @return
+     * for now this just creates and save it to the database, assuming
+     * assuming the client will keep and continue to use their copy.
+     */
     public InputObject createDrawingObject(InputObject inObj) {
         if (inObj != null) {
 
@@ -160,6 +172,7 @@ public class DataManagerDriver implements RespondingClass {
         //catches entry cannot be found
         if (dwgObj != null) {
             dwgObj.delete();
+            dwgObj.saveIt();
             result = true;
         }
         responseManager.setResponseBySuccess(result);
@@ -246,6 +259,7 @@ public class DataManagerDriver implements RespondingClass {
         DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.valueOf(id));
         if (dwgb != null) {
             dwgb.delete();
+            dwgb.saveIt();
             result = true;
         }
         responseManager.setResponseBySuccess(result);
@@ -277,17 +291,33 @@ public class DataManagerDriver implements RespondingClass {
         responseManager.setResponseBySuccess(true);
     }
 
+    /**
+     * @author David Lindeman
+     * @param userId
+     * @param folderId
+     * deletes a user and folder composite key from the UserFolders table
+     */
     public void deleteUserFromFolder(Integer userId, Integer folderId){
+        boolean result = false;
         //The keys must be in the same order they are in the database (user_id, folder_id)
         UsersFolders newFolder = UsersFolders.findByCompositeKeys(userId, folderId);
-        newFolder.delete();
-        newFolder.saveIt();
-        responseManager.setResponseBySuccess(true);
+        if(newFolder != null){
+            newFolder.delete();
+            newFolder.saveIt();
+            result = true;
+        }
+        responseManager.setResponseBySuccess(result);
     }
 
+    /**
+     * @author
+     * @param userId
+     * creates a new folder and assigns the inputed user id to the folder
+     */
     public void createNewFolder(Integer userId){
         FolderAJDBC newFolder = FolderAJDBC.findById(makeFolder(userId));
         assignFolderToUser(newFolder.getInteger("id"), userId);
+        newFolder.saveIt();
         responseManager.setResponseBySuccess(true);
     }
 

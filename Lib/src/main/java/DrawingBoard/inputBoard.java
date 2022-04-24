@@ -1,10 +1,13 @@
 package DrawingBoard;
 
 import FactoryElements.InputObject;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@Getter @Setter
 public class inputBoard implements Serializable {
     public String name;
     public String id;
