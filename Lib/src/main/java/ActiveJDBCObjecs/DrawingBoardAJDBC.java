@@ -4,6 +4,8 @@ package ActiveJDBCObjecs;
 import DrawingBoard.DrawingBoard;
 import FactoryElements.InputObject;
 import org.javalite.activejdbc.Model;
+import org.javalite.activejdbc.annotations.BelongsTo;
+import org.javalite.activejdbc.annotations.HasMany;
 import org.javalite.activejdbc.annotations.Table;
 import DrawingBoard.inputBoard;
 import org.javalite.activejdbc.LazyList;
@@ -11,6 +13,10 @@ import org.javalite.activejdbc.LazyList;
 import java.util.ArrayList;
 
 @Table("drawing_board")
+//TODO: VERIFY THIS IS NEEDED, DRAWINGOBJECT HAS A PARENT REFERENCE
+@BelongsTo(parent = FolderAJDBC.class,
+        foreignKeyName = "folder_id")
+@HasMany(child = DrawingObjectAJDBC.class, foreignKeyName = "drawing_board_id")
 public class DrawingBoardAJDBC extends Model {
 //    private final double SIZE_DEFAULT = 1000;
 

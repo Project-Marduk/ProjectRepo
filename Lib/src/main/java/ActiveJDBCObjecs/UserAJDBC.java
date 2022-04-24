@@ -7,7 +7,7 @@ import org.javalite.activejdbc.annotations.Table;
 @Table("users")
 @HasMany(child = UsersFolders.class, foreignKeyName = "user_id")
 public class UserAJDBC extends Model {
-    UserAJDBC(){}
+    public UserAJDBC(){}
 
     public Integer getUserId(){
         return this.getInteger("id");

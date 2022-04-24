@@ -2,6 +2,8 @@ package Marduk.Javalin.Server.DataManager;
 
 import ActiveJDBCObjecs.DrawingBoardAJDBC;
 import ActiveJDBCObjecs.DrawingObjectAJDBC;
+import ActiveJDBCObjecs.FolderAJDBC;
+import ActiveJDBCObjecs.UsersFolders;
 import DrawingBoard.DrawingBoard;
 import DrawingBoard.inputBoard;
 import FactoryElements.InputObject;
@@ -9,10 +11,10 @@ import FactoryElements.InputObject;
 import Server.ResponseManagement.RespondingClass;
 import Server.ResponseManagement.ResponseManager;
 import org.javalite.activejdbc.Base;
-import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.connection_config.DBConfiguration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DataManagerDriver implements RespondingClass {
@@ -43,8 +45,6 @@ public class DataManagerDriver implements RespondingClass {
     }
 
     /**
-     * TODO  this
-     *
      * @return true is connection is validated
      */
     public void validateDatabaseConnection() {
@@ -247,6 +247,65 @@ public class DataManagerDriver implements RespondingClass {
         responseManager.setResponseBySuccess(result);
     }
 
+    /**
+     * @author David Lindeman
+     * @param userId
+     * @return
+     * When a new folder is created it returns the id of the folder
+     */
+    private Integer makeFolder(Integer userId){
+        FolderAJDBC newFolder = new FolderAJDBC();
+        return newFolder.getInteger("id");
+    }
+
+
+    /**
+     * @author David Lindeman
+     * @param userId
+     * @param folderId
+     * This is how we will create new entries in the many to one table
+     */
+    public void assignFolderToUser(Integer userId, Integer folderId){
+        UsersFolders newFolder = new UsersFolders();
+        newFolder.set("user_id", userId);
+        newFolder.set("folder_id", folderId);
+        newFolder.saveIt();
+        responseManager.setResponseBySuccess(true);
+    }
+
+    public void createNewFolder(Integer userId){
+        FolderAJDBC newFolder = FolderAJDBC.findById(makeFolder(userId));
+        assignFolderToUser(newFolder.getInteger("id"), userId);
+        responseManager.setResponseBySuccess(true);
+    }
+
+    /**
+     * @author David Lindeman
+     * @param userId
+     * @return
+     * Returns a list of all folders that belong to a user id
+     */
+    public List<FolderAJDBC> getUsersFolders(Integer userId){
+        List<FolderAJDBC> folders = FolderAJDBC.where("user_id = ?", userId);
+        responseManager.setResponseBySuccess(true);
+        return folders;
+    }
+
+    /**
+     * @author David Lindeman
+     * @param folderId
+     * @return
+     * Returns all drawing board ids that are related to the folder id
+     */
+    public List<Integer> getFoldersDrawingBoardIds(Integer folderId){
+        List<DrawingBoardAJDBC> dwgBoards = DrawingBoardAJDBC.where("folder_id = ?", folderId);
+        List<Integer> ids = new ArrayList<>();
+        for (DrawingBoardAJDBC dwgBoard : dwgBoards) {
+            ids.add(dwgBoard.getInteger("folder_id"));
+        }
+        responseManager.setResponseBySuccess(true);
+        return ids;
+    }
 }
 // To Here
 
