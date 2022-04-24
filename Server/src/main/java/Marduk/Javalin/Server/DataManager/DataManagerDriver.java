@@ -277,6 +277,14 @@ public class DataManagerDriver implements RespondingClass {
         responseManager.setResponseBySuccess(true);
     }
 
+    public void deleteUserFromFolder(Integer userId, Integer folderId){
+        //The keys must be in the same order they are in the database (user_id, folder_id)
+        UsersFolders newFolder = UsersFolders.findByCompositeKeys(userId, folderId);
+        newFolder.delete();
+        newFolder.saveIt();
+        responseManager.setResponseBySuccess(true);
+    }
+
     public void createNewFolder(Integer userId){
         FolderAJDBC newFolder = FolderAJDBC.findById(makeFolder(userId));
         assignFolderToUser(newFolder.getInteger("id"), userId);
