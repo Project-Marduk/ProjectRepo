@@ -1,12 +1,11 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 
-import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.activationExpressionJFX;
+import static DrawingObjects.Functions.ShapeSVGFunctions.activationExpressionSVG;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.activationExpressionJFX;
 
 /**
  * @author David Lindeman
@@ -18,8 +17,8 @@ import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.activationExp
 //@Table("IFML_Activation_Expression")
 public class IFMLActivationExpression extends DrawingObject {
 
-    public IFMLActivationExpression(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLActivationExpression(InputObject inObj){
+        super(inObj);
         super.inObject.setColor("#B7BDBB"); //light blue/grey, there are two colors to this shape the other is white
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
@@ -28,12 +27,13 @@ public class IFMLActivationExpression extends DrawingObject {
         });
     }
 
+
     public String generateShape(){
         return activationExpressionSVG(super.inObject);
     }
 
     @Override
     public void generateJavaFXGroup() {
-        linkedJavaFX.getChildren().addAll(activationExpressionJFX(super.inObject));
+        getChildren().addAll(activationExpressionJFX(super.inObject));
     }
 }

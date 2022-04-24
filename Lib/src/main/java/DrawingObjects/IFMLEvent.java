@@ -1,10 +1,9 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import static DrawingObjects.ShapeSVGFunctions.circleToSVG;
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.circleToJavaFX;
+import static DrawingObjects.Functions.ShapeSVGFunctions.circleToSVG;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.circleToJavaFX;
 
-import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +18,8 @@ import lombok.Setter;
 public class IFMLEvent extends DrawingObject {
     boolean isFilled; //default value is false
 
-    public IFMLEvent(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLEvent(InputObject inObj){
+        super(inObj);
         isFilled = false;
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
@@ -41,6 +40,7 @@ public class IFMLEvent extends DrawingObject {
         if(isFilled){
             super.inObject.setColor("#000000"); //sets the fill color to the hex code for black
         }
-        linkedJavaFX.getChildren().addAll(circleToJavaFX(super.inObject));
+        getChildren().addAll(circleToJavaFX(super.inObject));
+        addTextBoxesToJavaFXGroup();
     }
 }

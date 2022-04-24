@@ -6,9 +6,11 @@
  */
 package DesktopClient;
 
-import FactoryElements.*;
+import DrawingObjects.DrawingObject;
+import DrawingObjects.Functions.ShapeJavaFXFunctions;
 import DrawingBoard.*;
-import DrawingObjects.JavaFXConversion.*;
+import DrawingObjects.ShapeTypes;
+import FactoryElements.InputObject;
 import javafx.geometry.Bounds;
 import javafx.scene.*;
 import javafx.scene.Cursor;
@@ -23,6 +25,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +35,7 @@ import javafx.scene.shape.*;
 
 public class FXController {
 
+<<<<<<< HEAD
     DrawingBoard testBoard = new DrawingBoard(3000,3000);
 
     InputObject inputObject = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0);
@@ -54,6 +58,88 @@ public class FXController {
     InputObject inputObject15 = new InputObject(ShapeTypes.IFML_Parameter.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
     InputObject inputObject16 = new InputObject(ShapeTypes.IFML_View_Component.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
     InputObject inputObject17 = new InputObject(ShapeTypes.IFML_View_Component_Part.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+=======
+    InputBoard testInputBoard;
+    InputObject testInObject;
+    DrawingBoard testBoard;
+
+
+    InputObject inputObject1;
+    InputObject inputObject3;
+
+    LinkedList<Group> thingsToRender;
+
+
+    public void testingGrouds(){
+        // Tyler here is the basic flow of the Data Structures
+
+        // There are 4 structure You care about.
+        /*
+        1. Input object = portable values of a shape.
+        2. Input Board = portable values of a board.
+        3. Drawing Board = the thing to make your stuff.
+        4. Drawing object = the thing you want to actually use.
+
+        InputObject -> DrawingObject
+        InputBoard -> DrawingBoard
+
+         */
+
+        // Here is an Input Board
+        testInputBoard = new InputBoard();
+        testInputBoard.id = "butts";
+        testInputBoard.idIndex = 3;
+        testInputBoard.name = "Test";
+        testInputBoard.xMax = 3000;
+        testInputBoard.yMax = 3000;
+        // In the final product you'll retrieve this from the server
+
+        // for testing you can just make them;
+
+
+        // Now lets plug it into our board.
+        // DrawingBoard the central thing that makes you DrawingObjects
+        testBoard = new DrawingBoard(testInputBoard);
+
+        // Now lets make our Input Objects
+
+        // HERE IS THE Current contsructor:
+        // public InputObject(String sType, double[] p, String c, String s, double x, double y, String[] t)
+        inputObject1 = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0, new String[]{"Bitches"});
+        // OR
+        inputObject3 = new InputObject();
+        inputObject3.setShapeType(ShapeTypes.circle.getValue());
+        inputObject3.setParams(new double[]{100, 200});
+        inputObject3.setColor("black");
+        inputObject3.setStyle("solid");
+        inputObject3.setXCord(60.0);
+        inputObject3.setYCord(40.0);
+
+        // IN the final build you will make an
+        // input object, send it to the server, and recieve a finalized inputObject.
+        // for right now you can just test using your own.
+        // this is important to remember tho.
+
+
+        // Now for the Good part:
+        DrawingObject drawing1 = testBoard.addObject(inputObject1);
+        DrawingObject drawing2 = testBoard.addObject(inputObject3);
+
+        //DrawingObjects are now JavaFX Groups & Drawing Objects.
+        drawing1.update();// it is now ready to draw to the screen.
+
+        drawing1.getInObject().setYCord(500);
+        drawing1.getInObject().setXCord(412);
+
+        drawing1.update(); // the JAVA FX shapes the group is made of have been updated.
+
+        // Works with you functions:
+        makeSelectable(drawing1);
+        makeShapeMove(drawing1);
+
+
+    }
+>>>>>>> 425f095386b9822734d184b5970193dd27d4bf1d
 
 
 
@@ -189,7 +275,25 @@ public class FXController {
      * Generate a square from input object
      */
     @FXML
+<<<<<<< HEAD
     public void addRectangle(){parseToJavaFX(inputObject2);}
+=======
+    public void testAddSquare(){
+        javaShape = ShapeJavaFXFunctions.squareToJavaFX(inputObject);
+        javaShape.setFill(colorPicker.getValue());
+        makeShapeMove(javaShape);
+        designCenter.getChildren().add(javaShape);
+
+        //hashmap of all stuff and mirror that has all the input objects and then update using the hash map update the shapes
+        //to insert and delte objects
+
+        //just create a method that has switch function that takes in inputs object and translate that into javafx representation
+        //post man tests apis %23 to pound symbol
+        //parameters are always passed in as strings for api
+        //1-3 text boxes on new input objects
+        
+    }
+>>>>>>> 425f095386b9822734d184b5970193dd27d4bf1d
 
     /**
      * Generate a circle from an input object
@@ -197,6 +301,7 @@ public class FXController {
     @FXML
     public void addCircle(){parseToJavaFX(inputObject3);}
 
+<<<<<<< HEAD
     /**
      * Generate a  from an input object
      */
@@ -316,6 +421,34 @@ public class FXController {
         JavaFXDrawingObject shapeObject = testBoard.addObject(i).getLinkedJavaFX();
         makeShapeMove(shapeObject);
         designCenter.getChildren().add(shapeObject);
+=======
+
+
+        InputBoard d = new InputBoard();
+        d.id = "23";
+        d.name = "Test Diagram";
+        d.xMax = 800;
+        d.yMax = 450;
+        d.idIndex = 53;
+
+        testBoard = new DrawingBoard(d);
+
+        DrawingObject myTestObject = testBoard.addObject(inputObject3);
+
+        if (myTestObject == null){
+            System.out.println("The JavaFxDrawingObject is screwed\n");
+        }
+        else if (myTestObject == null){
+            System.out.println("The Linked DrawingObject is screwed\n");
+        }
+
+        makeShapeMove(myTestObject);
+        designCenter.getChildren().add(myTestObject);
+
+
+
+
+>>>>>>> 425f095386b9822734d184b5970193dd27d4bf1d
     }
 
     /**

@@ -1,28 +1,261 @@
 package Marduk.Javalin.Server.DataManager;
 
-import Server.Users.User;
+import ActiveJDBCObjecs.DrawingBoardAJDBC;
+import ActiveJDBCObjecs.DrawingObjectAJDBC;
+import DrawingBoard.InputBoard;
+import FactoryElements.InputObject;
 
-import java.util.ArrayList;
+import static ActiveJDBCObjecs.CreateSVGFromDatabase.CreateSVGStringFromInputObjectJSON;
+import static ActiveJDBCObjecs.JSONHandler.arrayListToJSON;
+import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
 
-/**
- * The Info Manager
- *
- * Handle's call to the Database for saving and loading.
- *
- * @author Traae
- */
-public class DataManagerDriver {
+import Server.ResponseManagement.RespondingClass;
+import Server.ResponseManagement.ResponseManager;
+import org.javalite.activejdbc.Base;
+import org.javalite.activejdbc.LazyList;
+import org.javalite.activejdbc.connection_config.DBConfiguration;
+
+
+public class DataManagerDriver implements RespondingClass {
     private static DataManagerDriver instance = null;
+    ResponseManager responseManager;
 
-    private ArrayList<User> loggedIn;
-
-    private DataManagerDriver(){}
+    private DataManagerDriver() {}
     public static DataManagerDriver getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new DataManagerDriver();
         }
         return instance;
     }
+    @Override
+    public void setResponseManager(ResponseManager r) {
+        responseManager = r;
+    }
+
+    // TODO You sure you want to open and close with every command?
+    // TODO I can set that up sever side, just want to make sure.
+    public void openDatabase() {
+        DBConfiguration.loadConfiguration("/database.properties");
+        Base.open();
+    }
+
+    public void closeDatabase() {
+        Base.close();
+    }
+
+    /**
+     * TODO  this
+     *
+     * @return true is connection is validated
+     */
+    public void validateDatabaseConnection() {
+        // CODE THAT VALIDATE THE CONNECTION;
+        responseManager.setResponseBySuccess(true);
+    }
+
+    // TODO populate toReturn with the values of dwgb & the appropriate Drawing Objects
+    // TODO responseManager.setResponse
+    public InputBoard getDrawingBoard(String id) {
+
+        DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(id);
+
+
+        InputBoard toReturn = new InputBoard();
+        return toReturn;
+    }
+
+    // TODO save the board and objects in toSave
+    // TODO responseManager.setResponse
+    public void saveDrawingBoard(InputBoard toSave) {
+
+    }
+
+    // TODO the client can simultaneously create their own and send it here
+    // TODO responseManager.setResponse
+    // for now this just creates and save it to the database, assuming
+    // assuming the client will keep and continue to use their copy.
+    public InputObject createDrawingObject(InputObject inObj) {
+        if (inObj != null) {
+
+            Double p1;
+            Double p2 = null;
+            String t1;
+            String t2 = null;
+            String t3 = null;
+
+            if (inObj.getParams().length == 1) {
+                p1 = inObj.getParams()[0];
+            } else {
+                p1 = inObj.getParams()[0];
+                p2 = inObj.getParams()[1];
+            }
+
+            if (inObj.getText().length == 1) {
+                t1 = inObj.getText()[0];
+            } else if (inObj.getText().length == 2) {
+                t1 = inObj.getText()[0];
+                t2 = inObj.getText()[1];
+            } else {
+                t1 = inObj.getText()[0];
+                t2 = inObj.getText()[1];
+                t3 = inObj.getText()[2];
+            }
+
+            //explicity way to set variables
+            DrawingObjectAJDBC dwgObj = new DrawingObjectAJDBC();
+//                    dwgObj.set("id", inObj.getId());
+            dwgObj.set("drawing_board_id", inObj.getParent_id());
+            dwgObj.set("shape_type", inObj.getShapeType());
+            dwgObj.set("x_cord", inObj.getXCord());
+            dwgObj.set("y_cord", inObj.getYCord());
+            dwgObj.set("param_one", p1);
+            dwgObj.set("param_two", p2);
+            dwgObj.set("color", inObj.getColor());
+            dwgObj.set("style", inObj.getStyle());
+            dwgObj.set("fill", inObj.getFill());
+            dwgObj.set("text_one", t1);
+            dwgObj.set("text_two", t2);
+            dwgObj.set("text_three", t3);
+            dwgObj.saveIt();
+        }
+
+    }
+
+    public boolean deleteDrawingObject(String id) {
+        boolean result = false;
+        DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(Integer.parseInt(param));
+        //catches entry cannot be found
+        if (dwgObj != null) {
+            dwgObj.delete();
+            result = true;
+        }
+        return result;
+    }
+
+
+    public boolean updateDrawingObject(InputObject inObj) {
+        boolean result = false;
+
+        if (inObj != null) {
+            Double p1;
+            Double p2 = null;
+            String t1;
+            String t2 = null;
+            String t3 = null;
+
+            if (inObj.getParams().length == 1) {
+                p1 = inObj.getParams()[0];
+            } else {
+                p1 = inObj.getParams()[0];
+                p2 = inObj.getParams()[1];
+            }
+
+            if (inObj.getText().length == 1) {
+                t1 = inObj.getText()[0];
+            } else if (inObj.getText().length == 2) {
+                t1 = inObj.getText()[0];
+                t2 = inObj.getText()[1];
+            } else {
+                t1 = inObj.getText()[0];
+                t2 = inObj.getText()[1];
+                t3 = inObj.getText()[2];
+            }
+
+            //updates the drawing object and saves it
+            DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(inObj.getId());
+
+            if (dwgObj != null) {
+                dwgObj.set("drawing_board_id", inObj.getParent_id());
+                dwgObj.set("shape_type", inObj.getShapeType());
+                dwgObj.set("x_cord", inObj.getXCord());
+                dwgObj.set("y_cord", inObj.getYCord());
+                dwgObj.set("param_one", p1);
+                dwgObj.set("param_two", p2);
+                dwgObj.set("color", inObj.getColor());
+                dwgObj.set("style", inObj.getStyle());
+                dwgObj.set("fill", inObj.getFill());
+                dwgObj.set("text_one", t1);
+                dwgObj.set("text_two", t2);
+                dwgObj.set("text_three", t3);
+                dwgObj.saveIt();
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    public DrawingBoard createDrawingBoard() {
+        DrawingBoardAJDBC dwgb = new DrawingBoardAJDBC();
+        dwgb.set("x_size", 1000);
+        dwgb.set("y_size", 1000);
+        dwgb.saveIt();
+
+        return new DrawingBoard();
+    }
+
+    public boolean deleteDrawingBoard(String id) {
+        boolean result = false;
+        DrawingBoardAJDBC dwgb = DrawingBoardAJDBC.findById(Integer.valueOf(id));
+        if (dwgb != null) {
+            dwgb.delete();
+            result = true;
+        }
+        return result;
+    }
+
 
 
 }
+// To Here
+
+
+
+
+
+
+// LEAVE THIS COMMENTED OUT
+
+//
+//    //returns the JSON string of a single drawing object as an input object
+//            app.get(ApiCommands.getDrawingObjectData.path(), ctx ->{
+//        String param = ctx.queryParam("drawing_object_id");
+//        DrawingObjectAJDBC dwgObj = DrawingObjectAJDBC.findById(Integer.parseInt(param));
+//        //catches entry cannot be found
+//        if(dwgObj != null){
+//            ctx.result(dwgObj.toInputObjectJSON());
+//        }
+//        else{
+//            ctx.result("no drawing object with id " + Integer.parseInt(param));
+//        }
+//    });
+
+//            app.post(ApiCommands.updateDrawingBoard.path(), ctx -> {
+//                String param = ctx.queryParam("drawingboardjson");
+//                DrawingBoard inDwgBrd;//= DrawingBoard.findById(param);
+//                try{
+//                    inDwgBrd = drawingBoardFromJSON(param);
+//                }
+//                catch(Exception e){
+//                    inDwgBrd = null;
+//                }
+//
+//                if(inDwgBrd != null){
+//
+//                    DrawingBoard dwgb = DrawingBoard.findById(inDwgBrd.getInteger("id"));
+//                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+//                    System.out.println(inDwgBrd.getInteger("id"));
+//                    System.out.println(inDwgBrd.toString());
+//                    if(dwgb != null){
+//                        dwgb.set("x_size", inDwgBrd.get("x_cord"));
+//                        dwgb.set("y_size", inDwgBrd.get("y_cord"));
+//                    }
+//                    else{
+//                        ctx.result("cannot find drawing board with same id");
+//                    }
+//                }
+//                else{
+//                    ctx.result("cannot parse object from JSON");
+//                }
+//
+//            });
+

@@ -1,5 +1,6 @@
 package FactoryElements;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import org.javalite.activejdbc.annotations.Table;
@@ -16,9 +17,11 @@ import java.io.Serializable;
  * complex items will need to be passed as a list of input objects
  * All type checking will need to be done on the front end(s)
  */
-@Getter @Setter
 //@Table("Input_Object")
+@Getter @Setter
 public class InputObject implements Serializable {
+    Integer id = null;
+    Integer parent_id;
     String shapeType;
     double xCord;
     double yCord;
@@ -26,6 +29,7 @@ public class InputObject implements Serializable {
     String color;
     String style;
     String fill;
+    String[] text;
 
     public InputObject(){
         fill = fill = "#FFFFFF";
@@ -38,8 +42,9 @@ public class InputObject implements Serializable {
      * @param s Style in ??? form;
      * @param x X coordinate
      * @param y Y Coordinate
+     * @param t an array or String for the Text boxes
      */
-    public InputObject(String sType, double[] p, String c, String s, double x, double y){ //TODO: Look up default values in Java
+    public InputObject(String sType, double[] p, String c, String s, double x, double y, String[] t){ //TODO: Look up default values in Java
         shapeType = sType;
         params = p;
         color = c;
@@ -47,5 +52,6 @@ public class InputObject implements Serializable {
         xCord = x;
         yCord = y;
         fill = "#FFFFFF"; //set default value as white fill
+        text = t;
     }
 }

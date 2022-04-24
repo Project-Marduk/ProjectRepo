@@ -2,7 +2,7 @@ package Server.Connection;
 
 import Server.Files.PNGformatData;
 import Server.Files.SVGformatData;
-import Server.Resources.ServerReturns;
+import Server.ResponseManagement.ServerResponses;
 import Server.Resources.ApiCommands;
 import com.google.gson.Gson;
 
@@ -37,30 +37,32 @@ import java.time.Duration;
  */
 public class ServerConnection {
     private static final String httpSuffix = "http://%s:%s";
-    private static final String ROOT_CALL = httpSuffix + ApiCommands.root.path();
-    private static final String STATUS_CALL = httpSuffix + ApiCommands.getStatus.path();
-    private static final String ERROR_CALL = httpSuffix + ApiCommands.getError.path();
-    private static final String PNG_CALL = httpSuffix + ApiCommands.renderPNG.path();
-    private static final String SVG_CALL = httpSuffix + ApiCommands.renderSVG.path();
+    private static final String ROOT_CALL = httpSuffix + ApiCommands.root;
+    private static final String UP_CALL = httpSuffix + ApiCommands.up;
+    private static final String CODE_CALL = httpSuffix + ApiCommands.getResponseCode;
+    private static final String MESSAGE_CALL = httpSuffix + ApiCommands.getResponseMessage;
+    private static final String BOOLEAN_CALL = httpSuffix + ApiCommands.getResponseBoolean;
 
-    private static final String REGISTER_CALL = httpSuffix + ApiCommands.registerUser.path();
-    private static final String LOGIN_CALL = httpSuffix + ApiCommands.loginUser.path();
-    private static final String USER_CALL = httpSuffix + ApiCommands.getUserData.path();
-    private static final String LOAD_CALL = httpSuffix + ApiCommands.getDiagram.path();
-    private static final String SAVE_CALL = httpSuffix + ApiCommands.saveDiagram.path();
+
+    private static final String PNG_CALL = httpSuffix + ApiCommands.renderPNG;
+    private static final String SVG_CALL = httpSuffix + ApiCommands.renderSVG;
+
+    private static final String REGISTER_CALL = httpSuffix + ApiCommands.registerUser;
+    private static final String LOGIN_CALL = httpSuffix + ApiCommands.loginUser;
+    private static final String USER_CALL = httpSuffix + ApiCommands.getUserData;
+    private static final String LOAD_CALL = httpSuffix + ApiCommands.createDrawingBoard;
+    private static final String SAVE_CALL = httpSuffix + ApiCommands.saveDrawingBoard;
 
 
     private static ServerConnection INSTANCE = null;
     private String address;
     private String port;
-    private String expectedMessage;
     private boolean initialized = false;
     private HttpClient client;
     private Gson gson;
 
     // CLASS FUNCTIONS
     private ServerConnection(){
-        expectedMessage = ServerReturns.serverMessage.message();
         gson = new Gson();
     }
 
@@ -117,7 +119,7 @@ public class ServerConnection {
         return HttpRequest.newBuilder()
                 .uri(URI.create(String.format(apiCall, address, port)))
                 .timeout(Duration.ofSeconds(30))
-                .header(HttpRequestHeader.name.get(), HttpRequestHeader.value.get())
+                .header(serverRequestHeader.name, serverRequestHeader.value)
                 .POST(HttpRequest.BodyPublishers.ofString(input))
                 .build();
     }
@@ -138,17 +140,25 @@ public class ServerConnection {
 
 
     // server FUNCTIONS
+
     /**
-     * Method to test whether the server is up and running and we have the correct address and port to connect to it.
-     *
-     * @return True if the client can connect to the service, false otherwise
+     * Test connection, same as the Up method.
+     * @return true is able to reach the server.
      */
     public boolean testConnection() {
+        return up();
+    }
+
+    /**
+     * Is the server up?
+     * @return boolean is connection can be made.
+     */
+    public boolean up(){
         if (initialized){
-            HttpRequest request = createGet(ROOT_CALL);
+            HttpRequest request = createGet(UP_CALL);
             try {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                return response.body().equals(expectedMessage);
+                return response.body().equals(ServerResponses.upResponse.getMessage());
             } catch (IOException | InterruptedException ex) {
                 System.out.println("Error caught in Connection.test(): " + ex.getMessage());
                 return false;
@@ -157,54 +167,56 @@ public class ServerConnection {
     }
 
     /**
-     * Get's the server's root greeting message.
-     *
-     * @return The server's message. (or an error message)
+     * @return Gets the server's response message.
      */
-    public String getServerMessage() {
-        HttpRequest request = createGet(ROOT_CALL);
+    public String getResponseMessage() {
+        HttpRequest request = createGet(MESSAGE_CALL);
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.body();
         } catch (IOException | InterruptedException ex) {
             System.out.println("Error caught in Connection.getServerMessage(): " + ex.getMessage());
-            return "An exception was thrown client side in the Server Message Call.";
+            return ServerResponses.exceptionInConnection.getMessage();
         }
     }
 
     /**
-     * Gets the server's status in the form of the ServerStatuses enum.
-     *
-     * @return an ServerStatuses enum representing the server's status. Null is the call fails.
+     * @return the int of the Server Response code
      */
-    public ServerReturns getStatus(){
+    public int getResponseCode(){
+        HttpRequest request = createGet(CODE_CALL);
+            try {
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                return Integer.valueOf(response.body());
+            } catch (IOException | InterruptedException ex) {
+                System.out.println("Error caught in Connection.getServerMessage(): " + ex.getMessage());
+                return ServerResponses.exceptionInConnection.getCode();
+            }
+    }
+
+    /**
+     * @return get the Server response boolean
+     */
+    public boolean getResponseBoolean(){
+        HttpRequest request = createGet(BOOLEAN_CALL);
         try {
-            HttpRequest request = createGet(STATUS_CALL);
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            ServerReturns status = Enum.valueOf(ServerReturns.class, response.body());
-            return status;
-        } catch (Exception e){
-            System.out.println("Error caught in Connection.getStatus(): " + e.getMessage());
-            return null;
+            return Boolean.valueOf(response.body());
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in Connection.getServerMessage(): " + ex.getMessage());
+            return ServerResponses.exceptionInConnection.isSuccess();
         }
     }
 
     /**
-     * Get's the last recorded Error message from the Server.
-     *
-     * @return a string of the error message. Null if the call fails.
+     * @return get the whole ServerResponse enum, if you're into that sort of thing.
      */
-    public String getErrorMessage(){
-        try{
-            HttpRequest request = createGet(ERROR_CALL);
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            String errorMessage = response.body();
-            return errorMessage;
-        }catch (Exception e){
-            System.out.println("Error caught in Connection.getErrorMessage(): " + e.getMessage());
-            return null;
-        }
+    public ServerResponses getServerResponse(){
+        return ServerResponses.enumOfCode(getResponseCode());
     }
+
+
+
 
     // FILE EXPORTER FUNCTIONS
     /**

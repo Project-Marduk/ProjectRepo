@@ -3,73 +3,27 @@ package DrawingBoard;
 import FactoryElements.InputObject;
 import DrawingObjects.DrawingObject;
 import FactoryElements.DrawingObjectFactory;
-import com.google.gson.Gson;
-import lombok.Getter;
-import lombok.Setter;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-//@Table("Drawing_Board")
-@Getter @Setter
-public class DrawingBoard implements Serializable {
+public class DrawingBoard {
     private final double SIZE_DEFAULT = 1000;
+    private InputBoard inputBoard;
 
-    String name;
-    private String id;
-    private ArrayList<String> users;
+    private int indexes = 150000;
 
     Map<String, DrawingObject> objects = new HashMap<>();
-
-    // This is Obsolete, I'm leaving it for David to take care of.
-    // All object types can be referenced using the DrawingObjectTypes Enum
-    String[] objectTypes = new String[]{
-        "IFML_Action",
-        "IFML_Activation_Expression",
-        "IFML_Container",
-        "IFML_Event",
-        "IFML_Module",
-        "IFML_Parameter",
-        "IFML_View_Component",
-        "IFML_View_Component_Part",
-        "IFML_Line",
-        "Line",
-        "Wireframe_Object"
-    };
-
-    double xMax;
-    double yMax;
     DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
-    static int idIndex = 1;
-
-    public DrawingBoard(){
-        yMax = SIZE_DEFAULT;
-        xMax = SIZE_DEFAULT;
-    }
-    public DrawingBoard(double xMax, double yMax){
-        this.xMax = xMax;
-        this.yMax = yMax;
-        name = "diagram name";
-        id = null;
-    }
-
-    public ArrayList<DrawingObject> getList(){
-        return new ArrayList<DrawingObject>(objects.values());
-    }
 
 
-    public void setId(String id) {
-        if (id == null){
-            this.id = id;
-        }
+    public DrawingBoard(InputBoard d){
+        inputBoard = d;
     }
-    public String getId() {
-        return id;
+
+    public InputBoard getDiagram(){
+        return getDiagram();
     }
 
     /**
@@ -79,15 +33,21 @@ public class DrawingBoard implements Serializable {
      * @return The Drawing object just created
      */
     public DrawingObject addObject(InputObject inObj){
-        String id = Integer.toString(idIndex);
-        idIndex++;
-        DrawingObject d = drawingObjectFactory.create(inObj, id);
-        if (d == null){
-            System.out.println("INVALID OBJECT, Factory returned Null");
+        if (!isFinilizedInputObject(inObj)){
+            inObj.setId(indexes);
+            indexes = indexes - 1;
         }
-        objects.put(id, d);
-        System.out.println("");
-        return objects.get(id);
+        DrawingObject d = drawingObjectFactory.create(inObj);
+        objects.put(String.valueOf(d.getInObject().getId()), d);
+        return objects.get(d.getInObject().getId());
+    }
+
+    public boolean isFinilizedInputObject(InputObject i){
+        Boolean result = true;
+        if (i.getId() == null){
+            result = false;
+        }
+        return result;
     }
 
     public void removeObject(String id){
@@ -106,51 +66,19 @@ public class DrawingBoard implements Serializable {
         return objects.get(id).getSVGData();
     }
 
-
-    /**
-     * @author
-     * @return
-     * Serializes all the objects in the map to JSON
-     */
-    public String serializeDrawingBoardToJSON(){
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
-
-    /**
-     * @author David Lindeman
-     * Converts a drawing object to a JSON string using GSON
-     */
-    //reference for reading JSON files to java: https://attacomsian.com/blog/gson-read-json-file
-    public String toJSON(DrawingObject dwObj) {
-        //create Gson instance
-        Gson gson = new Gson();
-        //create json string to hold data
-        String jsonString = gson.toJson(dwObj);
-        return null;
-    }
-
-    /**
-     * @author David Lindeman
-     * @param jsonStr
-     * @return
-     * Takes a JSON string and converts it into a drawing board object
-     */
-    public DrawingObject fromJSON(String jsonStr){
-        try {
-            //create Gson instance
-            Gson gson = new Gson();
-
-            //set type for scoreboard
-            Type drawingObjType = new TypeToken<DrawingObject>(){}.getType();
-
-            //convert JSON string to scoreboard obj
-            DrawingObject drawingObj = gson.fromJson(jsonStr, drawingObjType);
-
-            return drawingObj;
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public String returnSVGData(){
+        String svgData = "";
+        for(String key : objects.keySet()){
+            svgData += "\n" + objects.get(key).getSVGData();
+            svgData += "\n" + objects.get(key).txtToSVG();
         }
-        return null;
+
+        return "<svg contentScriptType=\"text/ecmascript\" width=\"" + Double.toString(inputBoard.xMax) + "px\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" baseProfile=\"full \"\n" +
+                "    zoomAndPan=\"magnify\" contentStyleType=\"text/css\" height=\"" + Double.toString(inputBoard.yMax) + "px\" preserveAspectRatio=\"xMidYMid meet\" xmlns=\"http://www.w3.org/2000/svg\"\n" +
+                "    version=\"1.0\">"
+                + svgData
+                + "\n"
+                + "</svg>";
     }
+
 }

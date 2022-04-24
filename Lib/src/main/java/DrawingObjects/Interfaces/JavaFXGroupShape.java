@@ -1,4 +1,4 @@
-package DrawingObjects.JavaFXConversion;
+package DrawingObjects.Interfaces;
 
 
 import javafx.scene.Group;

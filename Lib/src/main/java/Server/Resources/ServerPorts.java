@@ -12,7 +12,8 @@ package Server.Resources;
  */
 public enum ServerPorts {
     WebClient(7000),
-    Server(7001);
+    Server(7001),
+    Database(3306);
 
         private final int portToUse;
         private ServerPorts(int i) {
