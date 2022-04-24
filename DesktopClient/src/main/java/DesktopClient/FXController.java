@@ -33,12 +33,27 @@ import javafx.scene.shape.*;
 public class FXController {
 
     DrawingBoard testBoard = new DrawingBoard(3000,3000);
-                                            // ENUM for Reference and Dev security
+
     InputObject inputObject = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0);
-                                            // I didn't change these ones os you could chekc it out
-    InputObject inputObject2 = new InputObject("Rectangle", new double[]{100, 400},"black","solid",200.0,20.0);
-    InputObject inputObject3 = new InputObject(ShapeTypes.circle.getValue(), new double[]{100, 200},"black","solid",60.0,40.0);
-    InputObject inputObject4 = new InputObject("Hexagon",new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject2 = new InputObject(ShapeTypes.rectangle.getValue(), new double[]{100, 400},"black","solid",200.0,20.0);
+    InputObject inputObject3 = new InputObject(ShapeTypes.circle.getValue(), new double[]{100, 200},"red","solid",60.0,40.0);
+    InputObject inputObject4 = new InputObject(ShapeTypes.hexagon.getValue(), new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject5 = new InputObject(ShapeTypes.Line.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+
+    InputObject inputObject6 = new InputObject(ShapeTypes.parallelogram.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject7 = new InputObject(ShapeTypes.IFML_Action.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    //doesnt work
+    InputObject inputObject8 = new InputObject(ShapeTypes.IFML_Activation_Expression.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject9 = new InputObject(ShapeTypes.IFML_Container.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject10 = new InputObject(ShapeTypes.IFML_Line.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject11 = new InputObject(ShapeTypes.IFML_Event.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject12 = new InputObject(ShapeTypes.IFML_Module.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject13 = new InputObject(ShapeTypes.IFML_Line.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject14 = new InputObject(ShapeTypes.Wireframe_Object.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    //doesnt work
+    InputObject inputObject15 = new InputObject(ShapeTypes.IFML_Parameter.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject16 = new InputObject(ShapeTypes.IFML_View_Component.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
+    InputObject inputObject17 = new InputObject(ShapeTypes.IFML_View_Component_Part.getValue(),new double[]{100,200}, "black","solid",50.0,50.0);
 
 
 
@@ -64,19 +79,15 @@ public class FXController {
 
 
     /**
-     * Shapes for the application
+     * Shapes elements for the application
      */
-    @Getter double insertX = 700;
-    @Getter double insertY = 400;
+    @Getter double insertX = 550;
+    @Getter double insertY = 350;
     @Getter double stroke = 3;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     private Node selectedNode;
-
     String svgData = "";
-    Shape javaShape;
-    SVGPath path;
-
 
     /**
      * Default mainStage variable to control the change of scenes
@@ -169,66 +180,142 @@ public class FXController {
     }
 
     /**
-     * Generate a circle from input object
+     * Generate a square from input object
      */
     @FXML
-    public void testAddCircle(){
-
-        javaShape = ShapeJavaFXFunctions.circleToJavaFX(inputObject3);
-        javaShape.setFill(colorPicker.getValue());
-        makeShapeMove(javaShape);
-        designCenter.getChildren().add(javaShape);
-    }
+    public void addSquare(){parseToJavaFX(inputObject);}
 
     /**
      * Generate a square from input object
      */
     @FXML
-    public void testAddSquare(){
-        javaShape = ShapeJavaFXFunctions.squareToJavaFX(inputObject);
-        javaShape.setFill(colorPicker.getValue());
-        makeShapeMove(javaShape);
-        designCenter.getChildren().add(javaShape);
-
-
-
-
-        //hashmap of all stuff and mirror that has all the input objects and then update using the hash map update the shapes
-        //to insert and delte objects
-
-        //just create a method that has switch function that takes in inputs object and translate that into javafx representation
-        //post man tests apis %23 to pound symbol
-        //parameters are always passed in as strings for api
-        //1-3 text boxes on new input objects
-
-    }
+    public void addRectangle(){parseToJavaFX(inputObject2);}
 
     /**
-     * This is the main method that will add the shapes we are creating. Just press the circle button under the tree view
-     * to insert shapes
+     * Generate a circle from an input object
      */
     @FXML
-    public void testSVGPathMethods(){
+    public void addCircle(){parseToJavaFX(inputObject3);}
 
-        /**
-         * TYLER I CHANGED THIS to test it, your code is copied and commented out below
-         */
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addHexagon(){parseToJavaFX(inputObject4);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addLine(){parseToJavaFX(inputObject5);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addParallelogram(){parseToJavaFX(inputObject6);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addAction(){parseToJavaFX(inputObject7);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addActivationExpression(){parseToJavaFX(inputObject8);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addContainer(){parseToJavaFX(inputObject9);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addDataFlow(){parseToJavaFX(inputObject10);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addEvent(){parseToJavaFX(inputObject11);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addModule(){parseToJavaFX(inputObject12);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addNavigationFlow(){parseToJavaFX(inputObject13);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addObject(){parseToJavaFX(inputObject14);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addParameter(){parseToJavaFX(inputObject15);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addViewComponent(){parseToJavaFX(inputObject16);}
+
+    /**
+     * Generate a  from an input object
+     */
+    @FXML
+    public void addViewComponentPart(){parseToJavaFX(inputObject17);}
+
+    /**
+     * TYLER I CHANGED THIS to test it, your code is copied and commented out below
+     */
+    /**
+     testBoard = new DrawingBoard();
+     JavaFXDrawingObject myTestObject = testBoard.addObject(inputObject3).getLinkedJavaFX();
+
+     if (myTestObject == null){
+     System.out.println("The JavaFxDrawingObject is screwed\n");
+     }
+     else if (myTestObject.getLinkedDrawing() == null){
+     System.out.println("The Linked DrawingObject is screwed\n");
+     }
+
+     makeShapeMove(myTestObject);
+     designCenter.getChildren().add(myTestObject);
+     **/
+
+    //hashmap of all stuff and mirror that has all the input objects and then update using the hash map update the shapes
+    //to insert and delte objects
+
+    //just create a method that has switch function that takes in inputs object and translate that into javafx representation
+    //post man tests apis %23 to pound symbol
+    //parameters are always passed in as strings for api
+    //1-3 text boxes on new input objects
+
+    /**
+     * Convert an input object created into a javafx shape so the design center can insert
+     * @param i
+     */
+    public void parseToJavaFX(InputObject i){
         testBoard = new DrawingBoard();
-        JavaFXDrawingObject myTestObject = testBoard.addObject(inputObject3).getLinkedJavaFX();
-
-        if (myTestObject == null){
-            System.out.println("The JavaFxDrawingObject is screwed\n");
-        }
-        else if (myTestObject.getLinkedDrawing() == null){
-            System.out.println("The Linked DrawingObject is screwed\n");
-        }
-
-        makeShapeMove(myTestObject);
-        designCenter.getChildren().add(myTestObject);
-
-
-
-
+        JavaFXDrawingObject shapeObject = testBoard.addObject(i).getLinkedJavaFX();
+        makeShapeMove(shapeObject);
+        designCenter.getChildren().add(shapeObject);
     }
 
     /**
@@ -266,8 +353,8 @@ public class FXController {
                 public void handle(MouseEvent t) {
                     orgSceneX = t.getSceneX();
                     orgSceneY = t.getSceneY();
-                    orgTranslateX = ((Shape)(t.getSource())).getTranslateX();
-                    orgTranslateY = ((Shape)(t.getSource())).getTranslateY();
+                    orgTranslateX = ((Node)(t.getSource())).getTranslateX();
+                    orgTranslateY = ((Node)(t.getSource())).getTranslateY();
 
                     if(t.getButton() == MouseButton.SECONDARY){
                         designCenter.getChildren().remove(t.getSource());
@@ -286,9 +373,9 @@ public class FXController {
                     double newTranslateX = orgTranslateX + offsetX;
                     double newTranslateY = orgTranslateY + offsetY;
 
-                    ((Shape)(t.getSource())).setTranslateX(newTranslateX);
-                    ((Shape)(t.getSource())).setTranslateY(newTranslateY);
-                    ((Shape)(t.getSource())).toFront();
+                    ((Node)(t.getSource())).setTranslateX(newTranslateX);
+                    ((Node)(t.getSource())).setTranslateY(newTranslateY);
+                    ((Node)(t.getSource())).toFront();
                 }
             };
 
@@ -316,23 +403,23 @@ public class FXController {
                     TreeItem<String> treeItem = cell.getTreeItem();
                     // do whatever you need with the treeItem...
                     System.out.println(treeItem.getValue());
-                    if (treeItem.getValue().equals("Rectangle")) {testAddSquare();}
-                    if (treeItem.getValue().equals("Circle")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Hexagon")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Line")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Parallelogram")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Square")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Action")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Activation Expression")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Container")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Data Flow")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Event")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Module")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Navigation Flow")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Object")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Parameter")) {testAddCircle();}
-                    if (treeItem.getValue().equals("View Component")) {testAddCircle();}
-                    if (treeItem.getValue().equals("View Component Part")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Rectangle")) {addRectangle();}
+                    if (treeItem.getValue().equals("Circle")) {addCircle();}
+                    if (treeItem.getValue().equals("Hexagon")) {addHexagon();}
+                    if (treeItem.getValue().equals("Line")) {addLine();}
+                    if (treeItem.getValue().equals("Parallelogram")) {addParallelogram();}
+                    if (treeItem.getValue().equals("Square")) {addSquare();}
+                    if (treeItem.getValue().equals("Action")) {addAction();}
+                    if (treeItem.getValue().equals("Activation Expression")) {addActivationExpression();}
+                    if (treeItem.getValue().equals("Container")) {addContainer();}
+                    if (treeItem.getValue().equals("Data Flow")) {addDataFlow();}
+                    if (treeItem.getValue().equals("Event")) {addEvent();}
+                    if (treeItem.getValue().equals("Module")) {addModule();}
+                    if (treeItem.getValue().equals("Navigation Flow")) {addNavigationFlow();}
+                    if (treeItem.getValue().equals("Object")) {addObject();}
+                    if (treeItem.getValue().equals("Parameter")) {addParameter();}
+                    if (treeItem.getValue().equals("View Component")) {addViewComponent();}
+                    if (treeItem.getValue().equals("View Component Part")) {addViewComponentPart();}
                 }
             });
             return cell ;
