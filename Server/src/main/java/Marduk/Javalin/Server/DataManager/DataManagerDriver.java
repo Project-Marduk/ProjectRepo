@@ -289,10 +289,14 @@ public class DataManagerDriver implements RespondingClass {
      * @return
      * Returns a list of all folders that belong to a user id
      */
-    public List<FolderAJDBC> getUsersFolders(Integer userId){
+    public List<Integer> getUsersFolderIds(Integer userId){
         List<FolderAJDBC> folders = FolderAJDBC.where("user_id = ?", userId);
+        List<Integer> folderIds = new ArrayList<>();
+        for (FolderAJDBC folder : folders) {
+            folderIds.add(folder.getFolderId());
+        }
         responseManager.setResponseBySuccess(true);
-        return folders;
+        return folderIds;
     }
 
     /**
