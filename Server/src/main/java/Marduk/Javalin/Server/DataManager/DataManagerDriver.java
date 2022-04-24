@@ -33,8 +33,6 @@ public class DataManagerDriver implements RespondingClass {
         responseManager = r;
     }
 
-    // TODO You sure you want to open and close with every command?
-    // TODO I can set that up sever side, just want to make sure.
     public void openDatabase() {
         DBConfiguration.loadConfiguration("/database.properties");
         Base.open();
@@ -92,6 +90,12 @@ public class DataManagerDriver implements RespondingClass {
             result = true;
         }
         responseManager.setResponseBySuccess(result);
+    }
+
+    public InputObject getDrawingObject(String id){
+        DrawingObjectAJDBC dwObj = DrawingObjectAJDBC.findById(Integer.parseInt(id));
+        InputObject inObj = dwObj.getInputObject();
+        return inObj;
     }
 
     // TODO the client can simultaneously create their own and send it here
