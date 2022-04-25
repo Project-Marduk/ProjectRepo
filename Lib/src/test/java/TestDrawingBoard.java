@@ -4,13 +4,14 @@ import DrawingObjects.DrawingObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import DrawingBoard.InputBoard;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 
-import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
+//import static ActiveJDBCObjecs.JSONHandler.inputObjectFromJSON;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,8 +51,8 @@ public class TestDrawingBoard {
 
     @BeforeEach
     void setUp(){
-
-        testDrawBoard = new DrawingBoard(1000,1000);
+        InputBoard iBoard = new InputBoard();
+        testDrawBoard = new DrawingBoard(iBoard);
 
     }
 
@@ -68,18 +69,18 @@ public class TestDrawingBoard {
         }
     }
 
-    @Test
-    void testCreateDrawingObject(){
-        InputObject rectInObj = makeTwoDInputObject("Rectangle", 100, 50, 100, 100);
-        rectInObj.setParent_id(1);
-        rectInObj.setId(1);
-        String inObjJSON = rectInObj.toJSON();
-        InputObject inObjTwo = inputObjectFromJSON(inObjJSON);
-//        inObjTwo = inputObjectFromJSON("{\"id\":1,\"parent_id\":1,\"shapeType\":\"Rectangle\",\"xCord\":100.0,\"yCord\":100.0,\"params\":[100.0,50.0],\"color\":\"000000\",\"style\":\"bold\",\"fill\":\"#FFFFFF\",\"text\":[\"\"]}");
-        System.out.println(inObjJSON);
-        System.out.println(inObjTwo.getShapeType());
-        assertTrue(inObjTwo != null);
-    }
+//    @Test
+//    void testCreateDrawingObject(){
+//        InputObject rectInObj = makeTwoDInputObject("Rectangle", 100, 50, 100, 100);
+//        rectInObj.setParent_id(1);
+//        rectInObj.setId(1);
+//        String inObjJSON = rectInObj.toJSON();
+//        InputObject inObjTwo = inputObjectFromJSON(inObjJSON);
+////        inObjTwo = inputObjectFromJSON("{\"id\":1,\"parent_id\":1,\"shapeType\":\"Rectangle\",\"xCord\":100.0,\"yCord\":100.0,\"params\":[100.0,50.0],\"color\":\"000000\",\"style\":\"bold\",\"fill\":\"#FFFFFF\",\"text\":[\"\"]}");
+//        System.out.println(inObjJSON);
+//        System.out.println(inObjTwo.getShapeType());
+//        assertTrue(inObjTwo != null);
+//    }
 
 //    @Test
 //    void canMakeDrawingBoard(){
