@@ -70,6 +70,10 @@
                         </TreeItem>
                     </TreeView>
 
+                    <HBox>
+                        <Label text="Enter integer values below or defaults will be created"/>
+                    </HBox>
+
                     <HBox fx:id="widthHBox" spacing="14">
                         <Label fx:id="widthLabel" text="Shape Width" textAlignment="CENTER"/>
                         <TextField fx:id="widthText" text="50" promptText="Width"/>
@@ -78,6 +82,16 @@
                     <HBox fx:id="heightHBox" spacing="10">
                         <Label fx:id="heightLabel" text="Shape Height" textAlignment="CENTER"/>
                         <TextField fx:id="heightText" text="50" promptText="Height"/>
+                    </HBox>
+
+                    <HBox fx:id="xValue" spacing="13">
+                        <Label fx:id="xCoord" text="X Coordinate" textAlignment="CENTER"/>
+                        <TextField fx:id="xCoordText" text="550" promptText="X Coordinate"/>
+                    </HBox>
+
+                    <HBox fx:id="yValue" spacing="13">
+                        <Label fx:id="yCoord" text="Y Coordinate" textAlignment="CENTER"/>
+                        <TextField fx:id="yCoordText" text="350" promptText="Y Coordinate"/>
                     </HBox>
 
                     <HBox fx:id="styleHBox" spacing="17">

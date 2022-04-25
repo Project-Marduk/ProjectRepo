@@ -1,6 +1,7 @@
 package FactoryElements;
 
 import com.google.gson.Gson;
+import javafx.scene.Node;
 import lombok.Getter;
 import lombok.Setter;
 import org.javalite.activejdbc.annotations.Table;
