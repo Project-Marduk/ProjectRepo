@@ -1,7 +1,9 @@
 package DrawingObjects;
 
+import javafx.scene.text.Font;
 import lombok.Getter;
 import lombok.Setter;
+import javafx.scene.text.Text;
 
 /**
  * @author David Lindeman
@@ -28,5 +30,12 @@ public class TextBox  {
                 " font-size="+'"' + Double.toString(fontSize) + '"' +
                 " fill="+ '"' + "black" + '"' + ">" +
                 text + "</text>";
+    }
+
+    public Text getJavaFXText(){
+        Text t = new Text(text);
+        t.setX(xCord);
+        t.setY(yCord);
+        return t;
     }
 }

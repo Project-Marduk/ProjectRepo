@@ -1,9 +1,13 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import FactoryElements.Interfaces.ComplexShape;
+import DrawingObjects.Interfaces.ComplexShape;
+import DrawingObjects.Interfaces.JavaFXGroupShape;
+import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * @author David Lindeman
@@ -12,23 +16,23 @@ import lombok.Setter;
  * This is because all have 1+ text boxes each will be required to be their own text box
  */
 @Getter @Setter
-public abstract class DrawingObject implements ComplexShape { // extends Model
-    String id;
-    double x;
-    double y;
+public abstract class DrawingObject extends Group implements ComplexShape, JavaFXGroupShape { // extends Model
     InputObject inObject;
     TextBox[] textBoxes;
 
-    public DrawingObject(String newId, InputObject inObj){
-        id = newId;
-        inObject = inObj;
-        x = inObj.getXCord();
-        y = inObj.getYCord();
+    public DrawingObject(InputObject in){
+        inObject = in;
     }
 
     public String getSVGData(){
         return generateShape();
     }
+
+    public void update(){
+        getChildren().clear();
+        generateJavaFXGroup();
+    }
+
 
     //This will be the translation of text to SVG data
     //This may be unnecessary depending on how we convert text to SVG
@@ -41,10 +45,11 @@ public abstract class DrawingObject implements ComplexShape { // extends Model
         return svgTextData;
     }
 
-    public TextBox getTextBox(int pos){
+
+    public TextBox getTextBox(int position){
 //        TextBox outBox = null;
         try{
-            return textBoxes[pos];
+            return textBoxes[position];
         }
         catch(IndexOutOfBoundsException e){
             //return the last entry of the list
@@ -55,9 +60,9 @@ public abstract class DrawingObject implements ComplexShape { // extends Model
         }
     }
 
-    public void setTextBox(int pos, TextBox tb){
+    public void setTextBox(int position, TextBox tb){
         try{
-            textBoxes[pos] = tb;
+            textBoxes[position] = tb;
         }
         catch(IndexOutOfBoundsException e){
             textBoxes[textBoxes.length-1] = tb;
@@ -67,7 +72,14 @@ public abstract class DrawingObject implements ComplexShape { // extends Model
         }
     }
 
-//    public <T> decodeType(DrawingObject dwObj){
+    protected void addTextBoxesToJavaFXGroup(){
+        for (TextBox tb: textBoxes) {
+            getChildren().add(tb.getJavaFXText());
+        }
+    }
+
+
+    //    public <T> decodeType(DrawingObject dwObj){
 //
 //    }
 }

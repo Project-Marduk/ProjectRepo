@@ -3,9 +3,9 @@ package DrawingObjects;
 import FactoryElements.InputObject;
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
-import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
+import static DrawingObjects.Functions.ShapeSVGFunctions.activationExpressionSVG;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.activationExpressionJFX;
 
 /**
  * @author David Lindeman
@@ -17,8 +17,8 @@ import static DrawingObjects.ShapeSVGFunctions.activationExpressionSVG;
 //@Table("IFML_Activation_Expression")
 public class IFMLActivationExpression extends DrawingObject {
 
-    public IFMLActivationExpression(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLActivationExpression(InputObject inObj){
+        super(inObj);
         super.inObject.setColor("#B7BDBB"); //light blue/grey, there are two colors to this shape the other is white
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
@@ -27,8 +27,13 @@ public class IFMLActivationExpression extends DrawingObject {
         });
     }
 
+
     public String generateShape(){
         return activationExpressionSVG(super.inObject);
     }
 
+    @Override
+    public void generateJavaFXGroup() {
+        getChildren().addAll(activationExpressionJFX(super.inObject));
+    }
 }

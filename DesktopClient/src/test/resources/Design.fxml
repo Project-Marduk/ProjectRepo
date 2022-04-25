@@ -32,21 +32,45 @@
     </top>
 
     <left>
-
-        <ScrollPane fx:id="scrollPane" style="-fx-border-color: black" minWidth="141">
-            <VBox fx:id="scrollPaneVBox" minWidth="125" spacing="20" style="-fx-background-color: #f3f3f3">
-                <padding>
-                    <Insets top="35" left="25.5" right="25"/>
-                </padding>
-                <children>
-                    <Button VBox.vgrow="ALWAYS" fx:id="circleButton" mnemonicParsing="false" onAction="#createCircle" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Circle.png); -fx-border-color: #f3f3f3" />
-                    <Button VBox.vgrow="ALWAYS" fx:id="rectangleButton" mnemonicParsing="false" onAction="#createRectangle" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Rectangle.png); -fx-border-color: #f3f3f3" />
-                    <Button VBox.vgrow="ALWAYS" fx:id="lineButton" mnemonicParsing="false" onAction="#createLine" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Line.png); -fx-border-color: #f3f3f3" />
+        <VBox fx:id="scrollPaneVBox" minWidth="286" spacing="10" style="-fx-background-color: lightgrey; -fx-border-color: black; -fx-border-width: 1;">
+            <children>
+                <TreeView fx:id="treeViewBasicShapes" maxWidth="286" minHeight="-Infinity" showRoot="false">
+                    <TreeItem value="Shape Factory" expanded="true">
+                        <children>
+                            <TreeItem fx:id="treeBasicShapes" value="Basic Shapes" expanded="false">
+                                <children>
+                                    <TreeItem fx:id="treeCircle" value="Circle"></TreeItem>
+                                    <TreeItem fx:id="treeHexagon" value="Hexagon"></TreeItem>
+                                    <TreeItem fx:id="treeLine" value="Line"></TreeItem>
+                                    <TreeItem fx:id="treeParallelogram" value="Parallelogram" ></TreeItem>
+                                    <TreeItem fx:id="treeRectangle" value="Rectangle" expanded="true"></TreeItem>
+                                    <TreeItem fx:id="treeSquare" value="Square"></TreeItem>
+                                </children>
+                            </TreeItem>
+                            <TreeItem fx:id="treeIFMLShapes" value="IFML Shapes" expanded="false">
+                                <children>
+                                    <TreeItem fx:id="treeAction" value="Action" expanded="true"></TreeItem>
+                                    <TreeItem fx:id="treeActivation" value="Activation Expression"></TreeItem>
+                                    <TreeItem fx:id="treeContainer" value="Container" ></TreeItem>
+                                    <TreeItem fx:id="treeDataFlow" value="Data Flow"></TreeItem>
+                                    <TreeItem fx:id="treeEvent" value="Event"></TreeItem>
+                                    <TreeItem fx:id="treeModule" value="Module" ></TreeItem>
+                                    <TreeItem fx:id="treeNavigationFlow" value="Navigation Flow" ></TreeItem>
+                                    <TreeItem fx:id="treeObject" value="Object" ></TreeItem>
+                                    <TreeItem fx:id="treeParameter" value="Parameter"></TreeItem>
+                                    <TreeItem fx:id="treeViewComponent" value="View Component" expanded="true"></TreeItem>
+                                    <TreeItem fx:id="treeViewComponentPart" value="View Component Part"></TreeItem>
+                                </children>
+                            </TreeItem>
+                        </children>
+                    </TreeItem>
+                </TreeView>
+                    <Button VBox.vgrow="ALWAYS" fx:id="circleButton" mnemonicParsing="false"  minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Circle.png); -fx-border-color: #f3f3f3" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="rectangleButton" mnemonicParsing="false" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Rectangle.png); -fx-border-color: #f3f3f3" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="lineButton" mnemonicParsing="false"  minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Line.png); -fx-border-color: #f3f3f3" />
                     <Button VBox.vgrow="ALWAYS" fx:id="exitButton" mnemonicParsing="false" prefHeight="60000.0" prefWidth="75.0" style="-fx-background-color: #f3f3f3; -fx-font-size: 10" />
                 </children>
             </VBox>
-        </ScrollPane>
-
     </left>
 
 

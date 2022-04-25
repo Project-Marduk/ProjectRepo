@@ -1,11 +1,11 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import static DrawingObjects.ShapeSVGFunctions.rectToSVG;
+import static DrawingObjects.Functions.ShapeSVGFunctions.rectToSVG;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.rectToJavaFX;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
 /**
  * @author David Lindeman
@@ -18,8 +18,8 @@ import org.javalite.activejdbc.annotations.Table;
 public class IFMLViewComponent extends DrawingObject {
     String fillColor = "#B7BDBB"; //Hex for light blue grey
 
-    public IFMLViewComponent(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLViewComponent(InputObject inObj){
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
             new TextBox("",
                     super.inObject.getXCord() + inObject.getParams()[0]*.5,
@@ -30,5 +30,11 @@ public class IFMLViewComponent extends DrawingObject {
     public String generateShape(){
         //TODO: Create a rounded edge rectangle shape
         return rectToSVG(super.inObject);
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        getChildren().addAll(rectToJavaFX(super.inObject));
+        addTextBoxesToJavaFXGroup();
     }
 }

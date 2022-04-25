@@ -1,27 +1,34 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import org.javalite.activejdbc.annotations.Table;
+import javafx.scene.shape.Path;
 
-import static DrawingObjects.ShapeSVGFunctions.getLineElement;
+import static DrawingObjects.Functions.ShapeSVGFunctions.getLineElement;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.addLinetoPath;
 
 //@Table("Line")
 public class Line extends LineObject {
-    public Line(String id, InputObject inObj) {
-        super(id, inObj);
+    public Line(InputObject inObj) {
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
-                        super.getX(),
-                        super.getY())
+                        inObject.getXCord(),
+                        inObject.getYCord())
         });
     }
 
     public String generateShape(){
         return getLineElement(
-                Double.toString(super.getX()),
-                Double.toString(super.getY()),
+                Double.toString(inObject.getXCord()),
+                Double.toString(inObject.getYCord()),
                 Double.toString(super.getSecondXCord()),
                 Double.toString(super.getSecondYCord())
         );
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        getChildren().addAll(addLinetoPath(inObject.getXCord(), inObject.getYCord(), getSecondXCord(), getSecondYCord(), new Path()));
+        addTextBoxesToJavaFXGroup();
     }
 }

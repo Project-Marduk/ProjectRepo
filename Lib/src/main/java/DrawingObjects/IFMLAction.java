@@ -1,9 +1,9 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import org.javalite.activejdbc.annotations.Table;
 
-import static DrawingObjects.ShapeSVGFunctions.hexagonToSvg;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.hexagonToJavaFX;
+import static DrawingObjects.Functions.ShapeSVGFunctions.hexagonToSvg;
 
 /**
  * @author David Lindeman
@@ -16,8 +16,8 @@ public class IFMLAction extends DrawingObject {
     String componentName;
     String fillColor = "#B7BDBB"; //Hex for light blue grey
 
-    public IFMLAction(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLAction(InputObject inObj){
+        super(inObj);
         componentName = "";
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
@@ -28,5 +28,10 @@ public class IFMLAction extends DrawingObject {
 
     public String generateShape(){
         return hexagonToSvg(super.inObject);
+    }
+
+    @Override
+    public void generateJavaFXGroup() {
+        getChildren().addAll(hexagonToJavaFX(super.inObject));
     }
 }

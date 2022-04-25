@@ -1,10 +1,11 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import static DrawingObjects.ShapeSVGFunctions.circleToSVG;
+import static DrawingObjects.Functions.ShapeSVGFunctions.circleToSVG;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.circleToJavaFX;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.javalite.activejdbc.annotations.Table;
 
 /**
  * @author David Lindeman
@@ -17,8 +18,8 @@ import org.javalite.activejdbc.annotations.Table;
 public class IFMLEvent extends DrawingObject {
     boolean isFilled; //default value is false
 
-    public IFMLEvent(String id, InputObject inObj){
-        super(id, inObj);
+    public IFMLEvent(InputObject inObj){
+        super(inObj);
         isFilled = false;
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
@@ -34,4 +35,12 @@ public class IFMLEvent extends DrawingObject {
         return circleToSVG(super.inObject);
     }
 
+    @Override
+    public void generateJavaFXGroup() {
+        if(isFilled){
+            super.inObject.setColor("#000000"); //sets the fill color to the hex code for black
+        }
+        getChildren().addAll(circleToJavaFX(super.inObject));
+        addTextBoxesToJavaFXGroup();
+    }
 }
