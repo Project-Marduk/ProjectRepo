@@ -1,6 +1,8 @@
 package Server.Connection;
 
 
+import groovyjarjarantlr4.v4.codegen.model.SrcOp;
+
 /**
  * An enumeration for the values of our Http Request Headers
  *
@@ -9,17 +11,8 @@ package Server.Connection;
  *
  * @author Traae
  */
-public enum HttpRequestHeader {
-    name("MardukServerCall"),
-    value("application/json");
-
-    private final String s;
-    private HttpRequestHeader(String s) {
-        this.s = s;
-    }
-    public String get(){
-        return this.s;
-    };
-
+public class serverRequestHeader {
+    public static final String name = "MardukServerCall";
+    public static final String value = "application/json";
 
 }

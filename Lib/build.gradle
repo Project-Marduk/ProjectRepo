@@ -3,7 +3,8 @@ plugins {
     //Project Lombok
     id "io.freefair.lombok" version "6.2.0"
     id 'application'
-    id "de.schablinski.activejdbc-gradle-plugin" version "2.0.1"
+
+    id "com.empirilytics.activejdbc-gradle-plugin" version "3.0-j11"
 
     //Javafx plugin for use of JavaFX and FXML
     id 'org.openjfx.javafxplugin' version '0.0.10'
@@ -30,12 +31,9 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:1.7.31'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
     // ActiveJDBC
-    activejdbc 'org.scala-lang:scala-library:2.12.6'
 
-    // SQLite
-    implementation 'org.xerial:sqlite-jdbc:3.25.2'
-// MariaDborg.sqlite.JDBC
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.6.0'
+    implementation "org.javalite:activejdbc:3.0-j11"
+    implementation "org.javalite:javalite-common:3.0-j11"
 // MySQL
     implementation 'mysql:mysql-connector-java:8.0.20'
 // JavaLite
@@ -55,6 +53,9 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web']
 }
 
+activejdbc {
+    toolVersion = '3.0-j11'
+}
 
 test {
     useJUnitPlatform()

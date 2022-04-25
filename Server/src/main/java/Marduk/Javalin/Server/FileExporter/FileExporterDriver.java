@@ -2,6 +2,8 @@ package Marduk.Javalin.Server.FileExporter;
 
 import Server.Files.PNGformatData;
 import Server.Files.SVGformatData;
+import Server.ResponseManagement.RespondingClass;
+import Server.ResponseManagement.ResponseManager;
 
 /**
  * File Exporter Driver class.
@@ -11,8 +13,9 @@ import Server.Files.SVGformatData;
  * @author Steve
  * @version 0.1.0
  */
-public class FileExporterDriver {
+public class FileExporterDriver implements RespondingClass {
     private static FileExporterDriver instance = null;
+    ResponseManager responseManager;
 
     private FileExporterDriver(){}
     public static FileExporterDriver getInstance() {
@@ -21,7 +24,13 @@ public class FileExporterDriver {
         }
         return instance;
     }
+    @Override
+    public void setResponseManager(ResponseManager r) {
+        responseManager = r;
+    }
 
+    // TODO Steve, make it happen my man.
+    // TODO please use responseManger.setResponse~() to tell the server success or failure in the fucntion
     /**
      * Render PNG
      *
@@ -39,6 +48,8 @@ public class FileExporterDriver {
         return renderedPNG;
     }
 
+    // TODO Steve, make it happen my man.
+    // TODO please use responseManger.setResponse~() to tell the server success or failure in the fucntion
     /**
      * Render SVG
      *
@@ -51,7 +62,7 @@ public class FileExporterDriver {
     public SVGformatData renderSVG(/*DATASTRUCTUE toRender*/ Object toRender){
         SVGformatData renderedSVG = new SVGformatData();
 
-        // Hear as well.
+
 
         return renderedSVG;
     }

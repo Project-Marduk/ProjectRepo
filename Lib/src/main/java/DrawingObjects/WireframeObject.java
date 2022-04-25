@@ -1,12 +1,11 @@
 package DrawingObjects;
 
 import FactoryElements.InputObject;
-import javafx.scene.Group;
 import lombok.Getter;
 import lombok.Setter;
 
-import static DrawingObjects.ShapeSVGFunctions.*;
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.*;
+import static DrawingObjects.Functions.ShapeSVGFunctions.*;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.*;
 
 @Getter @Setter
 /**
@@ -17,8 +16,8 @@ import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.*;
 //@Table("Wireframe_Object")
 public class WireframeObject extends DrawingObject {
 
-    public WireframeObject(String newId, InputObject inObj){
-        super(newId, inObj);
+    public WireframeObject(InputObject inObj){
+        super(inObj);
 //        setTxtSVGData(""); //default value of an empty string
 //        generateShape();
         super.setTextBoxes(new TextBox[]{
@@ -35,20 +34,21 @@ public class WireframeObject extends DrawingObject {
      */
     public String generateShape(){
         String shapeSVG;
-        switch (super.getInObject().getShapeType()) {
-            case "Rectangle":
+        ShapeTypes type = ShapeTypes.enumOfString(super.getInObject().getShapeType());
+        switch (type) {
+            case rectangle:
                 shapeSVG = rectToSVG(super.getInObject());
                 break;
-            case "Square":
+            case square:
                 shapeSVG = squareToSVG(super.getInObject());
                 break;
-            case "Circle":
+            case circle:
                 shapeSVG = circleToSVG(super.getInObject());
                 break;
-            case "Hexagon":
+            case hexagon:
                 shapeSVG = hexagonToSvg(super.getInObject());
                 break;
-            case "Parallelogram":
+            case parallelogram:
                 shapeSVG = parallelogramToSVG(super.getInObject());
                 break;
             default:
@@ -61,24 +61,27 @@ public class WireframeObject extends DrawingObject {
 
     @Override
     public void generateJavaFXGroup() {
-        switch (super.getInObject().getShapeType()) {
-            case "Rectangle":
-                super.linkedJavaFXObject.getChildren().add(rectToJavaFX(super.getInObject()));
+        ShapeTypes type = ShapeTypes.enumOfString(super.getInObject().getShapeType());
+        switch (type) {
+            case rectangle:
+                getChildren().addAll(rectToJavaFX(super.getInObject()));
                 break;
-            case "Square":
-                super.linkedJavaFXObject.getChildren().add(squareToJavaFX(super.getInObject()));
+            case square:
+                getChildren().addAll(squareToJavaFX(super.getInObject()));
                 break;
-            case "Circle":
-                super.linkedJavaFXObject.getChildren().add(circleToJavaFX(super.getInObject()));
+            case circle:
+                getChildren().addAll(circleToJavaFX(super.getInObject()));
                 break;
-            case "Hexagon":
-                super.linkedJavaFXObject.getChildren().add(hexagonToJavaFX(super.getInObject()));
+            case hexagon:
+                getChildren().addAll(hexagonToJavaFX(super.getInObject()));
                 break;
-            case "Parallelogram":
-                super.linkedJavaFXObject.getChildren().add(parallelogramToJAVAFX(super.getInObject()));
+            case parallelogram:
+                getChildren().addAll(parallelogramToJAVAFX(super.getInObject()));
                 break;
             default:
+                getChildren().addAll(circleToJavaFX(super.getInObject()));
                 break;
         }
+        addTextBoxesToJavaFXGroup();
     }
 }

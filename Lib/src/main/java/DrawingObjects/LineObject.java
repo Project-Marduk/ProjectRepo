@@ -12,8 +12,8 @@ public abstract class LineObject extends DrawingObject{
     boolean headIsVert;
     String headSVG;
 
-    public LineObject(String id, InputObject inObj) {
-        super(id, inObj);
+    public LineObject(InputObject inObj) {
+        super(inObj);
         secondXCord = inObj.getParams()[0];
         secondYCord = inObj.getParams()[1];
         headIsLeft = true;

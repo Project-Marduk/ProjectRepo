@@ -1,17 +1,17 @@
 package DrawingObjects;
 
+import DrawingObjects.Functions.ShapeSVGFunctions;
 import FactoryElements.InputObject;
-import javafx.scene.Group;
 import javafx.scene.shape.Path;
 import lombok.Getter;
 import lombok.Setter;
 //import
-//import DrawingObjects.ShapeSVGFunctions.rectToSVG;
+//import DrawingObjects.Functions.ShapeSVGFunctions.rectToSVG;
 
-import static DrawingObjects.ShapeSVGFunctions.getLineElement;
-import static DrawingObjects.ShapeSVGFunctions.rectToSVG;
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.rectToJavaFX;
-import static DrawingObjects.JavaFXConversion.ShapeJavaFXFunctions.addLinetoPath;
+import static DrawingObjects.Functions.ShapeSVGFunctions.getLineElement;
+import static DrawingObjects.Functions.ShapeSVGFunctions.rectToSVG;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.rectToJavaFX;
+import static DrawingObjects.Functions.ShapeJavaFXFunctions.addLinetoPath;
 
 
 /**
@@ -30,8 +30,8 @@ public class IFMLContainer extends DrawingObject {
     ShapeSVGFunctions shapeSVGFunctions = new ShapeSVGFunctions();
 
 
-    public IFMLContainer(String id, InputObject inObj){ //String cHeader, String defaultText,
-        super(id, inObj);
+    public IFMLContainer(InputObject inObj){ //String cHeader, String defaultText,
+        super(inObj);
         super.setTextBoxes(new TextBox[]{
                 new TextBox("",
                         super.inObject.getXCord() + 2,
@@ -62,15 +62,16 @@ public class IFMLContainer extends DrawingObject {
         super.getTextBox(0).setYCord(super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 2);
         super.getTextBox(0).setXCord(super.inObject.getXCord() + super.getTextBox(0).getFontSize() + 2);
 
-        super.linkedJavaFXObject.getChildren().add(rectToJavaFX(super.inObject));
 
-        super.linkedJavaFXObject.getChildren().add(addLinetoPath(
+        getChildren().addAll(
+                rectToJavaFX(super.inObject),
+                addLinetoPath(
                 (super.inObject.getXCord()),
                 (super.inObject.getXCord() + super.inObject.getParams()[0]),
                 (super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 4),
                 (super.inObject.getYCord() + super.getTextBox(0).getFontSize() + 4),
-                new Path()
-        ));
-
+                new Path())
+        );
+        addTextBoxesToJavaFXGroup();
     }
 }

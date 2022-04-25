@@ -9,13 +9,13 @@ import java.nio.file.Paths;
  * A very simple file writer static method to use our fileFormat interface.
  *
  * TODO Make this more robust.
- * TODO handle the directory string ina more secure fashion.
+ * TODO handle the directory string in a more secure fashion.
  *
  * @author Traae
  * @version 0.1.0
  */
 public class FileWriter {
-    public static boolean isvalidDirectory(String directory){
+    public static boolean isValidDirectory(String directory){
        return Files.isDirectory(Paths.get(directory));
     }
 

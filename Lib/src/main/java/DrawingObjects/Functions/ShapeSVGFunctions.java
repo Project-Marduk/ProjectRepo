@@ -1,4 +1,4 @@
-package DrawingObjects;
+package DrawingObjects.Functions;
 
 import FactoryElements.InputObject;
 
