@@ -19,16 +19,31 @@ public class DrawingBoard {
     public Integer id;
     public Integer folder_id;
 
-    Map<String, DrawingObject> objects = new HashMap<>();
-    DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
+    Map<String, DrawingObject> objects;
+    DrawingObjectFactory drawingObjectFactory;
 
 
-    public DrawingBoard(InputBoard d){
-        inputBoard = d;
+    public DrawingBoard(InputBoard in){
+        inputBoard = in;
+        objects = new HashMap<>();
+        drawingObjectFactory = new DrawingObjectFactory();
+        for (InputObject io : inputBoard.getInputObjectsList()){
+            DrawingObject drawing = drawingObjectFactory.create(io);
+            String Id = String.valueOf(drawing.getInObject().getId());
+            objects.put(Id, drawing);
+        }
     }
 
-    public InputBoard getDiagram(){
-        return getDiagram();
+    /**
+     * Refreshes the inputBoard and gets it.
+     * @return the filled out InputBoard
+     */
+    public InputBoard getInputBoard(){
+        inputBoard.getInputObjectsList().clear();
+        for (DrawingObject d : objects.values()){
+            inputBoard.getInputObjectsList().add(d.getInObject());
+        }
+        return inputBoard;
     }
 
     /**
