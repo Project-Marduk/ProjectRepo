@@ -14,7 +14,7 @@
 
 <BorderPane   style="-fx-background-color: #C39EE7" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="623.0"  xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" >
     <right>
-        <VBox BorderPane.alignment="CENTER" style="-fx-background-color: white"  maxHeight="700" maxWidth="800" alignment="TOP_LEFT" spacing="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+        <VBox fx:id="rightCreateVBox" BorderPane.alignment="CENTER" style="-fx-background-color: white"  maxHeight="700" maxWidth="800" alignment="TOP_LEFT" spacing="20" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
             <BorderPane.margin>
                 <Insets right="100"/>
             </BorderPane.margin>
@@ -27,13 +27,12 @@
                 <Button fx:id="createUsername" mnemonicParsing="false"  prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="Create Account" textFill="WHITE"  />
                 <Label fx:id="spacingLabel" mnemonicParsing="false" prefHeight="50.0" prefWidth="450.0"  text=" " textFill="black" />
                 <Button fx:id="returnToLoginButton" mnemonicParsing="false" onAction="#returnToLogin" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20;" text="Go Sign In" textFill="WHITE"  />
-
                 <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExitButton" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: grey; -fx-font-size: 20" text="Exit" textFill="WHITE" />
             </children>
         </VBox>
     </right>
     <left>
-        <VBox BorderPane.alignment="CENTER"  maxHeight="700" maxWidth="800"  spacing="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+        <VBox fx:id="leftCreateVBox" BorderPane.alignment="CENTER"  maxHeight="700" maxWidth="800"  spacing="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
             <BorderPane.margin>
                 <Insets left="100"/>
             </BorderPane.margin>

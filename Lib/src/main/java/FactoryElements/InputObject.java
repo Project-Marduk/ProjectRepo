@@ -1,7 +1,12 @@
 package FactoryElements;
 
+import com.google.gson.Gson;
+import javafx.scene.Node;
 import lombok.Getter;
 import lombok.Setter;
+import org.javalite.activejdbc.annotations.Table;
+
+import java.io.Serializable;
 
 /**
  * @author David Lindeman
@@ -13,8 +18,11 @@ import lombok.Setter;
  * complex items will need to be passed as a list of input objects
  * All type checking will need to be done on the front end(s)
  */
+//@Table("Input_Object")
 @Getter @Setter
-public class InputObject {
+public class InputObject implements Serializable {
+    Integer id = null;
+    Integer parent_id;
     String shapeType;
     double xCord;
     double yCord;
@@ -22,8 +30,22 @@ public class InputObject {
     String color;
     String style;
     String fill;
+    String[] text;
 
-    public InputObject(String sType, double[] p, String c, String s, double x, double y){ //TODO: Look up default values in Java
+    public InputObject(){
+        fill = fill = "#FFFFFF";
+    }
+
+    /**
+     * @param sType Type: Discrete Type Variable, reference the ShapeType enum.
+     * @param p parameters array of double, different behavior per shape type. usually width and height.
+     * @param c color in ??? form;
+     * @param s Style in ??? form;
+     * @param x X coordinate
+     * @param y Y Coordinate
+     * @param t an array or String for the Text boxes
+     */
+    public InputObject(String sType, double[] p, String c, String s, double x, double y, String[] t){ //TODO: Look up default values in Java
         shapeType = sType;
         params = p;
         color = c;
@@ -31,5 +53,6 @@ public class InputObject {
         xCord = x;
         yCord = y;
         fill = "#FFFFFF"; //set default value as white fill
+        text = t;
     }
 }

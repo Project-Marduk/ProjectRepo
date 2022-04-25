@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane fx:id="Design" style="-fx-background-color: white" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DesktopClient.FXController">
+
+    <top>
+        <HBox fx:id="topHBox">
+        <children>
+        <MenuBar fx:id="menuBar" HBox.hgrow="ALWAYS" style="-fx-spacing: 30; -fx-background-color: lightgrey">
+            <Menu fx:id="menuFile" text="File">
+                <MenuItem fx:id="openFile" text="Open"/>
+                <MenuItem fx:id="saveFile" text="Save"/>
+            </Menu>
+            <Menu fx:id="menuExport" text="Export As" >
+                <MenuItem fx:id="exportSVG" text="SVG"/>
+                <MenuItem fx:id="exportPNG" text="PNG"/>
+            </Menu>
+            <Menu fx:id="menuExit" text="Exit">
+                <MenuItem fx:id="closeWindow" text="Close Window" onAction="#handleExitButton"/>
+            </Menu>
+        </MenuBar>
+        </children>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox fx:id="scrollPaneVBox" minWidth="286" spacing="10" style="-fx-background-color: lightgrey; -fx-border-color: black; -fx-border-width: 1;">
+            <children>
+                <TreeView fx:id="treeViewBasicShapes" maxWidth="286" minHeight="-Infinity" showRoot="false">
+                    <TreeItem value="Shape Factory" expanded="true">
+                        <children>
+                            <TreeItem fx:id="treeBasicShapes" value="Basic Shapes" expanded="false">
+                                <children>
+                                    <TreeItem fx:id="treeCircle" value="Circle"></TreeItem>
+                                    <TreeItem fx:id="treeHexagon" value="Hexagon"></TreeItem>
+                                    <TreeItem fx:id="treeLine" value="Line"></TreeItem>
+                                    <TreeItem fx:id="treeParallelogram" value="Parallelogram" ></TreeItem>
+                                    <TreeItem fx:id="treeRectangle" value="Rectangle" expanded="true"></TreeItem>
+                                    <TreeItem fx:id="treeSquare" value="Square"></TreeItem>
+                                </children>
+                            </TreeItem>
+                            <TreeItem fx:id="treeIFMLShapes" value="IFML Shapes" expanded="false">
+                                <children>
+                                    <TreeItem fx:id="treeAction" value="Action" expanded="true"></TreeItem>
+                                    <TreeItem fx:id="treeActivation" value="Activation Expression"></TreeItem>
+                                    <TreeItem fx:id="treeContainer" value="Container" ></TreeItem>
+                                    <TreeItem fx:id="treeDataFlow" value="Data Flow"></TreeItem>
+                                    <TreeItem fx:id="treeEvent" value="Event"></TreeItem>
+                                    <TreeItem fx:id="treeModule" value="Module" ></TreeItem>
+                                    <TreeItem fx:id="treeNavigationFlow" value="Navigation Flow" ></TreeItem>
+                                    <TreeItem fx:id="treeObject" value="Object" ></TreeItem>
+                                    <TreeItem fx:id="treeParameter" value="Parameter"></TreeItem>
+                                    <TreeItem fx:id="treeViewComponent" value="View Component" expanded="true"></TreeItem>
+                                    <TreeItem fx:id="treeViewComponentPart" value="View Component Part"></TreeItem>
+                                </children>
+                            </TreeItem>
+                        </children>
+                    </TreeItem>
+                </TreeView>
+                    <Button VBox.vgrow="ALWAYS" fx:id="circleButton" mnemonicParsing="false"  minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Circle.png); -fx-border-color: #f3f3f3" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="rectangleButton" mnemonicParsing="false" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Rectangle.png); -fx-border-color: #f3f3f3" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="lineButton" mnemonicParsing="false"  minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Line.png); -fx-border-color: #f3f3f3" />
+                    <Button VBox.vgrow="ALWAYS" fx:id="exitButton" mnemonicParsing="false" prefHeight="60000.0" prefWidth="75.0" style="-fx-background-color: #f3f3f3; -fx-font-size: 10" />
+                </children>
+            </VBox>
+    </left>
+
+
+</BorderPane>

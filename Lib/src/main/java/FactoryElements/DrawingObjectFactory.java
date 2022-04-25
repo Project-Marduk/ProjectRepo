@@ -1,7 +1,8 @@
 package FactoryElements;
 
-import FactoryElements.InputObject;
-import IFML.*;
+import DrawingObjects.*;
+import DrawingObjects.Line;
+import DrawingObjects.WireframeObject;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,30 +17,95 @@ public class DrawingObjectFactory {
             { "Default" , "Default View Container"}
     }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
+    /**
+     * TODO this is a new version of the code using the Enum I made,  original code is comment out below - Traae;
+     *
+     * @param input the InputObject of what you mant to make
+     * @return the New Drawing Object
+     */
+    public DrawingObject create(InputObject input){
+        ShapeTypes type = ShapeTypes.enumOfString(input.getShapeType());
 
-    public DrawingObject create(InputObject input, String id){
-        switch (input.getShapeType()) {
-            case "IFMLAction":
-                return new IFMLAction(id, input);
-            case "IFMLActivationExpression":
-                return new IFMLActivationExpression(id, input);
-            case "IFMLContainer":
-                return new IFMLContainer(id, input);
-            case "IFMLEvent":
-                return new IFMLEvent(id, input);
-            case "IFMLModule":
-                return new IFMLModule(id, input);
-            case "IFMLParameter":
-                return new IFMLParameter(id, input);
-            case "IFMLViewComponent":
-                return new IFMLViewComponent(id, input);
-            case "IFMLViewComponentPart":
-                return new IFMLViewComponentPart(id, input);
-            case "IFMLLine":
-                return new IFMLLine(id, input);
+        if(type == ShapeTypes.rectangle ||
+                type == ShapeTypes.square ||
+                type == ShapeTypes.circle ||
+                type == ShapeTypes.hexagon ||
+                type == ShapeTypes.parallelogram){
+            type = ShapeTypes.Wireframe_Object;
+        }
+
+
+        switch (type) {
+            case IFML_Action:
+                return new IFMLAction(input);
+            case IFML_Activation_Expression:
+                return new IFMLActivationExpression(input);
+            case IFML_Container:
+                return new IFMLContainer(input);
+            case IFML_Event:
+                return new IFMLEvent(input);
+            case IFML_Module:
+                return new IFMLModule(input);
+            case IFML_Parameter:
+                return new IFMLParameterParallelogram(input);
+            case IFML_View_Component:
+                return new IFMLViewComponent(input);
+            case IFML_View_Component_Part:
+                return new IFMLViewComponentPart(input);
+            case IFML_Line:
+                return new IFMLLine(input);
+            case Wireframe_Object:
+                return new WireframeObject(input);
+            case Line:
+                return new Line(input);
             default:
                 return null;
 
         }
     }
+
+    // ORIGINAL CODE
+    /*public DrawingObject create(InputObject input, String id){
+        String shapeIdHandle = "";
+        if(input.getShapeType().equals("Rectangle") ||
+                input.getShapeType().equals("Square") ||
+                input.getShapeType().equals("Circle") ||
+                input.getShapeType().equals("Hexagon") ||
+                input.getShapeType().equals("Parallelogram")){
+            shapeIdHandle = "Wireframe_Object";
+        }
+        else{
+            shapeIdHandle = input.getShapeType();
+        }
+
+        switch (shapeIdHandle) {
+            case "IFML_Action":
+                return new IFMLAction(id, input);
+            case "IFML_Activation_Expression":
+                return new IFMLActivationExpression(id, input);
+            case "IFML_Container":
+                return new IFMLAction(id, input);
+            case "IFML_Event":
+                return new IFMLEvent(id, input);
+            case "IFML_Module":
+                return new IFMLModule(id, input);
+            case "IFML_Parameter":
+                return new IFMLParameterParallelogram(id, input);
+            case "IFML_View_Component":
+                return new IFMLViewComponent(id, input);
+            case "IFML_View_Component_Part":
+                return new IFMLViewComponentPart(id, input);
+            case "IFML_Line":
+                return new IFMLLine(id, input);
+            case "Wireframe_Object":
+                return new WireframeObject(id, input);
+            case "Line":
+                return new Line(id, input);
+            default:
+                return null;
+
+        }
+    }*/
+
+
 }

@@ -1,8 +1,13 @@
+/**
+ * Desktop Client
+ * @Author Project Marduk: Tyler Kelley
+ * Software Engineering project
+ * Griffith
+ */
 package DesktopClient;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class App extends Application{
@@ -14,6 +19,7 @@ public class App extends Application{
      */
     public static void main(String[] args) throws IOException {
         launch();
+        FXController test = new FXController();
 
     }
 
