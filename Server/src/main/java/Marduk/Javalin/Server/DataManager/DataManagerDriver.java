@@ -100,10 +100,17 @@ public class DataManagerDriver implements RespondingClass {
      * @param id
      * @return
      * returns the InputObject of a DrawingObject by id
+     * returns null if no object is found
      */
     public InputObject getDrawingObject(String id){
+        boolean result = false;
         DrawingObjectAJDBC dwObj = DrawingObjectAJDBC.findById(Integer.parseInt(id));
-        InputObject inObj = dwObj.getInputObject();
+        InputObject inObj = null;
+        if(dwObj != null){
+            result = true;
+            inObj = dwObj.getInputObject();
+        }
+        responseManager.setResponseBySuccess(result);
         return inObj;
     }
 
