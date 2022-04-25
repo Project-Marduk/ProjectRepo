@@ -69,13 +69,49 @@
                             </children>
                         </TreeItem>
                     </TreeView>
-                    <Button VBox.vgrow="ALWAYS" fx:id="yeet" mnemonicParsing="false" onAction="#testSVGPathMethods" minHeight="75" minWidth="75" style="-fx-background-image: url(Images/Circle.png); -fx-border-color: #f3f3f3" />
-                    <ColorPicker fx:id="colorPicker">
-                        <value>
-                            <Color blue="0.0" green="0.0" red="1.0" />
-                        </value>
-                    </ColorPicker>
-                    <TextField fx:id="userText"  maxWidth="20" maxHeight="20"/>
+
+                    <HBox>
+                        <Label text="Enter integer values below or defaults will be created"/>
+                    </HBox>
+
+                    <HBox fx:id="widthHBox" spacing="14">
+                        <Label fx:id="widthLabel" text="Shape Width" textAlignment="CENTER"/>
+                        <TextField fx:id="widthText" text="50" promptText="Width"/>
+                    </HBox>
+
+                    <HBox fx:id="heightHBox" spacing="10">
+                        <Label fx:id="heightLabel" text="Shape Height" textAlignment="CENTER"/>
+                        <TextField fx:id="heightText" text="50" promptText="Height"/>
+                    </HBox>
+
+                    <HBox fx:id="xValue" spacing="13">
+                        <Label fx:id="xCoord" text="X Coordinate" textAlignment="CENTER"/>
+                        <TextField fx:id="xCoordText" text="550" promptText="X Coordinate"/>
+                    </HBox>
+
+                    <HBox fx:id="yValue" spacing="13">
+                        <Label fx:id="yCoord" text="Y Coordinate" textAlignment="CENTER"/>
+                        <TextField fx:id="yCoordText" text="350" promptText="Y Coordinate"/>
+                    </HBox>
+
+                    <HBox fx:id="styleHBox" spacing="17">
+                        <Label fx:id="lineTypeLabel" text="Border Style" textAlignment="CENTER"/>
+                        <ChoiceBox fx:id="borderChoiceBox" value="Solid">
+                            <String fx:value="Dashed"/>
+                            <String fx:value="Solid"/>
+                        </ChoiceBox>
+                    </HBox>
+
+                    <HBox fx:id="colorHBox" spacing="30">
+                        <children>
+                            <Label fx:id="pickColorLabel" text="Shape Fill" textAlignment="CENTER"/>
+                            <ColorPicker fx:id="colorPicker">
+                                <value>
+                                    <Color blue="1.0" green="1.0" red="1.0" />
+                                </value>
+                            </ColorPicker>
+                        </children>
+                    </HBox>
                 </children>
             </VBox>
     </left>

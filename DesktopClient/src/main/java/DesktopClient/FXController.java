@@ -25,7 +25,9 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Objects;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -34,90 +36,6 @@ import javafx.scene.shape.*;
 
 
 public class FXController {
-
-    InputBoard testInputBoard;
-    InputObject testInObject;
-    DrawingBoard testBoard;
-
-
-    InputObject inputObject1;
-    InputObject inputObject3;
-
-    LinkedList<Group> thingsToRender;
-
-
-    public void testingGrouds(){
-        // Tyler here is the basic flow of the Data Structures
-
-        // There are 4 structure You care about.
-        /*
-        1. Input object = portable values of a shape.
-        2. Input Board = portable values of a board.
-        3. Drawing Board = the thing to make your stuff.
-        4. Drawing object = the thing you want to actually use.
-
-        InputObject -> DrawingObject
-        InputBoard -> DrawingBoard
-
-         */
-
-        // Here is an Input Board
-        testInputBoard = new InputBoard();
-        testInputBoard.id = "butts";
-        testInputBoard.idIndex = 3;
-        testInputBoard.name = "Test";
-        testInputBoard.xMax = 3000;
-        testInputBoard.yMax = 3000;
-        // In the final product you'll retrieve this from the server
-
-        // for testing you can just make them;
-
-
-        // Now lets plug it into our board.
-        // DrawingBoard the central thing that makes you DrawingObjects
-        testBoard = new DrawingBoard(testInputBoard);
-
-        // Now lets make our Input Objects
-
-        // HERE IS THE Current contsructor:
-        // public InputObject(String sType, double[] p, String c, String s, double x, double y, String[] t)
-        inputObject1 = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0, new String[]{"Bitches"});
-        // OR
-        inputObject3 = new InputObject();
-        inputObject3.setShapeType(ShapeTypes.circle.getValue());
-        inputObject3.setParams(new double[]{100, 200});
-        inputObject3.setColor("black");
-        inputObject3.setStyle("solid");
-        inputObject3.setXCord(60.0);
-        inputObject3.setYCord(40.0);
-
-        // IN the final build you will make an
-        // input object, send it to the server, and recieve a finalized inputObject.
-        // for right now you can just test using your own.
-        // this is important to remember tho.
-
-
-        // Now for the Good part:
-        DrawingObject drawing1 = testBoard.addObject(inputObject1);
-        DrawingObject drawing2 = testBoard.addObject(inputObject3);
-
-        //DrawingObjects are now JavaFX Groups & Drawing Objects.
-        drawing1.update();// it is now ready to draw to the screen.
-
-        drawing1.getInObject().setYCord(500);
-        drawing1.getInObject().setXCord(412);
-
-        drawing1.update(); // the JAVA FX shapes the group is made of have been updated.
-
-        // Works with you functions:
-        makeSelectable(drawing1);
-        makeShapeMove(drawing1);
-
-
-    }
-
-
-
 
     /**
      * FXML files located in the resource folder. This allows for variables to be called instead
@@ -134,26 +52,38 @@ public class FXController {
     private App app;
     @FXML BorderPane Design;
     @FXML Pane designCenter;
-    @FXML ColorPicker colorPicker;
     @FXML TreeView<String> treeViewBasicShapes;
     @FXML TreeItem<String> treeRectangle;
-
+    @FXML TextField widthText;
+    @FXML TextField heightText;
+    @FXML TextField xCoordText;
+    @FXML TextField yCoordText;
+    @FXML ChoiceBox borderChoiceBox;
+    @FXML ColorPicker colorPicker;
 
     /**
-     * Shapes for the application
+     * Shapes elements for the application
      */
-    @Getter double insertX = 700;
-    @Getter double insertY = 400;
+    @Getter double insertX = 550;
+    @Getter double insertY = 350;
     @Getter double stroke = 3;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     private Node selectedNode;
-
     String svgData = "";
-    Shape javaShape;
-    SVGPath path;
+    InputObject shape;
+    DrawingObject drawing;
+    InputBoard inputBoard = new InputBoard();
 
+    //test objects
+    InputBoard testInputBoard;
+    InputObject testInObject;
+    DrawingBoard testBoard;
 
+    InputObject inputObject1;
+    InputObject inputObject3;
+
+    LinkedList<Group> thingsToRender;
     /**
      * Default mainStage variable to control the change of scenes
      */
@@ -241,73 +171,301 @@ public class FXController {
         mainStage.setTitle("Design");
         mainStage.show();
 
-        edit();
+        inputBoard.id = "butts";
+        inputBoard.idIndex = 3;
+        inputBoard.name = "Test";
+        inputBoard.xMax = 3000;
+        inputBoard.yMax = 3000;
+
+        testBoard = new DrawingBoard(inputBoard);
+
+        treeViewSelector();
     }
 
-    /**
-     * Generate a circle from input object
-     */
-    @FXML
-    public void testAddCircle(){
+    public void testingGrouds(){
+        //Here is the basic flow of the Data Structures
 
-        javaShape = ShapeJavaFXFunctions.circleToJavaFX(inputObject3);
-        javaShape.setFill(colorPicker.getValue());
-        makeShapeMove(javaShape);
-        designCenter.getChildren().add(javaShape);
+        // There are 4 structure You care about.
+        /*
+        1. Input object = portable values of a shape.
+        2. Input Board = portable values of a board.
+        3. Drawing Board = the thing to make your stuff.
+        4. Drawing object = the thing you want to actually use.
+
+        InputObject -> DrawingObject
+        InputBoard -> DrawingBoard
+
+         */
+
+        // Here is an Input Board
+        testInputBoard = new InputBoard();
+        testInputBoard.id = "butts";
+        testInputBoard.idIndex = 3;
+        testInputBoard.name = "Test";
+        testInputBoard.xMax = 3000;
+        testInputBoard.yMax = 3000;
+        // In the final product you'll retrieve this from the server
+
+        // for testing you can just make them;
+
+
+        // Now lets plug it into our board.
+        // DrawingBoard the central thing that makes you DrawingObjects
+        testBoard = new DrawingBoard(testInputBoard);
+
+        // Now lets make our Input Objects
+
+        // HERE IS THE Current contsructor:
+        // public InputObject(String sType, double[] p, String c, String s, double x, double y, String[] t)
+        inputObject1 = new InputObject(ShapeTypes.square.getValue(), new double[]{100, 100},"black","solid",20.0,20.0, new String[]{"Bitches"});
+        // OR
+        inputObject3 = new InputObject();
+        inputObject3.setShapeType(ShapeTypes.circle.getValue());
+        inputObject3.setParams(new double[]{100, 200});
+        inputObject3.setColor("black");
+        inputObject3.setStyle("solid");
+        inputObject3.setXCord(60.0);
+        inputObject3.setYCord(40.0);
+
+        // IN the final build you will make an
+        // input object, send it to the server, and recieve a finalized inputObject.
+        // for right now you can just test using your own.
+        // this is important to remember tho.
+
+
+        // Now for the Good part:
+
+        //null pointer error
+        //input object isnt null but converting to a drawing object turns it null
+        DrawingObject drawing1 = testBoard.addObject(inputObject1);
+
+        System.out.println(drawing1);
+
+        DrawingObject drawing2 = testBoard.addObject(inputObject3);
+
+        //DrawingObjects are now JavaFX Groups & Drawing Objects.
+        drawing1.update();// it is now ready to draw to the screen.
+
+        drawing1.getInObject().setYCord(500);
+        drawing1.getInObject().setXCord(412);
+
+        drawing1.update(); // the JAVA FX shapes the group is made of have been updated.
+
+        // Works with you functions:
+        makeSelectable(drawing1);
+        makeShapeMove(drawing1);
+
+        designCenter.getChildren().add(drawing1);
     }
 
     /**
      * Generate a square from input object
      */
     @FXML
-    public void testAddSquare(){
-        javaShape = ShapeJavaFXFunctions.squareToJavaFX(inputObject);
-        javaShape.setFill(colorPicker.getValue());
-        makeShapeMove(javaShape);
-        designCenter.getChildren().add(javaShape);
-
-        //hashmap of all stuff and mirror that has all the input objects and then update using the hash map update the shapes
-        //to insert and delte objects
-
-        //just create a method that has switch function that takes in inputs object and translate that into javafx representation
-        //post man tests apis %23 to pound symbol
-        //parameters are always passed in as strings for api
-        //1-3 text boxes on new input objects
-
+    public void addSquare(){
+        testingGrouds();
+        /**
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.square.getValue());
+        setShape(shape);
+         **/
     }
 
     /**
-     * This is the main method that will add the shapes we are creating. Just press the circle button under the tree view
-     * to insert shapes
+     * Generate a rectangle from input object
      */
     @FXML
-    public void testSVGPathMethods(){
+    public void addRectangle(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.rectangle.getValue());
+        setShape(shape);
+    }
 
+    /**
+     * Generate a circle from an input object
+     */
+    @FXML
+    public void addCircle(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.circle.getValue());
+        setShape(shape);
+    }
 
+    /**
+     * Generate a hexagon from an input object
+     */
+    @FXML
+    public void addHexagon(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.hexagon.getValue());
+        setShape(shape);
+    }
 
-        InputBoard d = new InputBoard();
-        d.id = "23";
-        d.name = "Test Diagram";
-        d.xMax = 800;
-        d.yMax = 450;
-        d.idIndex = 53;
+    /**
+     * Generate a line from an input object
+     */
+    @FXML
+    public void addLine(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.Line.getValue());
+        setShape(shape);
+    }
 
-        testBoard = new DrawingBoard(d);
+    /**
+     * Generate a parallelogram from an input object
+     */
+    @FXML
+    public void addParallelogram(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.parallelogram.getValue());
+        setShape(shape);
+    }
 
-        DrawingObject myTestObject = testBoard.addObject(inputObject3);
+    /**
+     * Generate a action from an input object
+     */
+    @FXML
+    public void addAction(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_Action.getValue());
+        setShape(shape);
+    }
 
-        if (myTestObject == null){
-            System.out.println("The JavaFxDrawingObject is screwed\n");
+    /**
+     * Generate a expression from an input object
+     */
+    @FXML
+    public void addActivationExpression(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_Activation_Expression.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a container from an input object
+     */
+    @FXML
+    public void addContainer(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_Container.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a data flow from an input object
+     */
+    @FXML
+    public void addDataFlow(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_Line.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a event from an input object
+     */
+    @FXML
+    public void addEvent(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_Event.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a module from an input object
+     */
+    @FXML
+    public void addModule(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_Module.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a nav flow from an input object
+     */
+    @FXML
+    public void addNavigationFlow(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_Line.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a object from an input object
+     */
+    @FXML
+    public void addObject(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.Wireframe_Object.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a parameter from an input object
+     */
+    @FXML
+    public void addParameter(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_Parameter.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a view component from an input object
+     */
+    @FXML
+    public void addViewComponent(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_View_Component.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Generate a view component part from an input object
+     */
+    @FXML
+    public void addViewComponentPart(){
+        shape = new InputObject();
+        shape.setShapeType(ShapeTypes.IFML_View_Component_Part.getValue());
+        setShape(shape);
+    }
+
+    /**
+     * Convert an input object created into a javafx shape so the design center can insert
+     * @param s input object
+     */
+    public void setShape(InputObject s){
+        try{
+            double w = Double.parseDouble(widthText.getText());
+            double h = Double.parseDouble(heightText.getText());
+            s.setParams(new double[]{w,h});
         }
-        else if (myTestObject == null){
-            System.out.println("The Linked DrawingObject is screwed\n");
+        catch (NumberFormatException nfe){
+            s.setParams(new double[]{200,200});
         }
 
-        makeShapeMove(myTestObject);
-        designCenter.getChildren().add(myTestObject);
+        try {
+            double x = Double.parseDouble(xCoordText.getText());
+            double y = Double.parseDouble(yCoordText.getText());
+            s.setXCord(x);
+            s.setYCord(y);
+        }
+        catch (NumberFormatException nfe){
+            s.setXCord(100);
+            s.setYCord(100);
+        }
 
+        s.setColor(colorPicker.getValue().toString());
+        s.setStyle(borderChoiceBox.getValue().toString());
 
-
+        drawing = testBoard.addObject(s);
+        drawing.update();
+        drawing.getInObject().setYCord(500);
+        drawing.getInObject().setXCord(412);
+        makeShapeMove(drawing);
+        makeSelectable(drawing);
+        designCenter.getChildren().add(drawing);
 
     }
 
@@ -323,6 +481,10 @@ public class FXController {
         System.out.println(svgData);
     }
 
+    /**
+     * Make a shape be able to move around the screen with the event handlers below
+     * @param shape
+     */
     public void makeShapeMove(Node shape){
         shape.setCursor(Cursor.MOVE);
         shape.setTranslateX(insertX);
@@ -334,11 +496,7 @@ public class FXController {
     /**
      * Open source code from http://java-buddy.blogspot.com/2013/07/javafx-drag-and-move-something.html
      * This allows for the java shapes to be moved around freely inside of the design center
-     * I need to add bounds on this somehow so you cant drag all over the screen
-     */
-    /**
-     *
-     */
+     **/
     EventHandler<MouseEvent> shapeOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
 
@@ -346,8 +504,8 @@ public class FXController {
                 public void handle(MouseEvent t) {
                     orgSceneX = t.getSceneX();
                     orgSceneY = t.getSceneY();
-                    orgTranslateX = ((Shape)(t.getSource())).getTranslateX();
-                    orgTranslateY = ((Shape)(t.getSource())).getTranslateY();
+                    orgTranslateX = ((Node)(t.getSource())).getTranslateX();
+                    orgTranslateY = ((Node)(t.getSource())).getTranslateY();
 
                     if(t.getButton() == MouseButton.SECONDARY){
                         designCenter.getChildren().remove(t.getSource());
@@ -366,16 +524,16 @@ public class FXController {
                     double newTranslateX = orgTranslateX + offsetX;
                     double newTranslateY = orgTranslateY + offsetY;
 
-                    ((Shape)(t.getSource())).setTranslateX(newTranslateX);
-                    ((Shape)(t.getSource())).setTranslateY(newTranslateY);
-                    ((Shape)(t.getSource())).toFront();
+                    ((Node)(t.getSource())).setTranslateX(newTranslateX);
+                    ((Node)(t.getSource())).setTranslateY(newTranslateY);
+                    ((Node)(t.getSource())).toFront();
                 }
             };
 
     /**
      * Allows for the tree view to be selectable and insert the shapes wanted
      */
-    public void edit() {
+    public void treeViewSelector() {
         treeViewBasicShapes.setCellFactory(tree -> {
             TreeCell<String> cell = new TreeCell<String>() {
                 @Override
@@ -394,31 +552,30 @@ public class FXController {
             cell.setOnMouseClicked(event -> {
                 if (! cell.isEmpty()) {
                     TreeItem<String> treeItem = cell.getTreeItem();
-                    // do whatever you need with the treeItem...
+                    // do whatever you need with the treeItem
                     System.out.println(treeItem.getValue());
-                    if (treeItem.getValue().equals("Rectangle")) {testAddSquare();}
-                    if (treeItem.getValue().equals("Circle")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Hexagon")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Line")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Parallelogram")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Square")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Action")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Activation Expression")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Container")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Data Flow")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Event")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Module")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Navigation Flow")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Object")) {testAddCircle();}
-                    if (treeItem.getValue().equals("Parameter")) {testAddCircle();}
-                    if (treeItem.getValue().equals("View Component")) {testAddCircle();}
-                    if (treeItem.getValue().equals("View Component Part")) {testAddCircle();}
+                    if (treeItem.getValue().equals("Rectangle")) {addRectangle();}
+                    if (treeItem.getValue().equals("Circle")) {addCircle();}
+                    if (treeItem.getValue().equals("Hexagon")) {addHexagon();}
+                    if (treeItem.getValue().equals("Line")) {addLine();}
+                    if (treeItem.getValue().equals("Parallelogram")) {addParallelogram();}
+                    if (treeItem.getValue().equals("Square")) {addSquare();}
+                    if (treeItem.getValue().equals("Action")) {addAction();}
+                    if (treeItem.getValue().equals("Activation Expression")) {addActivationExpression();}
+                    if (treeItem.getValue().equals("Container")) {addContainer();}
+                    if (treeItem.getValue().equals("Data Flow")) {addDataFlow();}
+                    if (treeItem.getValue().equals("Event")) {addEvent();}
+                    if (treeItem.getValue().equals("Module")) {addModule();}
+                    if (treeItem.getValue().equals("Navigation Flow")) {addNavigationFlow();}
+                    if (treeItem.getValue().equals("Object")) {addObject();}
+                    if (treeItem.getValue().equals("Parameter")) {addParameter();}
+                    if (treeItem.getValue().equals("View Component")) {addViewComponent();}
+                    if (treeItem.getValue().equals("View Component Part")) {addViewComponentPart();}
                 }
             });
             return cell ;
         });
     }
-
 
     /**
      * make selectable allows for basic shapes inside of javafx to be dragged and resized such as a rectangle.
@@ -450,7 +607,9 @@ public class FXController {
     }
 }
 
-// Make shapes be able to be resized with a rectangle around them
+/**
+ * Shapes are now going to be resizable groups inside of the java fx design page
+ */
 class ResizingControl extends Group {
     private Node targetNode = null;
     private final Rectangle boundary = new Rectangle();
@@ -550,6 +709,10 @@ class ResizingControl extends Group {
         resizeTargetNode();
     });
 
+    /**
+     * Attach the resizing features
+     * @param targetNode
+     */
     ResizingControl(Node targetNode) {
         this.targetNode = targetNode;
 
@@ -559,6 +722,10 @@ class ResizingControl extends Group {
         boundary.toBack();
     }
 
+    /**
+     * Attach the bounds and boundary style around the target shape
+     * @param node
+     */
     private void attachBoundingRectangle(Node node) {
         Bounds bounds = node.getBoundsInParent();
 
@@ -585,6 +752,11 @@ class ResizingControl extends Group {
         getChildren().add(boundary);
     }
 
+    /**
+     * Relocate the shape so its movable
+     * @param newX
+     * @param newY
+     */
     private void relocateTargetNode(double newX, double newY) {
         if (targetNode instanceof Ellipse) {
             Ellipse ellipse = (Ellipse) targetNode;
@@ -597,6 +769,9 @@ class ResizingControl extends Group {
         }
     }
 
+    /**
+     * Resize the shape that the user wants to select
+     */
     private void resizeTargetNode() {
         if (targetNode instanceof Ellipse) {
             Ellipse ellipse = (Ellipse) targetNode;
@@ -613,6 +788,9 @@ class ResizingControl extends Group {
         }
     }
 
+    /**
+     * Add the circle anchors on the boundary around the shape
+     */
     private void attachAnchors() {
         updateAnchorPositions();
 
@@ -628,6 +806,9 @@ class ResizingControl extends Group {
         );
     }
 
+    /**
+     * Update the circle anchors on the boundary of the shape
+     */
     private void updateAnchorPositions() {
         topLeft.setCenterX(boundary.getX());
         topLeft.setCenterY(boundary.getY());
@@ -648,12 +829,16 @@ class ResizingControl extends Group {
     }
 }
 
-// Handles the dragging of the border around the shape desired to resize
+/**
+ * Handles the dragging of the border around the shape desired to resize
+ */
 interface DragHandler {
     void handle(double oldX, double oldY, double newX, double newY);
 }
 
-// A draggable anchor displayed around a point.
+/**
+ *  A draggable anchor displayed around a point.
+ */
 class Anchor extends Circle {
     Anchor(Color color, boolean canDragX, boolean canDragY, DragHandler dragHandler) {
         super(0, 0, 5);
