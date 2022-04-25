@@ -13,7 +13,6 @@ import Server.ResponseManagement.ResponseManager;
 import Server.ResponseManagement.ServerResponses;
 import Server.Resources.ApiCommands;
 import io.javalin.Javalin;
-import io.javalin.http.Handler;
 import io.javalin.http.HandlerType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -53,6 +52,7 @@ public class MardukServer {
 
         // Server Handlers
         // Basic info calls
+
         app.addHandler(
                 HandlerType.GET,
                 ApiCommands.root,
@@ -65,7 +65,7 @@ public class MardukServer {
         app.addHandler(
                 HandlerType.GET,
                 ApiCommands.getResponseCode,
-                ctx -> ctx.result(String.valueOf(responseManager.getCode()))
+                ctx -> ctx.status(responseManager.getCode())
         );
         app.addHandler(
                 HandlerType.GET,
@@ -95,7 +95,7 @@ public class MardukServer {
 
         // DrawingBoard Commands
         app.addHandler(HandlerType.POST, ApiCommands.saveDrawingBoard, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 InputBoard input = ctx.bodyAsClass(InputBoard.class);
                 // TODO plugin the seve function here
 
@@ -108,7 +108,7 @@ public class MardukServer {
 
 
         app.addHandler(HandlerType.POST, ApiCommands.getDrawingBoard, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 String drawingboardID = ctx.body();
                 // TODO plugin the the get function here
                 // TODO return the return
@@ -123,7 +123,7 @@ public class MardukServer {
 
         // - Drawing Object Commands
         app.addHandler(HandlerType.POST, ApiCommands.createDrawingObject, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 InputObject input = ctx.bodyAsClass(InputObject.class);
                 // TODO plugin the create function here
                 // TODO return the return
@@ -136,7 +136,7 @@ public class MardukServer {
         });
 
         app.addHandler(HandlerType.POST, ApiCommands.deleteDrawingObject, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 // TODO plugin the function here we using the Input of just the ID?
                 //InputObject input = ctx.bodyAsClass(InputObject.class);
                 //String id = ctx.body();
@@ -151,7 +151,7 @@ public class MardukServer {
         });
 
         app.addHandler(HandlerType.POST, ApiCommands.updateDrawingObject, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 InputObject input = ctx.bodyAsClass(InputObject.class);
                 // TODO plugin the input function here
                 // TODO return the return
@@ -166,7 +166,7 @@ public class MardukServer {
         // - User info Commands
 
         app.addHandler(HandlerType.POST, ApiCommands.registerUser, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 String username = ctx.body();
                 // TODO plugin the register function here
                 // TODO return the return
@@ -179,7 +179,7 @@ public class MardukServer {
         });
 
         app.addHandler(HandlerType.POST, ApiCommands.loginUser, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 String username = ctx.body();
                 // TODO plugin the login function here
                 // TODO return the return
@@ -214,7 +214,7 @@ public class MardukServer {
          * TODO change toRender to the final Datastructure
          */
         app.addHandler(HandlerType.POST, ApiCommands.renderPNG, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 InputBoard toRender = ctx.bodyAsClass(InputBoard.class);
                 ctx.json(fileExporter.renderPNG(toRender));
             }else {
@@ -227,7 +227,7 @@ public class MardukServer {
          * TODO change toRender to the final Datastructure
          */
         app.addHandler(HandlerType.POST, ApiCommands.renderSVG, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.value)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 Object toRender = ctx.bodyAsClass(Object.class);
                 ctx.json(fileExporter.renderSVG(toRender));
             }else {

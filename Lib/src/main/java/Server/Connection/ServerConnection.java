@@ -119,7 +119,7 @@ public class ServerConnection {
         return HttpRequest.newBuilder()
                 .uri(URI.create(String.format(apiCall, address, port)))
                 .timeout(Duration.ofSeconds(30))
-                .header(serverRequestHeader.name, serverRequestHeader.value)
+                .header(serverRequestHeader.name, serverRequestHeader.idOfObject)
                 .POST(HttpRequest.BodyPublishers.ofString(input))
                 .build();
     }
