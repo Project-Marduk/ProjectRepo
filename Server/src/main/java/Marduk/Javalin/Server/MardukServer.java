@@ -21,10 +21,16 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import java.util.Objects;
 
 /**
- * The Info Manager Server
+ * The Marduk Server
+ *
+ * Handles all the api calls for server and bot h of the backend modules: Data Manager & File Exporter
+ *
+ * TODO I had to rebuild the server, I did it in a simplistic way.
+ * TODO I know I could abstract the handlers and use the fancy route tools to simplify the number of handlers,
+ * TODO IF that is we needed to make it extensible fore add a lot of new calls. For now it's naive, but functional.
  *
  * @author Traae
- * @version 0.1.0
+ * @version 1.0
  */
 public class MardukServer {
     private static final int MAX_THREADS = 20;
@@ -42,9 +48,6 @@ public class MardukServer {
         FileExporterDriver fileExporter = FileExporterDriver.getInstance();
         fileExporter.setResponseManager(responseManager);
 
-
-
-
         QueuedThreadPool queuedThreadPool = new QueuedThreadPool(MAX_THREADS, MIN_THREADS,TIMEOUT);
         Javalin app = Javalin.create(config ->
                 config.server(() ->
@@ -52,48 +55,65 @@ public class MardukServer {
 
         // Server Handlers
         // Basic info calls
+        /** root call - just the server message */
+        app.addHandler(HandlerType.GET, ApiCommands.root,
+                ctx -> ctx.result(ServerResponses.startingServerResponse.getMessage()));
+        /** up call */
+        app.addHandler(HandlerType.GET, ApiCommands.up,
+                ctx -> ctx.result(ServerResponses.upResponse.getMessage()));
+        /** the last response code */
+        app.addHandler(HandlerType.GET, ApiCommands.getResponseCode,
+                ctx -> ctx.status(responseManager.getCode()));
+        /** the last response message */
+        app.addHandler(HandlerType.GET, ApiCommands.getResponseMessage,
+                ctx -> ctx.result(responseManager.getMessage()));
+        /** the last response success status */
+        app.addHandler(HandlerType.GET, ApiCommands.getResponseBoolean,
+                ctx -> ctx.result(String.valueOf(responseManager.isSuccess())));
 
-        app.addHandler(
-                HandlerType.GET,
-                ApiCommands.root,
-                ctx -> ctx.result(ServerResponses.startingServerResponse.getMessage())
-        );
-        app.addHandler(HandlerType.GET,
-                ApiCommands.up,
-                ctx -> ctx.result(ServerResponses.upResponse.getMessage())
-        );
-        app.addHandler(
-                HandlerType.GET,
-                ApiCommands.getResponseCode,
-                ctx -> ctx.status(responseManager.getCode())
-        );
-        app.addHandler(
-                HandlerType.GET,
-                ApiCommands.getResponseMessage,
-                ctx -> ctx.result(responseManager.getMessage())
-        );
-        app.addHandler(
-                HandlerType.GET,
-                ApiCommands.getResponseBoolean,
-                ctx -> ctx.result(String.valueOf(responseManager.isSuccess()))
-        );
+        // FILE EXPORTER
+        /** before each File Exporter */
+        app.before(ApiCommands.fileExporter+"/*",
+                ctx -> {responseManager.operationInitiated();
+                });
+        /** Receive a diagram for rendering.*/
+        app.addHandler(HandlerType.POST, ApiCommands.renderPNG, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
+                InputBoard toRender = ctx.bodyAsClass(InputBoard.class);
+                ctx.json(fileExporter.renderPNG(toRender));
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            }
+        });
+        /** Render a diagram for rendering.*/
+        app.addHandler(HandlerType.POST, ApiCommands.renderSVG, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
+                InputBoard toRender = ctx.bodyAsClass(InputBoard.class);
+                ctx.json(fileExporter.renderSVG(toRender));
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            }
+        });
 
 
 
         // DATA MANAGER CALLS
 
-        // Before and After Data manager
+        /** Before Data manager */
         app.addHandler(HandlerType.BEFORE, ApiCommands.dataManager+"/*",
                 ctx -> {
             responseManager.operationInitiated();
             dataManager.openDatabase();
         });
+        /** After Data manager */
         app.addHandler(HandlerType.AFTER,ApiCommands.dataManager+"/*",
                 ctx -> {
             dataManager.closeDatabase();
         });
 
         // DrawingBoard Commands
+
+        /** Save Drawing Board */
         app.addHandler(HandlerType.POST, ApiCommands.saveDrawingBoard, ctx -> {
             if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 InputBoard input = ctx.bodyAsClass(InputBoard.class);
@@ -106,7 +126,7 @@ public class MardukServer {
             ctx.result(String.valueOf(responseManager.getCode()));
         });
 
-
+        /** Load Drawing Board */
         app.addHandler(HandlerType.POST, ApiCommands.getDrawingBoard, ctx -> {
             if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 String drawingboardID = ctx.body();
@@ -120,8 +140,37 @@ public class MardukServer {
             ctx.result(String.valueOf(responseManager.getCode()));
         });
 
+        /** Create Drawing Board */
+        app.addHandler(HandlerType.POST, ApiCommands.createDrawingBoard, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
+                String drawingboardID = ctx.body();
+                // TODO plugin the create function here
+                // TODO return the return
+                responseManager.setResponseBySuccess(false);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
+
+        /** Delete Drawing Board */
+        app.addHandler(HandlerType.POST, ApiCommands.deleteDrawingBoard, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
+                String drawingboardID = ctx.body();
+                // TODO plugin the create function here
+                // TODO return the return
+                responseManager.setResponseBySuccess(false);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.result(String.valueOf(responseManager.getCode()));
+        });
+
 
         // - Drawing Object Commands
+        /** Create Drawing object */
         app.addHandler(HandlerType.POST, ApiCommands.createDrawingObject, ctx -> {
             if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 InputObject input = ctx.bodyAsClass(InputObject.class);
@@ -134,7 +183,7 @@ public class MardukServer {
             };
             ctx.result(String.valueOf(responseManager.getCode()));
         });
-
+        /** delete Drawing object */
         app.addHandler(HandlerType.POST, ApiCommands.deleteDrawingObject, ctx -> {
             if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 // TODO plugin the function here we using the Input of just the ID?
@@ -149,11 +198,11 @@ public class MardukServer {
             };
             ctx.result(String.valueOf(responseManager.getCode()));
         });
-
+        /** UPDATE  Drawing object */
         app.addHandler(HandlerType.POST, ApiCommands.updateDrawingObject, ctx -> {
             if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 InputObject input = ctx.bodyAsClass(InputObject.class);
-                // TODO plugin the input function here
+                // TODO plugin the update function here
                 // TODO return the return
                 responseManager.setResponseBySuccess(false);
 
@@ -164,7 +213,7 @@ public class MardukServer {
         });
 
         // - User info Commands
-
+        /** register User */
         app.addHandler(HandlerType.POST, ApiCommands.registerUser, ctx -> {
             if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 String username = ctx.body();
@@ -177,7 +226,7 @@ public class MardukServer {
             };
             ctx.result(String.valueOf(responseManager.getCode()));
         });
-
+        /** login User */
         app.addHandler(HandlerType.POST, ApiCommands.loginUser, ctx -> {
             if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
                 String username = ctx.body();
@@ -188,51 +237,32 @@ public class MardukServer {
             }else {
                 responseManager.setFullResponse(ServerResponses.inValidRequest);
             };
-            ctx.result(String.valueOf(responseManager.getCode()));
+            ctx.status(responseManager.getCode());
         });
-
+        /** logout User */
         app.addHandler(HandlerType.GET, ApiCommands.logoutUser, ctx -> {
             String toLogout = ctx.body();
             // TODO plugin the logout function
             responseManager.setResponseBySuccess(false);
             ctx.result(String.valueOf(responseManager.getCode()));
         });
-
-        app.addHandler(HandlerType.GET, ApiCommands.validateDatabaseConnection, ctx->{
-            dataManager.validateDatabaseConnection();
+        /** get the User data */
+        app.addHandler(HandlerType.GET, ApiCommands.getUserData, ctx -> {
+            String toGet = ctx.body();
+            // TODO plugin the User Data get function here
+            // TODO Do the return
+            responseManager.setResponseBySuccess(false);
             ctx.result(String.valueOf(responseManager.getCode()));
         });
 
+        /**
+         * validate the DB connection
+         * @return a status code
+         */
+        app.addHandler(HandlerType.GET, ApiCommands.validateDatabaseConnection, ctx->{
+            dataManager.validateDatabaseConnection();
+            ctx.status(responseManager.getCode());
+        });
 
-        // FILE EXPORTER
-        app.before(ApiCommands.fileExporter+"/*",
-                ctx -> {responseManager.operationInitiated();
-        });
-        /**
-         * Receive a diagram for rendering.
-         *
-         * TODO change toRender to the final Datastructure
-         */
-        app.addHandler(HandlerType.POST, ApiCommands.renderPNG, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                InputBoard toRender = ctx.bodyAsClass(InputBoard.class);
-                ctx.json(fileExporter.renderPNG(toRender));
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            }
-        });
-        /**
-         * Receive a diagram for rendering.
-         *
-         * TODO change toRender to the final Datastructure
-         */
-        app.addHandler(HandlerType.POST, ApiCommands.renderSVG, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                Object toRender = ctx.bodyAsClass(Object.class);
-                ctx.json(fileExporter.renderSVG(toRender));
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            }
-        });
     }
 }

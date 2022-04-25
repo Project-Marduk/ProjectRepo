@@ -45,15 +45,17 @@ public class DrawingBoard {
         // How does the system reconcile between the client and the server?
         int b = 5;
 
+
         String id = inObj.getId().toString();
 
 
         DrawingObject d = drawingObjectFactory.create(inObj);
         if (d == null){
             System.out.println("INVALID OBJECT, Factory returned Null");
+        }else {
+            objects.put(String.valueOf(d.getInObject().getId()), d);
         }
-//        DrawingObject d = drawingObjectFactory.create(inObj);
-        objects.put(String.valueOf(d.getInObject().getId()), d);
+
         return objects.get(d.getInObject().getId());
     }
 
