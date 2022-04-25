@@ -38,33 +38,9 @@ public class DrawingBoard {
      * @return The Drawing object just created
      */
     public DrawingObject addObject(InputObject inObj){
-        if (!isFinilizedInputObject(inObj)){
-            inObj.setId(indexes);
-            indexes = indexes - 1;}
-        //TODO the index system is flawed.
-        // How does the system reconcile between the client and the server?
-        int b = 5;
-
-
-        String id = inObj.getId().toString();
-
-
         DrawingObject d = drawingObjectFactory.create(inObj);
-        if (d == null){
-            System.out.println("INVALID OBJECT, Factory returned Null");
-        }else {
-            objects.put(String.valueOf(d.getInObject().getId()), d);
-        }
-
-        return objects.get(d.getInObject().getId());
-    }
-
-    public boolean isFinilizedInputObject(InputObject i){
-        Boolean result = true;
-        if (i.getId() == null){
-            result = false;
-        }
-        return result;
+        objects.put(String.valueOf(d.getInObject().getId()), d);
+        return d;
     }
 
     public void removeObject(String id){
