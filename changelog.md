@@ -73,3 +73,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Desktop Client
   - First take of testing classes that aren't needed
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## [Released]
+
+
+## [4.0.0] - 2022-04-24
+### Added
+- Desktop Client
+  - Tree view actions in order to create shapes based on what shape the user wants to add
+  - Make shapes selectable allows for resizing of basic javafx shapes
+  - Generate svg paths from shape objects
+  - Input objects, drawing object, and drawing board to contain shapes to user inserts into the system
+  - Width, height, color, and x y coordinates are available for the user to type in to create specific shapes
+  - Basic dimensions are created if the user doesn't insert values for their shape they want to insert
+  - API calls 
+  - Backend database
+
+### Changed
+- Desktop Client
+  - FXController to use input objects and drawing objects instead of javafx.shapes
+  - Design.fxml to contain the new tree view layout on the left hand side
+  - Shape attributes will now be allocated with input object attributes instead of javafx.shapes attributes
+
+### Removed
+- Desktop Client
+  - Shape attributes using javafx 
+  - Inserting shapes with javafx shapes
+  - First take of testing classes that aren't needed
