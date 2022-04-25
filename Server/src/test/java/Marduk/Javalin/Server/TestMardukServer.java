@@ -12,7 +12,7 @@ public class TestMardukServer {
     @BeforeEach
     public void start(){
         testMS = new MardukServer();
-        testMS.start();
+        //testMS.start();
     }
 
 
@@ -40,11 +40,11 @@ public class TestMardukServer {
 
 
         InputObject rectInObj = makeTwoDInputObject("Rectangle", 100, 50, 100, 100);
-        String inObjJSON = rectInObj.toJSON();
+        //String inObjJSON = rectInObj.toJSON();
 
 
 
-        System.out.println(inObjJSON);
+        //System.out.println(inObjJSON);
         assertTrue(true);
     }
 

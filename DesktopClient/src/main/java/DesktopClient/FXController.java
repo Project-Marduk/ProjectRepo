@@ -172,7 +172,7 @@ public class FXController {
         mainStage.show();
 
         inputBoard.id = "butts";
-        inputBoard.idIndex = 3;
+        //inputBoard.idIndex = 3;
         inputBoard.name = "Test";
         inputBoard.xMax = 3000;
         inputBoard.yMax = 3000;
@@ -200,7 +200,7 @@ public class FXController {
         // Here is an Input Board
         testInputBoard = new InputBoard();
         testInputBoard.id = "butts";
-        testInputBoard.idIndex = 3;
+        //testInputBoard.idIndex = 3;
         testInputBoard.name = "Test";
         testInputBoard.xMax = 3000;
         testInputBoard.yMax = 3000;
