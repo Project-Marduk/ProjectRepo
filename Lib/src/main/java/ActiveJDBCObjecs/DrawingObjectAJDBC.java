@@ -60,5 +60,4 @@ public class DrawingObjectAJDBC extends Model {
         return inObj;
     }
 
-
 }
