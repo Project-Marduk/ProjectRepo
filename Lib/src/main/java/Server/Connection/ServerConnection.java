@@ -1,12 +1,13 @@
 package Server.Connection;
 
 import DrawingBoard.InputBoard;
+import FactoryElements.InputObject;
 import Server.Files.PNGformatData;
 import Server.Files.SVGformatData;
 import Server.ResponseManagement.ServerResponses;
 import Server.Resources.ApiCommands;
+import com.github.javaparser.utils.Pair;
 import com.google.gson.Gson;
-import org.apache.tools.ant.taskdefs.Input;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,6 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.List;
 
 
 /**
@@ -51,7 +53,7 @@ public class ServerConnection {
     // Data Manager calls - User related
     private static final String REGISTER_CALL = httpSuffix + ApiCommands.registerUser;
     private static final String LOGIN_CALL = httpSuffix + ApiCommands.loginUser;
-    private static final String GET_USER_DATA_CALL = httpSuffix + ApiCommands.getUserData;
+    private static final String GET_USER_DATA_CALL = httpSuffix + ApiCommands.UserFolderIDs;
     private static final String LOGOUT_CALL = httpSuffix + ApiCommands.logoutUser;
     // Data Manager calls DrawingBoard
     private static final String CREATE_BOARD_CALL = httpSuffix + ApiCommands.createDrawingBoard;
@@ -60,8 +62,15 @@ public class ServerConnection {
     private static final String DELETE_BOARD_CALL = httpSuffix + ApiCommands.deleteDrawingBoard;
     // Data Manager calls DrawingObjects
     private static final String CREATE_OBJECT_CALL = httpSuffix + ApiCommands.createDrawingObject;
+    private static final String GET_OBJECT_CALL = httpSuffix + ApiCommands.getDrawingObject;
     private static final String DELETE_OBJECT_CALL = httpSuffix + ApiCommands.deleteDrawingObject;
     private static final String UPDATE_OBJECT_CALL = httpSuffix + ApiCommands.updateDrawingObject;
+    // Folder Calls
+    private static final String GET_USERS_FOLDER_IDS_CALL = httpSuffix + ApiCommands.UserFolderIDs;
+    private static final String ASSIGN_USER_TO_FOLDER_CALL = httpSuffix + ApiCommands.assignFolder;
+    private static final String REMOVE_USER_FROM_FOLDER_CALL = httpSuffix + ApiCommands.removeFolderUser;
+    private static final String CREATE_FOLDER = httpSuffix + ApiCommands.createFolder;
+    private static final String GET_FOLDERS_BOARD_IDS_CALL = httpSuffix + ApiCommands.folderBoardIDs;
     // - Database Commands
     private static final String VALIDATE_DBCONNECTION_CALL = httpSuffix + ApiCommands.validateDatabaseConnection;
 
@@ -131,7 +140,7 @@ public class ServerConnection {
         return HttpRequest.newBuilder()
                 .uri(URI.create(String.format(apiCall, address, port)))
                 .timeout(Duration.ofSeconds(30))
-                .header(serverRequestHeader.name, serverRequestHeader.idOfObject)
+                .header(serverRequestHeader.name, serverRequestHeader.genericValue)
                 .POST(HttpRequest.BodyPublishers.ofString(input))
                 .build();
     }
@@ -280,17 +289,35 @@ public class ServerConnection {
     }
 
     // Data Manager Calls
+
     /**
-     * Get DrawingBoard function
+     * Validate DB connection
+     * check to see if we're reaching the DB
+     * @return boolean for success.
+     */
+    public boolean validateDatabaseConnection(){
+        HttpRequest request = createGet(VALIDATE_DBCONNECTION_CALL);
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return (response.statusCode() == ServerResponses.successful.getCode());
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in Connection.test(): " + ex.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * create DrawingBoard function
      *
      * Pass in the diagram's identifying information,
      * get the diagram object from the server.
      *
-     * @param newDrawingBoardName the name of the board be made.
+     * @param initialInputBoard the initialInputBoard made client side.
      * @return the input board made by the server
      */
-    public InputBoard createDrawingBoard(String newDrawingBoardName){
-            HttpRequest request = createPost(CREATE_BOARD_CALL, newDrawingBoardName);
+    public InputBoard createDrawingBoard(InputBoard initialInputBoard){
+        String toSend = gson.toJson(initialInputBoard);
+        HttpRequest request = createPost(CREATE_BOARD_CALL, toSend);
             try {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                 InputBoard i = gson.fromJson(response.body(), InputBoard.class);
@@ -300,6 +327,7 @@ public class ServerConnection {
                 return null;
             }
     }
+
     public InputBoard loadDrawingBoard(String toLoad){
         HttpRequest request = createPost(LOAD_BOARD_CALL, toLoad);
         try {
@@ -311,6 +339,7 @@ public class ServerConnection {
             return null;
         }
     }
+
     /**
      * Save Drawing Board
      *
@@ -328,6 +357,7 @@ public class ServerConnection {
             return ServerResponses.exceptionInConnection.isSuccess();
         }
     }
+
     public boolean deleteDrawingBoard(String toDelete){
         HttpRequest request = createPost(DELETE_BOARD_CALL, toDelete);
         try {
@@ -339,47 +369,165 @@ public class ServerConnection {
         }
     }
 
+    public InputObject createDrawingObject(InputBoard initialInputBoard){
+        String toCreate = gson.toJson(initialInputBoard);
+        try {
+            HttpRequest request = createPost(CREATE_OBJECT_CALL, toCreate);
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return gson.fromJson(response.body(), InputObject.class);
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public InputObject getDrawingObject(String DrawingID){
+        try {
+            HttpRequest request = createPost(GET_OBJECT_CALL, DrawingID);
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return gson.fromJson(response.body(), InputObject.class);
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public boolean deleteDrawingObject(String DrawingID){
+        try {
+            HttpRequest request = createPost(DELETE_OBJECT_CALL, DrawingID);
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return (response.statusCode() == ServerResponses.successful.getCode());
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateDrawingObject(InputBoard toUpdate){
+        String toSend = gson.toJson(toUpdate);
+        try {
+            HttpRequest request = createPost(UPDATE_OBJECT_CALL, toSend);
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return (response.statusCode() == ServerResponses.successful.getCode());
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public List<Integer> getFolderIDs(int UserID){
+        try {
+            HttpRequest request = createPost(GET_USERS_FOLDER_IDS_CALL, String.valueOf(UserID));
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            List<Integer> folderIDs = gson.fromJson(response.body(), List.class);
+
+            return folderIDs;
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+    public boolean assignUserToFolder(int UserID, int FolderID){
+        Pair<Integer,Integer> input = new Pair<>(UserID, FolderID);
+        String toSend = gson.toJson(input);
+        try {
+            HttpRequest request = createPost(ASSIGN_USER_TO_FOLDER_CALL, toSend);
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return (response.statusCode() == ServerResponses.successful.getCode());
+
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteUserFromFolder(int UserID, int FolderID){
+        Pair<Integer,Integer> input = new Pair<>(UserID, FolderID);
+        String toSend = gson.toJson(input);
+        try {
+            HttpRequest request = createPost(REMOVE_USER_FROM_FOLDER_CALL, toSend);
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            return (response.statusCode() == ServerResponses.successful.getCode());
+
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public boolean createFolder(int userID){
+        try {
+            HttpRequest request = createPost(CREATE_FOLDER, String.valueOf(userID));
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return (response.statusCode() == ServerResponses.successful.getCode());
+
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return false;
+        }
+    }
+
+    public List<Integer> getFoldersDrawingBoardIDs(int folderID){
+        try {
+            HttpRequest request = createPost(GET_FOLDERS_BOARD_IDS_CALL, String.valueOf(folderID));
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            List<Integer> boardIDs = gson.fromJson(response.body(), List.class);
+
+            return boardIDs;
+        } catch (IOException | InterruptedException ex) {
+            System.out.println("Error caught in getDiagram(): " + ex.getMessage());
+            return null;
+        }
+    }
+
+
     //public boolean updateDrawingObject(){}
     //public boolean deleteDrawingObject(){}
 
 
 
-    /**
-     * Register User
-     *
-     * Send a username to the Info Manager to register it.
-     *
-     *
-     * @param userName the username of the New User.
-     * @return a Server Response enum
-     */
-    public ServerResponses registerUser(String userName) {
-        HttpRequest request = createPost(REGISTER_CALL, userName);
-        try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return Enum.valueOf(ServerResponses.class, response.body());
-        } catch (IOException | InterruptedException ex) {
-            System.out.println("Error caught in IMconnection.registerUser(): " + ex.getMessage());
-            return ServerResponses.exceptionInConnection;
-        }
-    }
+//    /**
+//     * Register User
+//     *
+//     * Send a username to the Info Manager to register it.
+//     *
+//     *
+//     * @param userName the username of the New User.
+//     * @return a Server Response enum
+//     */
+//    public ServerResponses registerUser(String userName) {
+//        HttpRequest request = createPost(REGISTER_CALL, userName);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            return Enum.valueOf(ServerResponses.class, response.body());
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in IMconnection.registerUser(): " + ex.getMessage());
+//            return ServerResponses.exceptionInConnection;
+//        }
+//    }
 
-    /**
-     * Login User
-     *
-     * @param userName username trying to log in
-     * @return ServerResponse Enum.
-     */
-    public ServerResponses loginUser(String userName) {
-        HttpRequest request = createPost(LOGIN_CALL, userName);
-        try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return ServerResponses.enumOfCode(response.statusCode());
-        } catch (IOException | InterruptedException ex) {
-            System.out.println("Error caught in IMconnection.loginUser(): " + ex.getMessage());
-            return ServerResponses.exceptionInConnection;
-        }
-    }
+//    /**
+//     * Login User
+//     *
+//     * @param userName username trying to log in
+//     * @return ServerResponse Enum.
+//     */
+//    public ServerResponses loginUser(String userName) {
+//        HttpRequest request = createPost(LOGIN_CALL, userName);
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            return ServerResponses.enumOfCode(response.statusCode());
+//        } catch (IOException | InterruptedException ex) {
+//            System.out.println("Error caught in IMconnection.loginUser(): " + ex.getMessage());
+//            return ServerResponses.exceptionInConnection;
+//        }
+//    }
+
     //public boolean logoutUser(){}
     //public Object getUserData(){}
 
@@ -404,22 +552,6 @@ public class ServerConnection {
 //            return null;
 //        }
 //    }
-
-    /**
-     * Validate DB connection
-     * check to see if we're reaching the DB
-     * @return boolean for success.
-     */
-    public boolean validateDatabaseConnection(){
-        HttpRequest request = createGet(VALIDATE_DBCONNECTION_CALL);
-        try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return (response.statusCode() == ServerResponses.successful.getCode());
-        } catch (IOException | InterruptedException ex) {
-            System.out.println("Error caught in Connection.test(): " + ex.getMessage());
-            return false;
-        }
-    }
 
 
 }

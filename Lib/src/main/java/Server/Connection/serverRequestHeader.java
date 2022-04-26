@@ -13,11 +13,10 @@ import groovyjarjarantlr4.v4.codegen.model.SrcOp;
  */
 public class serverRequestHeader {
     public static final String name = "MardukServerCall";
+    public static final String genericValue = "mardukContent";
     public static final String idOfObject = "inputObject/id";
     public static final String idOfBoard = "inputBoard/id";
     public static final String user = "user";
     public static final String inputObjectJson = "inputObject/json";
     public static final String inputBoardJson =  "inputBoard/json";
-
-
 }

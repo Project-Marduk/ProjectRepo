@@ -38,11 +38,17 @@ public class DrawingBoard {
      * Refreshes the inputBoard and gets it.
      * @return the filled out InputBoard
      */
-    public InputBoard getInputBoard(){
+    public InputBoard refillInputBoard(){
         inputBoard.getInputObjectsList().clear();
         for (DrawingObject d : objects.values()){
             inputBoard.getInputObjectsList().add(d.getInObject());
         }
+        return inputBoard;
+    }
+
+
+
+    public InputBoard getInputBoard(){
         return inputBoard;
     }
 

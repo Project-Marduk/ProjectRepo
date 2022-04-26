@@ -12,12 +12,14 @@ import Server.Resources.ServerPorts;
 import Server.ResponseManagement.ResponseManager;
 import Server.ResponseManagement.ServerResponses;
 import Server.Resources.ApiCommands;
+import com.github.javaparser.utils.Pair;
 import io.javalin.Javalin;
 import io.javalin.http.HandlerType;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -25,9 +27,13 @@ import java.util.Objects;
  *
  * Handles all the api calls for server and bot h of the backend modules: Data Manager & File Exporter
  *
- * TODO I had to rebuild the server, I did it in a simplistic way.
- * TODO I know I could abstract the handlers and use the fancy route tools to simplify the number of handlers,
- * TODO IF that is we needed to make it extensible fore add a lot of new calls. For now it's naive, but functional.
+ *
+ * TODO I had to rebuild the server last minute. I did it in a simplistic way.
+ * TODO #0 Rest API, right now its all get and Post, half of the posts should probably be puts or patches.
+ * (It's arguable which is best, but I'm not satisfied with this.)
+ * TODO #1 Fancy route functions to simplify the handlers.
+ * TODO #2 Implement and document Http Header Values that are appropriate for each type of json/input.
+ * TODO #3 an after handler that auto updates ctx.status()
  *
  * @author Traae
  * @version 1.0
@@ -78,7 +84,7 @@ public class MardukServer {
                 });
         /** Receive a diagram for rendering.*/
         app.addHandler(HandlerType.POST, ApiCommands.renderPNG, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
                 InputBoard toRender = ctx.bodyAsClass(InputBoard.class);
                 ctx.json(fileExporter.renderPNG(toRender));
             }else {
@@ -87,7 +93,7 @@ public class MardukServer {
         });
         /** Render a diagram for rendering.*/
         app.addHandler(HandlerType.POST, ApiCommands.renderSVG, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
                 InputBoard toRender = ctx.bodyAsClass(InputBoard.class);
                 ctx.json(fileExporter.renderSVG(toRender));
             }else {
@@ -111,150 +117,6 @@ public class MardukServer {
             dataManager.closeDatabase();
         });
 
-        // DrawingBoard Commands
-
-        /** Save Drawing Board */
-        app.addHandler(HandlerType.POST, ApiCommands.saveDrawingBoard, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                InputBoard input = ctx.bodyAsClass(InputBoard.class);
-                // TODO plugin the seve function here
-
-                responseManager.setResponseBySuccess(false);
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            }// TODO return the return
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-
-        /** Load Drawing Board */
-        app.addHandler(HandlerType.POST, ApiCommands.getDrawingBoard, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                String drawingboardID = ctx.body();
-                // TODO plugin the the get function here
-                // TODO return the return
-                responseManager.setResponseBySuccess(false);
-
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            };
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-
-        /** Create Drawing Board */
-        app.addHandler(HandlerType.POST, ApiCommands.createDrawingBoard, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                String drawingboardID = ctx.body();
-                // TODO plugin the create function here
-                // TODO return the return
-                responseManager.setResponseBySuccess(false);
-
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            };
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-
-        /** Delete Drawing Board */
-        app.addHandler(HandlerType.POST, ApiCommands.deleteDrawingBoard, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                String drawingboardID = ctx.body();
-                // TODO plugin the create function here
-                // TODO return the return
-                responseManager.setResponseBySuccess(false);
-
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            };
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-
-
-        // - Drawing Object Commands
-        /** Create Drawing object */
-        app.addHandler(HandlerType.POST, ApiCommands.createDrawingObject, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                InputObject input = ctx.bodyAsClass(InputObject.class);
-                // TODO plugin the create function here
-                // TODO return the return
-                responseManager.setResponseBySuccess(false);
-
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            };
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-        /** delete Drawing object */
-        app.addHandler(HandlerType.POST, ApiCommands.deleteDrawingObject, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                // TODO plugin the function here we using the Input of just the ID?
-                //InputObject input = ctx.bodyAsClass(InputObject.class);
-                //String id = ctx.body();
-
-                // TODO return the return
-                responseManager.setResponseBySuccess(false);
-
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            };
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-        /** UPDATE  Drawing object */
-        app.addHandler(HandlerType.POST, ApiCommands.updateDrawingObject, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                InputObject input = ctx.bodyAsClass(InputObject.class);
-                // TODO plugin the update function here
-                // TODO return the return
-                responseManager.setResponseBySuccess(false);
-
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            };
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-
-        // - User info Commands
-        /** register User */
-        app.addHandler(HandlerType.POST, ApiCommands.registerUser, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                String username = ctx.body();
-                // TODO plugin the register function here
-                // TODO return the return
-                responseManager.setResponseBySuccess(false);
-
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            };
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-        /** login User */
-        app.addHandler(HandlerType.POST, ApiCommands.loginUser, ctx -> {
-            if (Objects.equals(ctx.contentType(), serverRequestHeader.idOfObject)) {
-                String username = ctx.body();
-                // TODO plugin the login function here
-                // TODO return the return
-                responseManager.setResponseBySuccess(false);
-
-            }else {
-                responseManager.setFullResponse(ServerResponses.inValidRequest);
-            };
-            ctx.status(responseManager.getCode());
-        });
-        /** logout User */
-        app.addHandler(HandlerType.GET, ApiCommands.logoutUser, ctx -> {
-            String toLogout = ctx.body();
-            // TODO plugin the logout function
-            responseManager.setResponseBySuccess(false);
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-        /** get the User data */
-        app.addHandler(HandlerType.GET, ApiCommands.getUserData, ctx -> {
-            String toGet = ctx.body();
-            // TODO plugin the User Data get function here
-            // TODO Do the return
-            responseManager.setResponseBySuccess(false);
-            ctx.result(String.valueOf(responseManager.getCode()));
-        });
-
         /**
          * validate the DB connection
          * @return a status code
@@ -263,6 +125,214 @@ public class MardukServer {
             dataManager.validateDatabaseConnection();
             ctx.status(responseManager.getCode());
         });
+
+        // DrawingBoard Commands
+        /** Load Drawing Board
+         * expects an Id for the new Drawing board, return the InputBoard for the new DrawingBoard
+         */
+        app.addHandler(HandlerType.POST, ApiCommands.getDrawingBoard, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+
+                String drawingboardID = ctx.body();
+
+                InputBoard output = dataManager.getDrawingBoard(drawingboardID);
+                ctx.json(output);
+            }
+            else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            }
+
+            ctx.status(responseManager.getCode());
+        });
+
+        /** Save Drawing Board
+         * expects a JSON of an InputBoard, should return the response manager's code.
+         */
+        app.addHandler(HandlerType.POST, ApiCommands.saveDrawingBoard, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+                InputBoard input = ctx.bodyAsClass(InputBoard.class);
+
+                dataManager.saveDrawingBoard(input);
+
+            }
+            else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            }
+            ctx.status(responseManager.getCode());
+        });
+
+        /** Create Drawing Board */
+        app.addHandler(HandlerType.POST, ApiCommands.createDrawingBoard, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+                InputBoard ib = ctx.bodyAsClass(InputBoard.class);
+
+                ib = dataManager.createDrawingBoard(ib);
+                ctx.json(ib);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.status(responseManager.getCode());
+        });
+
+        /** Delete Drawing Board */
+        app.addHandler(HandlerType.POST, ApiCommands.deleteDrawingBoard, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+                String drawingboardID = ctx.body();
+
+                dataManager.deleteDrawingBoard(drawingboardID);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.status(responseManager.getCode());
+        });
+
+
+        // - Drawing Object Commands
+        /** Create Drawing object */
+        app.addHandler(HandlerType.POST, ApiCommands.createDrawingObject, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+                // grab the input
+                InputObject io = ctx.bodyAsClass(InputObject.class);
+
+                // Turn it into our output.
+                io = dataManager.createDrawingObject(io);
+                ctx.json(io);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.status(responseManager.getCode());
+        });
+
+        /** Get Drawing object */
+        app.addHandler(HandlerType.POST, ApiCommands.getDrawingObject, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+                // grab the input
+
+                String id = ctx.body();
+
+                InputObject output = dataManager.getDrawingObject(id);
+                ctx.json(output);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            }
+            ctx.status(responseManager.getCode());
+        });
+
+        /** delete Drawing object */
+        app.addHandler(HandlerType.POST, ApiCommands.deleteDrawingObject, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+                String toDeleteID= ctx.body();
+
+                dataManager.deleteDrawingObject(toDeleteID);
+
+                responseManager.setResponseBySuccess(false);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.status(responseManager.getCode());
+        });
+
+        /** UPDATE  Drawing object */
+        app.addHandler(HandlerType.POST, ApiCommands.updateDrawingObject, ctx -> {
+            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+                InputObject input = ctx.bodyAsClass(InputObject.class);
+
+                dataManager.updateDrawingObject(input);
+
+            }else {
+                responseManager.setFullResponse(ServerResponses.inValidRequest);
+            };
+            ctx.status(responseManager.getCode());
+        });
+
+        // - User info Commands
+        /** get the User Folder ID's data */
+        app.addHandler(HandlerType.POST, ApiCommands.UserFolderIDs, ctx -> {
+            int userID = Integer.valueOf(ctx.body());
+
+            List<Integer> folderIds;
+
+            folderIds = dataManager.getUsersFolderIds(userID);
+
+            ctx.json(folderIds);
+            ctx.status(responseManager.getCode());
+        });
+
+        /** add a user to folder folder */
+        app.addHandler(HandlerType.POST, ApiCommands.assignFolder, ctx -> {
+            Pair<Integer, Integer> input = ctx.bodyAsClass(Pair.class);
+
+            dataManager.assignFolderToUser(input.a, input.b);
+
+            ctx.status(responseManager.getCode());
+        });
+
+        /** remove a user from a folder*/
+        app.addHandler(HandlerType.POST, ApiCommands.removeFolderUser, ctx -> {
+            // should be User, Folder int id's
+            Pair<Integer, Integer> input = ctx.bodyAsClass(Pair.class);
+
+            dataManager.deleteUserFromFolder(input.a, input.b);
+
+            ctx.status(responseManager.getCode());
+        });
+
+        /** create a folder */
+        app.addHandler(HandlerType.GET, ApiCommands.createFolder, ctx -> {
+            int userID = Integer.valueOf(ctx.body());
+
+            dataManager.createNewFolder(userID);
+
+            ctx.status(responseManager.getCode());
+        });
+
+        /** get the drawing boards in a folder */
+        app.addHandler(HandlerType.POST, ApiCommands.folderBoardIDs, ctx ->{
+                int folderID = Integer.valueOf(ctx.body());
+                List<Integer> toReturn = dataManager.getFoldersDrawingBoardIds(folderID);
+                ctx.json(toReturn);
+                ctx.status(responseManager.getCode());
+        });
+
+
+//        /** register User */
+//        app.addHandler(HandlerType.POST, ApiCommands.registerUser, ctx -> {
+//            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+//                String username = ctx.body();
+//                // TODO plugin the register function here
+//                // TODO return the return
+//                responseManager.setResponseBySuccess(false);
+//
+//            }else {
+//                responseManager.setFullResponse(ServerResponses.inValidRequest);
+//            };
+//            ctx.result(String.valueOf(responseManager.getCode()));
+//        });
+//        /** login User */
+//        app.addHandler(HandlerType.POST, ApiCommands.loginUser, ctx -> {
+//            if (Objects.equals(ctx.contentType(), serverRequestHeader.genericValue)) {
+//                String username = ctx.body();
+//                // TODO plugin the login function here
+//                // TODO return the return
+//                responseManager.setResponseBySuccess(false);
+//
+//            }else {
+//                responseManager.setFullResponse(ServerResponses.inValidRequest);
+//            };
+//            ctx.status(responseManager.getCode());
+//        });
+//        /** logout User */
+//        app.addHandler(HandlerType.GET, ApiCommands.logoutUser, ctx -> {
+//            String toLogout = ctx.body();
+//            // TODO plugin the logout function
+//            responseManager.setResponseBySuccess(false);
+//            ctx.result(String.valueOf(responseManager.getCode()));
+//        });
 
     }
 }
