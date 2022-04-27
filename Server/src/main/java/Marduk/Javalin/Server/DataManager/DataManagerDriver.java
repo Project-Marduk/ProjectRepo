@@ -245,7 +245,7 @@ public class DataManagerDriver implements RespondingClass {
      * @return
      * requires inBoard to have a folder id
      */
-    public DrawingBoard createDrawingBoard(InputBoard inBoard) {
+    public InputBoard createDrawingBoard(InputBoard inBoard) {
         DrawingBoardAJDBC dwgb = new DrawingBoardAJDBC();
         double xSize;
         double ySize;
@@ -259,7 +259,7 @@ public class DataManagerDriver implements RespondingClass {
         dwgb.set("folder_id", inBoard.folderId);
         dwgb.saveIt();
 
-        return dwgb.toDrawingBoard();
+        return dwgb.toDrawingBoard().getInputBoard();
     }
 
     public void deleteDrawingBoard(String id) {
@@ -361,11 +361,6 @@ public class DataManagerDriver implements RespondingClass {
         return ids;
     }
 }
-// To Here
-
-
-
-
 
 
 // LEAVE THIS COMMENTED OUT

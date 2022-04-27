@@ -33,9 +33,10 @@ public enum ServerResponses {
     // Server
     startingServerResponse("This is the Marduk Server", true),
     upResponse("up", true),
-    inValidRequest("Http request is inValid for this service", false);
+    inValidRequest("Http request is inValid for this service", false),
 
     // DataManager unique responses
+    usernameTaken("Registration failed; username taken.", false);
 
     // FileExporter unique responses
 
