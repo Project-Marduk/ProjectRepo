@@ -2,6 +2,7 @@ package Marduk.Javalin.Server.FileExporter;
 
 import DrawingBoard.DrawingBoard;
 import DrawingBoard.InputBoard;
+import FactoryElements.InputObject;
 import Files.mardukFileWriter;
 import Files.PNGformatData;
 import Files.SVGformatData;
@@ -56,9 +57,10 @@ public class FileExporterDriver implements RespondingClass {
         // Our data to return to the client.
         PNGformatData renderedPNG = new PNGformatData();
         renderedPNG.setName(toRender.getName());
+        boolean success = true;
 
         // Take the input board and turn it into a svg file, to be saved temporarily.
-        SVGformatData svg = renderSVG(toRender);
+        SVGformatData svg = inputBordToSVG(toRender);
         String svgURI = mardukFileWriter.writeToFile(svg, tempFileDir);
 
         // Create a PNG transcoder
@@ -77,6 +79,7 @@ public class FileExporterDriver implements RespondingClass {
 
         } catch (IOException | TranscoderException e) {
             e.printStackTrace();
+            success = false;
         }
 
         try {
@@ -85,9 +88,9 @@ public class FileExporterDriver implements RespondingClass {
             renderedPNG.setData(tempPNGInStream.readAllBytes());
 
             tempPNGInStream.close();
-
         } catch (IOException e) {
             e.printStackTrace();
+            success = false;
         }
 
         // Clean up the temp files.
@@ -96,6 +99,7 @@ public class FileExporterDriver implements RespondingClass {
         File toDelete2 = new File(svgURI);
         toDelete2.delete();
 
+        responseManager.setResponseBySuccess(success);
         return renderedPNG;
     }
 
@@ -109,12 +113,18 @@ public class FileExporterDriver implements RespondingClass {
      * @return SVGformatData object containing the name and rendered byte[]
      */
     public SVGformatData renderSVG(InputBoard toRender){
+        SVGformatData renderedSVG = inputBordToSVG(toRender);
+
+        responseManager.setResponseBySuccess(true);
+        return renderedSVG;
+    }
+
+    private SVGformatData inputBordToSVG(InputBoard in){
         SVGformatData renderedSVG = new SVGformatData();
-        DrawingBoard rendering = new DrawingBoard(toRender);
+        DrawingBoard rendering = new DrawingBoard(in);
 
-        renderedSVG.setName(toRender.getName());
+        renderedSVG.setName(in.getName());
         renderedSVG.setData(rendering.returnSVGData());
-
         return renderedSVG;
     }
 }
