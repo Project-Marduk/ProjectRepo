@@ -4,7 +4,7 @@ plugins {
     id "io.freefair.lombok" version "6.2.0"
     id 'application'
 
-    id "com.empirilytics.activejdbc-gradle-plugin" version "3.0-j11"
+    //id "com.empirilytics.activejdbc-gradle-plugin" version "3.0-j11"
 
     //Javafx plugin for use of JavaFX and FXML
     id 'org.openjfx.javafxplugin' version '0.0.10'
@@ -53,9 +53,9 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.web']
 }
 
-activejdbc {
-    toolVersion = '3.0-j11'
-}
+//activejdbc {
+//    toolVersion = '3.0-j11'
+//}
 
 test {
     useJUnitPlatform()
