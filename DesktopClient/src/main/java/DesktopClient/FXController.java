@@ -11,6 +11,7 @@ import DrawingObjects.Functions.ShapeJavaFXFunctions;
 import DrawingBoard.*;
 import DrawingObjects.ShapeTypes;
 import FactoryElements.InputObject;
+import Server.Connection.*;
 import javafx.geometry.Bounds;
 import javafx.scene.*;
 import javafx.scene.Cursor;
@@ -64,26 +65,26 @@ public class FXController {
     /**
      * Shapes elements for the application
      */
-    @Getter double insertX = 550;
-    @Getter double insertY = 350;
+    @Getter double insertX = 250;
+    @Getter double insertY = 150;
     @Getter double stroke = 3;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     private Node selectedNode;
-    String svgData = "";
     InputObject shape;
     DrawingObject drawing;
-    InputBoard inputBoard = new InputBoard();
 
-    //test objects
-    InputBoard testInputBoard;
-    InputObject testInObject;
+    InputBoard inputBoard;
+    InputObject inputObject;
     DrawingBoard testBoard;
 
     InputObject inputObject1;
     InputObject inputObject3;
 
+    ServerConnection connection;
+
     LinkedList<Group> thingsToRender;
+
     /**
      * Default mainStage variable to control the change of scenes
      */
@@ -122,6 +123,9 @@ public class FXController {
         mainStage.setMaximized(true);
         mainStage.setTitle("Sign In");
         mainStage.show();
+
+        connection = ServerConnection.instance();
+        connection.initialize("7001","7001");
     }
 
     /**
@@ -171,18 +175,19 @@ public class FXController {
         mainStage.setTitle("Design");
         mainStage.show();
 
-        inputBoard.id = "butts";
-        //inputBoard.idIndex = 3;
+        inputBoard = new InputBoard();
+        inputBoard.id = "Board1";
         inputBoard.name = "Test";
         inputBoard.xMax = 3000;
         inputBoard.yMax = 3000;
+        inputBoard.folderId = 1;
 
         testBoard = new DrawingBoard(inputBoard);
 
         treeViewSelector();
     }
 
-    public void testingGrouds(){
+    public void testingGroups(){
         //Here is the basic flow of the Data Structures
 
         // There are 4 structure You care about.
@@ -198,12 +203,12 @@ public class FXController {
          */
 
         // Here is an Input Board
-        testInputBoard = new InputBoard();
-        testInputBoard.id = "butts";
-        //testInputBoard.idIndex = 3;
-        testInputBoard.name = "Test";
-        testInputBoard.xMax = 3000;
-        testInputBoard.yMax = 3000;
+        inputBoard = new InputBoard();
+        inputBoard.id = "Board1";
+        inputBoard.name = "Test";
+        inputBoard.xMax = 3000;
+        inputBoard.yMax = 3000;
+        inputBoard.folderId = 1;
         // In the final product you'll retrieve this from the server
 
         // for testing you can just make them;
@@ -211,7 +216,7 @@ public class FXController {
 
         // Now lets plug it into our board.
         // DrawingBoard the central thing that makes you DrawingObjects
-        testBoard = new DrawingBoard(testInputBoard);
+        testBoard = new DrawingBoard(inputBoard);
 
         // Now lets make our Input Objects
 
@@ -252,10 +257,13 @@ public class FXController {
         drawing1.update(); // the JAVA FX shapes the group is made of have been updated.
 
         // Works with you functions:
-        makeSelectable(drawing1);
+        //makeSelectable(drawing1);
         makeShapeMove(drawing1);
 
         designCenter.getChildren().add(drawing1);
+
+
+
     }
 
     /**
@@ -263,12 +271,9 @@ public class FXController {
      */
     @FXML
     public void addSquare(){
-        testingGrouds();
-        /**
         shape = new InputObject();
         shape.setShapeType(ShapeTypes.square.getValue());
         setShape(shape);
-         **/
     }
 
     /**
@@ -432,6 +437,18 @@ public class FXController {
     }
 
     /**
+     * This method shows off what the project functionality was aiming for in the presentation
+     * but svg doesn't allow for these specific features
+     */
+    @FXML
+    public void whatWeWanted(){
+        Rectangle rectangle = new Rectangle(Double.parseDouble(widthText.getText()), Double.parseDouble(heightText.getText()));
+        rectangle.setFill(colorPicker.getValue());
+        makeSelectable(rectangle);
+        designCenter.getChildren().add(rectangle);
+    }
+
+    /**
      * Convert an input object created into a javafx shape so the design center can insert
      * @param s input object
      */
@@ -459,26 +476,47 @@ public class FXController {
         s.setColor(colorPicker.getValue().toString());
         s.setStyle(borderChoiceBox.getValue().toString());
 
+
         drawing = testBoard.addObject(s);
         drawing.update();
-        drawing.getInObject().setYCord(500);
-        drawing.getInObject().setXCord(412);
+        drawing.getInObject().setYCord(200);
+        drawing.getInObject().setXCord(400);
         makeShapeMove(drawing);
-        makeSelectable(drawing);
         designCenter.getChildren().add(drawing);
+
 
     }
 
     /**
-     * Returns the svg data inside of the design center to make sure it is giving the right data
+     * Save the file to a users folder
      */
-    public void getSVGData(){
-        int i = 0;
-        while (i < designCenter.getChildren().size()){
-            svgData += designCenter.getChildren().get(i).toString() + "\n";
-            i += 1;
-        }
-        System.out.println(svgData);
+    @FXML
+    public void saveFile(){
+        connection.saveDrawingBoard(inputBoard);
+    }
+
+    /**
+     * Open a file from a users folder
+     */
+    @FXML
+    public void openFile(){
+        connection.loadDrawingBoard("inputBoardToLoad");
+    }
+
+    /**
+     * Export a design to a svg
+     */
+    @FXML
+    public void exportSVG(){
+        connection.renderSVG(inputBoard);
+    }
+
+    /**
+     * Export a design to a png
+     */
+    @FXML
+    public void exportPNG(){
+        connection.renderPNG(inputBoard);
     }
 
     /**
@@ -614,7 +652,8 @@ class ResizingControl extends Group {
     private Node targetNode = null;
     private final Rectangle boundary = new Rectangle();
 
-    private Anchor topLeft = new Anchor(Color.GOLD, true, true, (oldX, oldY, newX, newY) -> {
+    private Anchor topLeft = new Anchor(Color.GREY, true, true, (oldX, oldY, newX, newY) -> {
+        setCursor(Cursor.NW_RESIZE);
         double newWidth = boundary.getWidth() - (newX - oldX);
         if (newWidth > 0) {
             boundary.setX(newX);
@@ -629,7 +668,8 @@ class ResizingControl extends Group {
         updateAnchorPositions();
         resizeTargetNode();
     });
-    private Anchor topCenter = new Anchor(Color.GOLD, false, true, (oldX, oldY, newX, newY) -> {
+    private Anchor topCenter = new Anchor(Color.GREY, false, true, (oldX, oldY, newX, newY) -> {
+        setCursor(Cursor.N_RESIZE);
         double newHeight = boundary.getHeight() - (newY - oldY);
         if (newHeight > 0) {
             boundary.setY(newY);
@@ -639,7 +679,8 @@ class ResizingControl extends Group {
         updateAnchorPositions();
         resizeTargetNode();
     });
-    private Anchor topRight = new Anchor(Color.GOLD, true, true, (oldX, oldY, newX, newY) -> {
+    private Anchor topRight = new Anchor(Color.GREY, true, true, (oldX, oldY, newX, newY) -> {
+        setCursor(Cursor.NE_RESIZE);
         double newWidth = boundary.getWidth() + (newX - oldX);
         if (newWidth > 0) {
             boundary.setWidth(newWidth);
@@ -653,7 +694,8 @@ class ResizingControl extends Group {
         updateAnchorPositions();
         resizeTargetNode();
     });
-    private Anchor rightCenter = new Anchor(Color.GOLD, true, false, (oldX, oldY, newX, newY) -> {
+    private Anchor rightCenter = new Anchor(Color.GREY, true, false, (oldX, oldY, newX, newY) -> {
+        setCursor(Cursor.E_RESIZE);
         double newWidth = boundary.getWidth() + (newX - oldX);
         if (newWidth > 0) {
             boundary.setWidth(newWidth);
@@ -662,7 +704,8 @@ class ResizingControl extends Group {
         updateAnchorPositions();
         resizeTargetNode();
     });
-    private Anchor bottomRight = new Anchor(Color.GOLD, true, true, (oldX, oldY, newX, newY) -> {
+    private Anchor bottomRight = new Anchor(Color.GREY, true, true, (oldX, oldY, newX, newY) -> {
+        setCursor(Cursor.SE_RESIZE);
         double newWidth = boundary.getWidth() + (newX - oldX);
         if (newWidth > 0) {
             boundary.setWidth(newWidth);
@@ -675,7 +718,8 @@ class ResizingControl extends Group {
         updateAnchorPositions();
         resizeTargetNode();
     });
-    private Anchor bottomCenter = new Anchor(Color.GOLD, false, true, (oldX, oldY, newX, newY) -> {
+    private Anchor bottomCenter = new Anchor(Color.GREY, false, true, (oldX, oldY, newX, newY) -> {
+        setCursor(Cursor.S_RESIZE);
         double newHeight = boundary.getHeight() + (newY - oldY);
         if (newHeight > 0) {
             boundary.setHeight(newHeight);
@@ -684,7 +728,8 @@ class ResizingControl extends Group {
         updateAnchorPositions();
         resizeTargetNode();
     });
-    private Anchor bottomLeft = new Anchor(Color.GOLD, true, true, (oldX, oldY, newX, newY) -> {
+    private Anchor bottomLeft = new Anchor(Color.GREY, true, true, (oldX, oldY, newX, newY) -> {
+        setCursor(Cursor.SW_RESIZE);
         double newWidth = boundary.getWidth() - (newX - oldX);
         if (newWidth > 0) {
             boundary.setX(newX);
@@ -698,7 +743,8 @@ class ResizingControl extends Group {
         updateAnchorPositions();
         resizeTargetNode();
     });
-    private Anchor leftCenter = new Anchor(Color.GOLD, true, false, (oldX, oldY, newX, newY) -> {
+    private Anchor leftCenter = new Anchor(Color.GREY, true, false, (oldX, oldY, newX, newY) -> {
+        setCursor(Cursor.W_RESIZE);
         double newWidth = boundary.getWidth() - (newX - oldX);
         if (newWidth > 0) {
             boundary.setX(newX);
