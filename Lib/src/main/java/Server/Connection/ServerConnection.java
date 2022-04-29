@@ -90,7 +90,7 @@ public class ServerConnection {
     /**
      * @return the concrete implementation instance of a Connection.
      */
-    public ServerConnection instance() {
+    public static ServerConnection instance() {
         if (INSTANCE == null){
             INSTANCE = new ServerConnection();
         }

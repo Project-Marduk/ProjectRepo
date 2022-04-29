@@ -90,7 +90,7 @@ public class ShapeJavaFXFunctions {
 
     public static Path activationExpressionJFX(InputObject inObj){
         Path path = new Path();
-        path.setFill(hexToRgb(inObj.getFill()));
+        //path.setFill(hexToRgb(inObj.getFill()));
 
         double leftX = (inObj.getXCord());
         double rightX = (inObj.getXCord() + inObj.getParams()[0]);
@@ -121,7 +121,7 @@ public class ShapeJavaFXFunctions {
 
     public static Path parallelogramToJAVAFX(InputObject inObj){
         Path path = new Path();
-        path.setFill(hexToRgb(inObj.getFill()));
+        //path.setFill(hexToRgb(inObj.getFill()));
 
         double upLeftX = (inObj.getXCord() + .15*inObj.getParams()[0]);
         double upLeftRightY = (inObj.getYCord());
