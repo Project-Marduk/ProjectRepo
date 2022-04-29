@@ -2,8 +2,8 @@ package Server.Connection;
 
 import DrawingBoard.InputBoard;
 import FactoryElements.InputObject;
-import Server.Files.PNGformatData;
-import Server.Files.SVGformatData;
+import Files.PNGformatData;
+import Files.SVGformatData;
 import Server.ResponseManagement.ServerResponses;
 import Server.Resources.ApiCommands;
 import com.github.javaparser.utils.Pair;

@@ -1,4 +1,4 @@
-package Server.Files;
+package Files;
 
 import java.io.Serializable;
 
@@ -20,5 +20,13 @@ public class SVGformatData implements fileFormat, Serializable {
     @Override
     public byte[] getData() {
         return data.getBytes();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }
