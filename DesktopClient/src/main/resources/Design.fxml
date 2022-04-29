@@ -20,12 +20,13 @@
         <children>
         <MenuBar fx:id="menuBar" HBox.hgrow="ALWAYS" style="-fx-spacing: 30; -fx-background-color: lightgrey">
             <Menu fx:id="menuFile" text="File">
-                <MenuItem fx:id="openFile" text="Open"/>
-                <MenuItem fx:id="saveFile" text="Save"/>
+                <MenuItem fx:id="openFile" onAction="#openFile" text="Open"/>
+                <MenuItem fx:id="saveFile" onAction="#saveFile" text="Save"/>
+                <MenuItem fx:id="desiredFunc" onAction="#whatWeWanted" text="Desired App Functionality"/>
             </Menu>
             <Menu fx:id="menuExport" text="Export As" >
-                <MenuItem fx:id="exportSVG" text="SVG"/>
-                <MenuItem fx:id="exportPNG" text="PNG"/>
+                <MenuItem fx:id="exportSVG" onAction="#exportSVG" text="SVG"/>
+                <MenuItem fx:id="exportPNG" onAction="#exportPNG" text="PNG"/>
             </Menu>
             <Menu fx:id="menuExit" text="Exit">
                 <MenuItem fx:id="closeWindow" text="Close Window" onAction="#handleExitButton"/>
@@ -107,7 +108,7 @@
                             <Label fx:id="pickColorLabel" text="Shape Fill" textAlignment="CENTER"/>
                             <ColorPicker fx:id="colorPicker">
                                 <value>
-                                    <Color blue="1.0" green="1.0" red="1.0" />
+                                    <Color blue="0.0" green="0.0" red="0.0" />
                                 </value>
                             </ColorPicker>
                         </children>
