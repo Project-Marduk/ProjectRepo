@@ -19,16 +19,37 @@ public class DrawingBoard {
     public Integer id;
     public Integer folder_id;
 
-    Map<String, DrawingObject> objects = new HashMap<>();
-    DrawingObjectFactory drawingObjectFactory = new DrawingObjectFactory();
+    Map<String, DrawingObject> objects;
+    DrawingObjectFactory drawingObjectFactory;
 
 
-    public DrawingBoard(InputBoard d){
-        inputBoard = d;
+    public DrawingBoard(InputBoard in){
+        inputBoard = in;
+        objects = new HashMap<>();
+        drawingObjectFactory = new DrawingObjectFactory();
+        for (InputObject io : inputBoard.getInputObjectsList()){
+            DrawingObject drawing = drawingObjectFactory.create(io);
+            String Id = String.valueOf(drawing.getInObject().getId());
+            objects.put(Id, drawing);
+        }
     }
 
-    public InputBoard getDiagram(){
-        return getDiagram();
+    /**
+     * Refreshes the inputBoard and gets it.
+     * @return the filled out InputBoard
+     */
+    public InputBoard refillInputBoard(){
+        inputBoard.getInputObjectsList().clear();
+        for (DrawingObject d : objects.values()){
+            inputBoard.getInputObjectsList().add(d.getInObject());
+        }
+        return inputBoard;
+    }
+
+
+
+    public InputBoard getInputBoard(){
+        return inputBoard;
     }
 
     /**
@@ -38,31 +59,9 @@ public class DrawingBoard {
      * @return The Drawing object just created
      */
     public DrawingObject addObject(InputObject inObj){
-        if (!isFinilizedInputObject(inObj)){
-            inObj.setId(indexes);
-            indexes = indexes - 1;}
-        //TODO the index system is flawed.
-        // How does the system reconcile between the client and the server?
-        int b = 5;
-
-        String id = inObj.getId().toString();
-
-
         DrawingObject d = drawingObjectFactory.create(inObj);
-        if (d == null){
-            System.out.println("INVALID OBJECT, Factory returned Null");
-        }
-//        DrawingObject d = drawingObjectFactory.create(inObj);
         objects.put(String.valueOf(d.getInObject().getId()), d);
-        return objects.get(d.getInObject().getId());
-    }
-
-    public boolean isFinilizedInputObject(InputObject i){
-        Boolean result = true;
-        if (i.getId() == null){
-            result = false;
-        }
-        return result;
+        return d;
     }
 
     public void removeObject(String id){

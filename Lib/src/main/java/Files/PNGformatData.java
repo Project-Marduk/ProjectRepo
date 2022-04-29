@@ -1,4 +1,4 @@
-package Server.Files;
+package Files;
 
 import java.io.Serializable;
 
@@ -14,6 +14,11 @@ public class PNGformatData implements fileFormat, Serializable {
     public String name;
     public byte[] data;
 
+    public PNGformatData(){
+        name = null;
+        data = null;
+    }
+
 
     @Override
     public String getName() {
@@ -22,5 +27,12 @@ public class PNGformatData implements fileFormat, Serializable {
     @Override
     public byte[] getData() {
         return data;
+    }
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

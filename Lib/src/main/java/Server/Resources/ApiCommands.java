@@ -41,7 +41,12 @@ public class ApiCommands {
     public static final String registerUser = dataManager  + "/api/post/user/register";
     public static final String loginUser = dataManager  + "/api/post/post/user/login";
     public static final String logoutUser = dataManager  + "/api/post/user/logout";
-    public static final String getUserData = dataManager  + "/api/post/user/files";
+    public static final String UserFolderIDs = dataManager  + "/api/post/user/files";
+    public static final String createFolder = dataManager  + "/api/post/folder/create";
+    public static final String assignFolder = dataManager  + "/api/post/folder/assign";
+    public static final String removeFolderUser = dataManager  + "/api/post/folder/remove";
+    public static final String folderBoardIDs = dataManager  + "/api/post/user/files";
+
     // - Drawing Board Commands
     public static final String saveDrawingBoard=dataManager  + "/api/post/dataManager/DrawingBoard/save";
     public static final String  getDrawingBoard=dataManager  + "/api/post/dataManager/DrawingBoard/load";
@@ -49,6 +54,7 @@ public class ApiCommands {
     public static final String createDrawingObject=dataManager  + "/api/post/create/drawingObject";
     public static final String deleteDrawingObject=dataManager  + "/api/post/delete/drawingObject";
     public static final String updateDrawingObject=dataManager  + "/api/post/update/drawingObject";
+    public static final String getDrawingObject=dataManager  + "/api/post/get/drawingObject";
     public static final String createDrawingBoard=dataManager  + "/api/post/create/drawingBoard";
     public static final String deleteDrawingBoard=dataManager  + "/api/post/delete/drawingBoard";
     // - Database Commands

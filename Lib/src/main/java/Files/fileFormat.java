@@ -1,4 +1,4 @@
-package Server.Files;
+package Files;
 
 public interface fileFormat {
     public String getName();
