@@ -13,13 +13,22 @@ Design and/or prototype a User Interface including the ability to:
 - Each of these functions should be provided by both the Web and Desktop UIs
 
 ## The Current State of the Project.
+### What's missing:
 - No web front end.
 - Backend hasn't been dockerized or pushed to AWS.
 - Graphics are currently drawn to the screen using JavaFX objects. 
 - - SVG versions of all the shapes are made, but the notation that JavaFX would use was Path style only.
 - No user session handling.
+- No user names, only integer IDs.
 - Almost no backend test coverage.
 - Wiki is way behind of documentation.
+
+### What's here:
+- Desktop UI is up and running, aside from some refinement on the graphics, it's good.
+- Backend library is almost complete. Adjustments to the SVG code for more universaly use needed.
+- Server is implmented albiet in a very simple manner.
+- File Exporting is implmented, but untested.
+- Database running on AWS for the storage of Duiagram information using active JDBC.
 
 
 
