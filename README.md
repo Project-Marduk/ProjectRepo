@@ -12,7 +12,15 @@ Design and/or prototype a User Interface including the ability to:
 - Be able to export diagrams to either PNG or SVG formats
 - Each of these functions should be provided by both the Web and Desktop UIs
 
-As we near the end of development, this will be updated to reflect our work.
+## The Current State of the Project.
+- No web front end.
+- Backend hasn't been dockerized or pushed to AWS.
+- Graphics are currently drawn to the screen using JavaFX objects. 
+- - SVG versions of all the shapes are made, but the notation that JavaFX would use was Path style only.
+- No user session handling.
+- Almost no backend test coverage.
+- Wiki is way behind of documentation.
+
 
 
 ## Why is this useful?
@@ -31,6 +39,5 @@ User's will have to wait to use this software. However, they may direct any ques
 
 - Tyler Kelley
 - David Lindeman
-- Hyun Se Seo
 - Steven Yerka
 - Traae Bloxham
